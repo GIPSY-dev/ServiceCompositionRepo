@@ -12,8 +12,17 @@ import service.Service;
  * Class that controls the service composition process by providing methods for the major sub-processes involved.
  * @author Jyotsana Gupta
  */
-public class ServiceComposition 
+public class ServiceComposition
 {	
+	public void generateConstraintAwarePlans()
+	{
+		//This is the method corresponding to algorithm 1 (Service Composition)
+		//This should check that composition request has at least 1 input and 1 output before passing it to
+		//forward expansion.
+		//This should also check if the repo is empty before calling forward expansion.
+	}
+	
+	
 	/**
 	 * Uses forward expansion technique to create a search graph of service search nodes.
 	 * @param	compositionReq	Service composition request by the user
@@ -21,7 +30,7 @@ public class ServiceComposition
 	 * @return	Search graph composed of all possible solution plans for the composition request submitted
 	 * 			Null, if no possible solutions exist
 	 */
-	public SearchGraph forwardExpansion(CompositionRequest compositionReq, ArrayList<Service> serviceRepo)
+	public static SearchGraph forwardExpansion(CompositionRequest compositionReq, ArrayList<Service> serviceRepo)
 	{
 		SearchGraph searchGraph = new SearchGraph();		
 		//Initialize the parameter set of the search graph with the inputs required in the composition request

@@ -143,7 +143,7 @@ public class CompositionRequest
 	 * Mutator method for the list of outputs expected from the composite service by the user.
 	 * @param	outputs	List of outputs to be assigned to this composition request
 	 */
-	public void setOutputs(ArrayList<String> outputs)
+	public void setOutputs(List<String> outputs)
 	{
 		//Lists are deep-copied so as to avoid unwanted alteration from outside the class
 		this.outputs = new ArrayList<String>();
@@ -157,7 +157,7 @@ public class CompositionRequest
 	 * Mutator method for the list of quality of service features and values expected from the composite service by the user.
 	 * @param	qos	List of qos features and values to be assigned to this composition request
 	 */
-	public void setQos(ArrayList<QualityOfService> qos)
+	public void setQos(List<QualityOfService> qos)
 	{
 		//Lists are deep-copied so as to avoid unwanted alteration from outside the class
 		this.qos = new ArrayList<QualityOfService>();
@@ -171,7 +171,7 @@ public class CompositionRequest
 	 * Mutator method for the list of constraints to be imposed on the composite service by the user.
 	 * @param	constraints	List of constraints to be assigned to this composition request
 	 */
-	public void setConstraints(ArrayList<Constraint> constraints)
+	public void setConstraints(List<Constraint> constraints)
 	{
 		//Lists are deep-copied so as to avoid unwanted alteration from outside the class
 		this.constraints = new ArrayList<Constraint>();
