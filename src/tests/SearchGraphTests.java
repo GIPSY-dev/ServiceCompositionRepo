@@ -198,7 +198,6 @@ public class SearchGraphTests
 		}
 		
 		actualOutput = actualOutput.trim();
-		System.out.println(actualOutput);
 		String expectedOutput = "Layer 0: {} Node 0 (sname1) {}, {} Node 1 (sname2) {sname4, sname6}, {} Node 2 (sname3) {sname7}, {} Node 3 (sname5) {}" + "\n"
 								+ "Layer 1: {sname2} Node 0 (sname4) {sname6}, {sname3} Node 1 (sname7) {}" + "\n"
 								+ "Layer 2: {sname2, sname4} Node 0 (sname6) {}";
