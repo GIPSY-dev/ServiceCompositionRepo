@@ -12,7 +12,7 @@ public class CompositionRequest
 {
 	private List<String> inputs;
 	private List<String> outputs;
-	private List<QualityOfService> qos;
+	private List<String> qos;
 	private List<Constraint> constraints;
 	
 	/**
@@ -22,18 +22,19 @@ public class CompositionRequest
 	{
 		inputs = new ArrayList<String>();
 		outputs = new ArrayList<String>();
-		qos = new ArrayList<QualityOfService>();
+		qos = new ArrayList<String>();
 		constraints = new ArrayList<Constraint>();
 	}
 	
 	/**
 	 * Constructor with all data member values accepted as arguments.
-	 * @param	inputs			List of inputs provided to the composite service by the user
-	 * @param	outputs			List of outputs expected from the composite service by the user
-	 * @param	qos				List of quality of service features and values expected from the composite service by the user
-	 * @param	constraints		List of constraints to be imposed on the composite service by the user
+	 * Lists are deep-copied so as to avoid unwanted alteration from outside the class.
+	 * @param	inputs			List of ontology types provided as inputs to the composite service by the user
+	 * @param	outputs			List of ontology types expected as outputs from the composite service by the user
+	 * @param	qos				List of quality of service features expected from the composite service by the user
+	 * @param	constraints		List of constraints to be imposed on the inputs, outputs and QoS features of the composite service by the user
 	 */
-	public CompositionRequest(List<String> inputs, List<String> outputs, List<QualityOfService> qos, List<Constraint> constraints)
+	public CompositionRequest(List<String> inputs, List<String> outputs, List<String> qos, List<Constraint> constraints)
 	{
 		//Lists are deep-copied so as to avoid unwanted alteration from outside the class
 		this.inputs = new ArrayList<String>();
@@ -48,8 +49,8 @@ public class CompositionRequest
 			this.outputs.add(output);
 		}
 		
-		this.qos = new ArrayList<QualityOfService>();
-		for (QualityOfService qosElem : qos)
+		this.qos = new ArrayList<String>();
+		for (String qosElem : qos)
 		{
 			this.qos.add(qosElem);
 		}
@@ -62,8 +63,9 @@ public class CompositionRequest
 	}
 	
 	/**
-	 * Accessor method for the list of inputs provided to the composite service by the user.
-	 * @return	List of composition request inputs
+	 * Accessor method for the list of input ontology types provided to the composite service by the user.
+	 * Lists are deep-copied so as to avoid unwanted alteration from outside the class.
+	 * @return	List of composition request input ontology types
 	 */
 	public List<String> getInputs()
 	{
@@ -78,8 +80,9 @@ public class CompositionRequest
 	}
 	
 	/**
-	 * Accessor method for the list of outputs expected from the composite service by the user.
-	 * @return	List of composition request outputs
+	 * Accessor method for the list of output ontology types expected from the composite service by the user.
+	 * Lists are deep-copied so as to avoid unwanted alteration from outside the class.
+	 * @return	List of composition request output ontology types
 	 */
 	public List<String> getOutputs()
 	{
@@ -94,14 +97,15 @@ public class CompositionRequest
 	}
 	
 	/**
-	 * Accessor method for the list of quality of service features and values expected from the composite service by the user.
-	 * @return	List of composition request quality of service features and values
+	 * Accessor method for the list of quality of service features expected from the composite service by the user.
+	 * Lists are deep-copied so as to avoid unwanted alteration from outside the class.
+	 * @return	List of composition request quality of service features
 	 */
-	public List<QualityOfService> getQos()
+	public List<String> getQos()
 	{
 		//Lists are deep-copied so as to avoid unwanted alteration from outside the class
-		List<QualityOfService> retQos = new ArrayList<QualityOfService>();
-		for (QualityOfService qosElem : qos)
+		List<String> retQos = new ArrayList<String>();
+		for (String qosElem : qos)
 		{
 			retQos.add(qosElem);
 		}
@@ -110,7 +114,8 @@ public class CompositionRequest
 	}
 	
 	/**
-	 * Accessor method for the list of constraints to be imposed on the composite service by the user.
+	 * Accessor method for the list of constraints to be imposed on the composite service inputs, outputs and QoS features by the user.
+	 * Lists are deep-copied so as to avoid unwanted alteration from outside the class.
 	 * @return	List of composition request constraints
 	 */
 	public List<Constraint> getConstraints()
@@ -126,8 +131,9 @@ public class CompositionRequest
 	}
 	
 	/**
-	 * Mutator method for the list of inputs provided to the composite service by the user.
-	 * @param	inputs	List of inputs to be assigned to this composition request
+	 * Mutator method for the list of input ontology types provided to the composite service by the user.
+	 * Lists are deep-copied so as to avoid unwanted alteration from outside the class.
+	 * @param	inputs	List of input ontology types to be assigned to this composition request
 	 */
 	public void setInputs(List<String> inputs)
 	{
@@ -140,8 +146,9 @@ public class CompositionRequest
 	}
 	
 	/**
-	 * Mutator method for the list of outputs expected from the composite service by the user.
-	 * @param	outputs	List of outputs to be assigned to this composition request
+	 * Mutator method for the list of output ontology types expected from the composite service by the user.
+	 * Lists are deep-copied so as to avoid unwanted alteration from outside the class.
+	 * @param	outputs	List of output ontology types to be assigned to this composition request
 	 */
 	public void setOutputs(List<String> outputs)
 	{
@@ -154,21 +161,23 @@ public class CompositionRequest
 	}
 	
 	/**
-	 * Mutator method for the list of quality of service features and values expected from the composite service by the user.
-	 * @param	qos	List of qos features and values to be assigned to this composition request
+	 * Mutator method for the list of quality of service features expected from the composite service by the user.
+	 * Lists are deep-copied so as to avoid unwanted alteration from outside the class.
+	 * @param	qos	List of qos features to be assigned to this composition request
 	 */
-	public void setQos(List<QualityOfService> qos)
+	public void setQos(List<String> qos)
 	{
 		//Lists are deep-copied so as to avoid unwanted alteration from outside the class
-		this.qos = new ArrayList<QualityOfService>();
-		for (QualityOfService qosElem : qos)
+		this.qos = new ArrayList<String>();
+		for (String qosElem : qos)
 		{
 			this.qos.add(qosElem);
 		}
 	}
 	
 	/**
-	 * Mutator method for the list of constraints to be imposed on the composite service by the user.
+	 * Mutator method for the list of constraints to be imposed on the composite service inputs, outputs and QoS features by the user.
+	 * Lists are deep-copied so as to avoid unwanted alteration from outside the class.
 	 * @param	constraints	List of constraints to be assigned to this composition request
 	 */
 	public void setConstraints(List<Constraint> constraints)
