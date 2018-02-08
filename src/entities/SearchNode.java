@@ -28,6 +28,7 @@ public class SearchNode
 	
 	/**
 	 * Constructor with all data member values accepted as arguments.
+	 * Lists are deep-copied so as to avoid unintended alteration from outside the class.
 	 * @param	service			Individual service object forming this node
 	 * @param	predecessors	List of search nodes that are predecessors to this node
 	 * @param	successors		List of search nodes that are successors to this node
@@ -35,7 +36,7 @@ public class SearchNode
 	 */
 	public SearchNode(Service service, List<SearchNode> predecessors, List<SearchNode> successors, int layerIndex)
 	{
-		//Lists are deep-copied so as to avoid unwanted alteration from outside the class
+		//Lists are deep-copied so as to avoid unintended alteration from outside the class
 		this.service = service;
 		
 		this.predecessors = new ArrayList<SearchNode>();
@@ -55,11 +56,12 @@ public class SearchNode
 	
 	/**
 	 * Copy constructor.
+	 * Lists are deep-copied so as to avoid unintended alteration from outside the class.
 	 * @param	searchNode	Search node to be copied for creating this search node
 	 */
 	public SearchNode(SearchNode searchNode)
 	{
-		//Lists are deep-copied so as to avoid unwanted alteration from outside the class
+		//Lists are deep-copied so as to avoid unintended alteration from outside the class
 		this.service = searchNode.getService();
 		
 		this.predecessors = new ArrayList<SearchNode>();
@@ -88,11 +90,12 @@ public class SearchNode
 
 	/**
 	 * Accessor method for the list of search nodes that are predecessors to this node.
+	 * Lists are deep-copied so as to avoid unintended alteration from outside the class.
 	 * @return	List of predecessor nodes
 	 */
 	public List<SearchNode> getPredecessors() 
 	{
-		//Lists are deep-copied so as to avoid unwanted alteration from outside the class
+		//Lists are deep-copied so as to avoid unintended alteration from outside the class
 		List<SearchNode> retPredecessors = new ArrayList<SearchNode>();
 		for (SearchNode predecessor : predecessors)
 		{
@@ -104,11 +107,12 @@ public class SearchNode
 
 	/**
 	 * Accessor method for the list of search nodes that are successors to this node.
+	 * Lists are deep-copied so as to avoid unintended alteration from outside the class.
 	 * @return	List of successor nodes
 	 */
 	public List<SearchNode> getSuccessors() 
 	{
-		//Lists are deep-copied so as to avoid unwanted alteration from outside the class
+		//Lists are deep-copied so as to avoid unintended alteration from outside the class
 		List<SearchNode> retSuccessors = new ArrayList<SearchNode>();
 		for (SearchNode successor : successors)
 		{
@@ -138,11 +142,12 @@ public class SearchNode
 
 	/**
 	 * Mutator method for the list of search nodes that are predecessors to this node.
+	 * Lists are deep-copied so as to avoid unintended alteration from outside the class.
 	 * @param	predecessors	List of predecessor nodes to be assigned to this search node
 	 */
 	public void setPredecessors(List<SearchNode> predecessors) 
 	{
-		//Lists are deep-copied so as to avoid unwanted alteration from outside the class
+		//Lists are deep-copied so as to avoid unintended alteration from outside the class
 		this.predecessors = new ArrayList<SearchNode>();
 		for (SearchNode predecessor : predecessors)
 		{
@@ -152,11 +157,12 @@ public class SearchNode
 
 	/**
 	 * Mutator method for the list of search nodes that are successors to this node.
+	 * Lists are deep-copied so as to avoid unintended alteration from outside the class.
 	 * @param	successors	List of successor nodes to be assigned to this search node
 	 */
 	public void setSuccessors(List<SearchNode> successors) 
 	{
-		//Lists are deep-copied so as to avoid unwanted alteration from outside the class
+		//Lists are deep-copied so as to avoid unintended alteration from outside the class
 		this.successors = new ArrayList<SearchNode>();
 		for (SearchNode successor : successors)
 		{

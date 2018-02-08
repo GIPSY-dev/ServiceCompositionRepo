@@ -18,6 +18,7 @@ import service.ServiceXMLParser;
 
 /**
  * Class for testing the forward expansion process in various scenarios.
+ * We populate only the inputs and outputs of test composition requests because QoS and constraints play no role in (and have no effect on) the Forward Expansion process.
  * @author Jyotsana Gupta
  */
 public class ForwardExpansionTests 

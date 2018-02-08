@@ -28,11 +28,12 @@ public class SearchGraph
 	/**
 	 * Constructor with some data member values accepted as arguments.
 	 * The head service layer is set to the first layer of this graph.
+	 * Lists are deep-copied so as to avoid unintended alteration from outside the class.
 	 * @param	serviceLayers	List of all service layers constituting this search graph
 	 */
 	public SearchGraph(List<List<SearchNode>> serviceLayers)
 	{
-		//Lists are deep-copied so as to avoid unwanted alteration from outside the class
+		//Lists are deep-copied so as to avoid unintended alteration from outside the class
 		this.serviceLayers = new ArrayList<List<SearchNode>>();		
 		for (List<SearchNode> serviceLayer : serviceLayers)
 		{
@@ -48,18 +49,19 @@ public class SearchGraph
 		this.headServiceLayer = new ArrayList<SearchNode>();		//Required in case this search graph is empty
 		if (!this.serviceLayers.isEmpty())
 		{
-			//Head service layer is shallow-copied to point to the actual search graph layer
+			//Head service layer is not copied. It points to the actual search graph layer.
 			headServiceLayer = this.serviceLayers.get(0);
 		}
 	}
 	
 	/**
 	 * Accessor method for the list of service layers constituting this search graph.
+	 * Lists are deep-copied so as to avoid unintended alteration from outside the class.
 	 * @return	List of all constituent service layers
 	 */
 	public List<List<SearchNode>> getServiceLayers()
 	{
-		//Lists are deep-copied so as to avoid unwanted alteration from outside the class
+		//Lists are deep-copied so as to avoid unintended alteration from outside the class
 		List<List<SearchNode>> retServiceLayers = new ArrayList<List<SearchNode>>();
 		for (List<SearchNode> serviceLayer : serviceLayers)
 		{
@@ -77,22 +79,24 @@ public class SearchGraph
 	
 	/**
 	 * Accessor method for the head (first) layer of this search graph.
+	 * Head service layer is not copied. It can be used to access and modify this search graph if required.
 	 * @return	Head layer of this search graph
 	 */
 	public List<SearchNode> getHeadServiceLayer()
 	{
-		//Head service layer is shallow-copied to point to the actual search graph layer
+		//Head service layer is not copied. It points to the actual search graph layer.
 		return headServiceLayer;
 	}
 	
 	/**
 	 * Mutator method for the list of service layers constituting this search graph.
 	 * The head service layer is set to the first layer of this graph.
+	 * Lists are deep-copied so as to avoid unintended alteration from outside the class.
 	 * @param	serviceLayers	List of service layers that would together constitute this search graph
 	 */
 	public void setServiceLayers(List<List<SearchNode>> serviceLayers)
 	{
-		//Lists are deep-copied so as to avoid unwanted alteration from outside the class
+		//Lists are deep-copied so as to avoid unintended alteration from outside the class
 		this.serviceLayers = new ArrayList<List<SearchNode>>();		
 		for (List<SearchNode> serviceLayer : serviceLayers)
 		{
@@ -107,7 +111,7 @@ public class SearchGraph
 		
 		if (!this.serviceLayers.isEmpty())
 		{
-			//Head service layer is shallow-copied to point to the actual search graph layer
+			//Head service layer is not copied. It points to the actual search graph layer.
 			headServiceLayer = this.serviceLayers.get(0);
 		}
 		else
@@ -124,9 +128,6 @@ public class SearchGraph
 	{
 		//Fetching all inputs of the service to be added
 		List<String> newIn = newService.getInput();
-		
-		//TODO check usability of prdSet
-		//Set<String> prdSet = new HashSet<String>();
 		
 		//Create a new search node for the service to be added
 		SearchNode newSearchNode = new SearchNode();
@@ -162,20 +163,8 @@ public class SearchGraph
 					List<SearchNode> nodeSuccessors = searchNode.getSuccessors();
 					nodeSuccessors.add(newSearchNode);
 					searchNode.setSuccessors(nodeSuccessors);
-					
-					//prdSet.addAll(nodePrdSet);
 				}
 			}
-			
-			/*
-			for (int i = newIn.size()-1; i >= 0; --i)
-			{
-				if (prdSet.contains(newIn.get(i)))
-				{
-					newIn.remove(i);
-				}
-			}
-			*/
 		}
 		
 		if (newSearchNode.getPredecessors().isEmpty())
