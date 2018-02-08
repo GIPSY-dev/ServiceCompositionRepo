@@ -79,8 +79,9 @@ public class ServiceComposition
 						searchGraph.addService(service);
 						
 						/*
-						 * CheckUserConstraints for verifying quality constraints is not required as of now.
-						 * It can be added later. For now, we assume that quality constraints (if any) are always met.
+						 * CheckUserConstraints for verifying quality constraints imposed by the requester is not required as of now.
+						 * It can be added here later, if required. For now, we assume that quality constraints (if any) are always met.
+						 * Requester constraints on the inputs and outputs of the composite service will be added while constructing the service plans.
 						 */
 						
 						addedLayerServices.add(service);
