@@ -7,7 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
-import controllers.ServiceComposition;
+
+import compositionprocesses.ForwardExpansion;
 import entities.CompositionRequest;
 import entities.SearchGraph;
 import entities.SearchNode;
@@ -34,7 +35,7 @@ public class ForwardExpansionTests
 		ServiceParser serviceParser = new ServiceXMLParser();
 		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
 		
-		SearchGraph resultingGraph = ServiceComposition.forwardExpansion(compositionReq, serviceRepo);
+		SearchGraph resultingGraph = ForwardExpansion.forwardExpansion(compositionReq, serviceRepo);
 		
 		assertNull(resultingGraph);
 	}
@@ -52,7 +53,7 @@ public class ForwardExpansionTests
 		ServiceParser serviceParser = new ServiceXMLParser();
 		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
 		
-		SearchGraph resultingGraph = ServiceComposition.forwardExpansion(compositionReq, serviceRepo);
+		SearchGraph resultingGraph = ForwardExpansion.forwardExpansion(compositionReq, serviceRepo);
 		
 		List<String> resultingServiceNames = new ArrayList<String>();
 		if (resultingGraph != null)
@@ -93,7 +94,7 @@ public class ForwardExpansionTests
 		ServiceParser serviceParser = new ServiceXMLParser();
 		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
 		
-		SearchGraph resultingGraph = ServiceComposition.forwardExpansion(compositionReq, serviceRepo);
+		SearchGraph resultingGraph = ForwardExpansion.forwardExpansion(compositionReq, serviceRepo);
 		
 		assertNull(resultingGraph);
 	}
@@ -112,7 +113,7 @@ public class ForwardExpansionTests
 		ServiceParser serviceParser = new ServiceXMLParser();
 		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
 		
-		SearchGraph resultingGraph = ServiceComposition.forwardExpansion(compositionReq, serviceRepo);
+		SearchGraph resultingGraph = ForwardExpansion.forwardExpansion(compositionReq, serviceRepo);
 		
 		List<String> resultingServiceNames = new ArrayList<String>();
 		if (resultingGraph != null)
@@ -147,7 +148,7 @@ public class ForwardExpansionTests
 		ServiceParser serviceParser = new ServiceXMLParser();
 		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
 		
-		SearchGraph resultingGraph = ServiceComposition.forwardExpansion(compositionReq, serviceRepo);
+		SearchGraph resultingGraph = ForwardExpansion.forwardExpansion(compositionReq, serviceRepo);
 		
 		assertNull(resultingGraph);
 	}
@@ -165,7 +166,7 @@ public class ForwardExpansionTests
 		ServiceParser serviceParser = new ServiceXMLParser();
 		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
 		
-		SearchGraph resultingGraph = ServiceComposition.forwardExpansion(compositionReq, serviceRepo);
+		SearchGraph resultingGraph = ForwardExpansion.forwardExpansion(compositionReq, serviceRepo);
 		
 		assertNull(resultingGraph);
 	}
@@ -183,7 +184,7 @@ public class ForwardExpansionTests
 		ServiceParser serviceParser = new ServiceXMLParser();
 		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
 		
-		SearchGraph resultingGraph = ServiceComposition.forwardExpansion(compositionReq, serviceRepo);
+		SearchGraph resultingGraph = ForwardExpansion.forwardExpansion(compositionReq, serviceRepo);
 		
 		List<String> resultingServiceNames = new ArrayList<String>();
 		if (resultingGraph != null)
@@ -223,7 +224,7 @@ public class ForwardExpansionTests
 		ServiceParser serviceParser = new ServiceXMLParser();
 		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
 		
-		SearchGraph resultingGraph = ServiceComposition.forwardExpansion(compositionReq, serviceRepo);
+		SearchGraph resultingGraph = ForwardExpansion.forwardExpansion(compositionReq, serviceRepo);
 		
 		//Creating a String with all the nodes and their predecessor-successor details
 		List<List<SearchNode>> serviceLayers = resultingGraph.getServiceLayers();

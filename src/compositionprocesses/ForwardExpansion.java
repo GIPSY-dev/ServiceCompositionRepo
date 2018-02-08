@@ -1,4 +1,4 @@
-package controllers;
+package compositionprocesses;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -9,21 +9,11 @@ import entities.SearchGraph;
 import service.Service;
 
 /**
- * Class that controls the service composition process by providing methods for the major sub-processes involved.
+ * Class for generating a Search Graph from a service repository for a composition request using the Forward Expansion algorithm.
  * @author Jyotsana Gupta
  */
-public class ServiceComposition
+public class ForwardExpansion
 {	
-	public void generateConstraintAwarePlans()
-	{
-		//This is the method corresponding to algorithm 1 (Service Composition)
-		//This should check that composition request has at least 1 input and 1 output before passing it to
-		//forward expansion.
-		//This should also check that the required outputs are not all provided as inputs.
-		//This should also check if the repo is empty before calling forward expansion.
-	}
-	
-	
 	/**
 	 * Uses forward expansion technique to create a search graph of service search nodes.
 	 * @param	compositionReq	Service composition request by the user
