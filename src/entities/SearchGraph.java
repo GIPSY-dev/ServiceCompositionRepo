@@ -1,10 +1,7 @@
 package entities;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import service.Service;
 
 /**
@@ -139,20 +136,21 @@ public class SearchGraph
 			//Check every search node in a service layer if it is a predecessor
 			for (SearchNode searchNode : serviceLayer)
 			{
-				List<String> nodeOutputs = searchNode.getService().getOutput();			
-				Set<String> nodePrdSet = new HashSet<String>();
+				List<String> nodeOutputs = searchNode.getService().getOutput();
+				boolean isPredecessor = false;
 				
 				//At least one output of an eligible predecessor node would be taken as an input by the new service node
 				for (String input : newIn)
 				{
 					if (nodeOutputs.contains(input))
 					{
-						nodePrdSet.add(input);
+						isPredecessor = true;
+						break;
 					}
 				}
 				
 				//If the current search node is a predecessor node
-				if (!(nodePrdSet.isEmpty()))
+				if(isPredecessor)
 				{
 					//Add the search node as a predecessor to the new service node
 					List<SearchNode> currPredecessors = newSearchNode.getPredecessors();
