@@ -86,6 +86,25 @@ public class SearchGraph
 	}
 	
 	/**
+	 * Accessor method for a specific service layer of this search graph.
+	 * Lists are deep-copied so as to avoid unintended alteration from outside the class.
+	 * @param 	layerIndex	Index of the service layer to be fetched
+	 * @return	The requested service layer
+	 */
+	public List<SearchNode> getServiceLayer(int layerIndex)
+	{
+		//Lists are deep-copied so as to avoid unintended alteration from outside the class
+		List<SearchNode> retServiceLayer = new ArrayList<SearchNode>();
+		for (SearchNode searchNode : serviceLayers.get(layerIndex))
+		{
+			SearchNode newSearchNode = new SearchNode(searchNode);
+			retServiceLayer.add(newSearchNode);
+		}
+		
+		return retServiceLayer;
+	}
+	
+	/**
 	 * Mutator method for the list of service layers constituting this search graph.
 	 * The head service layer is set to the first layer of this graph.
 	 * Lists are deep-copied so as to avoid unintended alteration from outside the class.
