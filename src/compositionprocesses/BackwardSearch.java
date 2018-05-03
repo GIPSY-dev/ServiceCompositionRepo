@@ -155,7 +155,35 @@ public class BackwardSearch
 	 */
 	private static Set<Set<SearchNode>> getPowerSet(Set<SearchNode> serviceSet)
 	{
-		//TODO implementation
-		return null;
+		//Calculating the number of elements in the power set
+		Set<Set<SearchNode>> powerSet = new HashSet<Set<SearchNode>>();
+		List<SearchNode> serviceList = new ArrayList<SearchNode>(serviceSet);
+		int setElemCount = serviceList.size();
+		int powerSetElemCount = (int) Math.pow(2, setElemCount);		
+				
+		for (int i = 0; i < powerSetElemCount; i++)
+		{
+			//Translating each number from 0 to (power set size - 1) into binary numbers left-padded with 0's
+			//Length of each binary number = size of the original set
+			String binaryString = Integer.toBinaryString(i);
+			binaryString = String.format("%0" + setElemCount + "d", Integer.parseInt(binaryString));			
+			Set<SearchNode> powerSetElem = new HashSet<SearchNode>();
+			
+			//Each binary number represents an element of the power set
+			//Positions of 1 in a binary number represents the indices of the original 
+			//set elements to be added to the corresponding power set element
+			for (int j = 0; j < binaryString.length(); j++)
+			{
+				if (binaryString.charAt(j) == '1')
+				{
+					powerSetElem.add(serviceList.get(j));
+				}
+			}
+			
+			//Adding the set constructed above to the power set
+			powerSet.add(powerSetElem);
+		}
+				
+		return powerSet;
 	}
 }
