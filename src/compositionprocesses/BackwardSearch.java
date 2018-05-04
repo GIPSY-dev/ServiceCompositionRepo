@@ -35,7 +35,7 @@ public class BackwardSearch
 			Set<SearchNode> branchPlanSet = new HashSet<SearchNode>();
 			List<Set<SearchNode>> validPlanSets = new ArrayList<Set<SearchNode>>();
 			
-			depthFirstTraversal(serviceSet, compositionReq, i, branchPlanSet, validPlanSets);
+			depthFirstTraversal(serviceSet, compositionReq, i, true, branchPlanSet, validPlanSets);
 			allValidPlanSets.addAll(validPlanSets);
 		}
 		
@@ -46,15 +46,17 @@ public class BackwardSearch
 	 * Creates service power sets and processes their elements using depth-first search mechanism.
 	 * Processing starts at the given layer and proceeds down to the first layer in the search graph.
 	 * @param 	serviceSet			Set of services whose power set will be constructed and processed
-	 * @param 	compositionReq		Service composition request from the user, if this method is called by the backwardSearch method
-	 * 								Null, if this method is called recursively 
+	 * @param 	compositionReq		Service composition request from the user
 	 * @param 	currentLayerIndex	Index of the service layer currently being processed
+	 * @param	isStartingLayer		true, if the current layer is the starting layer (i.e. method is called by backwardSearch())
+	 * 								false, if the current layer is not the starting layer (i.e. method is called recursively)
 	 * @param 	branchPlanSet		Set of search nodes that together constitute 1 branch of this depth-first traversal
 	 * 								It is constructed as the traversal progresses.
 	 * @param 	allValidPlanSets	List of all branch plan sets that are complete and successfully validated in this entire traversal
 	 */
 	private static void depthFirstTraversal(Set<SearchNode> serviceSet, CompositionRequest compositionReq, 
-											int currentLayerIndex, Set<SearchNode> branchPlanSet, List<Set<SearchNode>> allValidPlanSets)
+											int currentLayerIndex, boolean isStartingLayer, 
+											Set<SearchNode> branchPlanSet, List<Set<SearchNode>> allValidPlanSets)
 	{
 		//Creating the power set of the input service set
 		Set<Set<SearchNode>> planPowerSet = getPowerSet(serviceSet);
@@ -67,7 +69,7 @@ public class BackwardSearch
 			{
 				//Checking if the current plan set generates at least 1 output from the composition request
 				//This check needs to be done only for the starting layer
-				if (compositionReq != null)
+				if (isStartingLayer)
 				{
 					boolean outputVerified = false;
 					List<String> planSetOutputs = new ArrayList<String>();
@@ -114,8 +116,7 @@ public class BackwardSearch
 					}
 					
 					//Invoking depth-first creation and traversal of power sets on the current predecessor set
-					//Null composition request indicates that the traversal is called for a non-starting layer
-					depthFirstTraversal(preSet, null, previousLayerIndex, extendedBranchPlanSet, allValidPlanSets);
+					depthFirstTraversal(preSet, compositionReq, previousLayerIndex, false, extendedBranchPlanSet, allValidPlanSets);
 				}
 				else
 				{
