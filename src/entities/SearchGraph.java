@@ -5,7 +5,7 @@ import java.util.List;
 import service.Service;
 
 /**
- * Class representing the search graph of services created using the forward expansion technique.
+ * Class representing the search graph of services created using the Forward Expansion technique.
  * @author Jyotsana Gupta
  */
 public class SearchGraph 
