@@ -194,9 +194,9 @@ public class BackwardSearchTests
 		}		
 		Collections.sort(planSetServiceLists, new Comparator<List>() 
 		{
-			public int compare(List a1, List a2) 
+			public int compare(List list1, List list2) 
 			{
-				return a1.size() - a2.size();
+				return list1.size() - list2.size();
 			}
 		});
 		

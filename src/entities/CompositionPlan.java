@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -51,5 +52,57 @@ public class CompositionPlan
 				serviceLayers.get(layerIndex).add(searchNode);
 			}			
 		}
+	}
+	
+	/**
+	 * Method for removing search nodes from this composition plan based on each search node's layer index.
+	 * @param 	nodesToBeRemoved	List of search nodes to be removed
+	 */
+	public void removeSearchNodes(List<SearchNode> nodesToBeRemoved)
+	{
+		for (SearchNode searchNode : nodesToBeRemoved)
+		{
+			//Removing the current search node from its service layer
+			int nodeLayerIndex = searchNode.getLayerIndex();
+			serviceLayers.get(nodeLayerIndex).remove(searchNode);
+		}
+	}
+	
+	/**
+	 * Overridden toString method for Composition Plan class.
+	 * @return	String containing details of this composition plan
+	 */
+	@Override
+	public String toString()
+	{
+		String planString = "";
+		List<List<String>> planServiceNames = new ArrayList<List<String>>();
+		
+		for (List<SearchNode> serviceLayer : serviceLayers)
+		{
+			List<String> layerServiceNames = new ArrayList<String>();
+			for (SearchNode searchNode : serviceLayer)
+			{
+				layerServiceNames.add(searchNode.getService().getName());
+			}
+			Collections.sort(layerServiceNames);
+			planServiceNames.add(layerServiceNames);
+		}
+		
+		for (int i = 0; i < planServiceNames.size(); i++)
+		{
+			planString += "\nLayer " + i + ": ";
+			for (String serviceName : planServiceNames.get(i))
+			{
+				planString += serviceName + ", ";
+			}
+			if (planString.lastIndexOf(",") >= 0)
+			{
+				planString = planString.substring(0, planString.lastIndexOf(","));
+			}		
+		}
+		planString = planString.trim();
+		
+		return planString;
 	}
 }

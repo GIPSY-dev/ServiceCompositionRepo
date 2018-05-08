@@ -90,7 +90,7 @@ public class PlanConstruction
 		{
 			int invalidInputSvcCount = verifyServiceInputs(plan, planLayerCount, compositionReq);
 			int invalidOutputSvcCount = verifyServiceOutputs(plan, planLayerCount, compositionReq);
-			removedSvcCount = invalidInputSvcCount + invalidOutputSvcCount;			
+			removedSvcCount = invalidInputSvcCount + invalidOutputSvcCount;
 		} while (removedSvcCount > 0);
 	}
 	
@@ -204,7 +204,7 @@ public class PlanConstruction
 		}
 		
 		//Remove the invalid nodes from the plan
-		removeNodes(plan, nodesToBeRemoved);
+		plan.removeSearchNodes(nodesToBeRemoved);
 		
 		return nodesToBeRemoved.size();
 	}
@@ -235,8 +235,36 @@ public class PlanConstruction
 				for (SearchNode successor : searchNode.getSuccessors())
 				{
 					int succLayerIndex = successor.getLayerIndex();
-					if ((plan.getServiceLayers().get(succLayerIndex).contains(successor))
-						&& (!nodesToBeRemoved.contains(successor)))
+					boolean planContainsSuccessor = false;
+					boolean successorIsInvalid = false;
+					
+					//Explicit service name comparison is required because due to creation of deep copies for
+					//search nodes during search graph creation, built-in "contains" method does not work here
+					if (succLayerIndex < planLayerCount)
+					{
+						for (SearchNode succLayerNode : plan.getServiceLayers().get(succLayerIndex))
+						{
+							if (succLayerNode.getService().getName().equals(successor.getService().getName()))
+							{
+								planContainsSuccessor = true;
+								break;
+							}
+						}
+						
+						if (planContainsSuccessor)
+						{
+							for (SearchNode invalidNode : nodesToBeRemoved)
+							{
+								if (invalidNode.getService().getName().equals(successor.getService().getName()))
+								{
+									successorIsInvalid = true;
+									break;
+								}
+							}
+						}
+					}
+					
+					if (planContainsSuccessor && !successorIsInvalid)
 					{
 						svcHasSuccessors = true;
 						break;
@@ -261,23 +289,8 @@ public class PlanConstruction
 		}
 		
 		//Remove the invalid nodes from the plan
-		removeNodes(plan, nodesToBeRemoved);
+		plan.removeSearchNodes(nodesToBeRemoved);
 		
 		return nodesToBeRemoved.size();
-	}
-	
-	/**
-	 * Method for removing search nodes from a composition plan.
-	 * @param 	plan				Composition plan from which nodes need to be removed
-	 * @param 	nodesToBeRemoved	List of nodes to be removed
-	 */
-	private static void removeNodes(CompositionPlan plan, List<SearchNode> nodesToBeRemoved)
-	{
-		for (SearchNode searchNode : nodesToBeRemoved)
-		{
-			//Removing the search node from its service layer
-			int nodeLayerIndex = searchNode.getLayerIndex();
-			plan.getServiceLayers().get(nodeLayerIndex).remove(searchNode);
-		}
 	}
 }

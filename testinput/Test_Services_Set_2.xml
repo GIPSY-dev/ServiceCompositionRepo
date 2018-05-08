@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<services>
+    <service name="sname1">
+        <inputs>
+            <instance name="input11"/>
+        </inputs>
+        <outputs>
+            <instance name="input12"/>
+			<instance name="output11"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname1"/>
+                <literalvalue name="lit11"/>
+                <type name="type11"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="sname1"/>
+                <literalvalue name="lit12"/>
+                <type name="type12"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="eff11"/>
+            <instance name="eff12"/>
+        </effects>
+    </service>
+    <service name="sname2">
+        <inputs>
+            <instance name="input21"/>
+        </inputs>
+        <outputs>
+            <instance name="input22"/>
+			<instance name="output21"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname2"/>
+                <literalvalue name="lit21"/>
+                <type name="type21"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="sname2"/>
+                <literalvalue name="lit22"/>
+                <type name="type22"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="eff21"/>
+            <instance name="eff22"/>
+        </effects>
+    </service>
+	<service name="sname3">
+        <inputs>
+            <instance name="input11"/>
+            <instance name="input12"/>
+        </inputs>
+        <outputs>
+            <instance name="output31"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname3"/>
+                <literalvalue name="lit31"/>
+                <type name="type31"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="sname3"/>
+                <literalvalue name="lit32"/>
+                <type name="type32"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="eff31"/>
+            <instance name="eff32"/>
+        </effects>
+    </service>
+	<service name="sname4">
+        <inputs>
+            <instance name="input21"/>
+            <instance name="input22"/>
+        </inputs>
+        <outputs>
+            <instance name="output41"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname4"/>
+                <literalvalue name="lit41"/>
+                <type name="type41"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="sname4"/>
+                <literalvalue name="lit42"/>
+                <type name="type42"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="eff41"/>
+            <instance name="eff42"/>
+        </effects>
+    </service>
+	<service name="sname5">
+        <inputs>
+            <instance name="output31"/>
+        </inputs>
+        <outputs>
+            <instance name="output51"/>
+            <instance name="output52"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname5"/>
+                <literalvalue name="lit51"/>
+                <type name="type51"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="sname5"/>
+                <literalvalue name="lit52"/>
+                <type name="type52"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="eff51"/>
+            <instance name="eff52"/>
+        </effects>
+    </service>
+	<service name="sname6">
+        <inputs>
+            <instance name="output41"/>
+        </inputs>
+        <outputs>
+            <instance name="output51"/>
+            <instance name="output52"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname6"/>
+                <literalvalue name="lit61"/>
+                <type name="type61"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="sname6"/>
+                <literalvalue name="lit62"/>
+                <type name="type62"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="eff61"/>
+            <instance name="eff62"/>
+        </effects>
+    </service>
+	<service name="sname7">
+        <inputs>
+            <instance name="output31"/>
+        </inputs>
+        <outputs>
+            <instance name="output71"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname7"/>
+                <literalvalue name="lit71"/>
+                <type name="type71"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="sname7"/>
+                <literalvalue name="lit72"/>
+                <type name="type72"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="eff71"/>
+            <instance name="eff72"/>
+        </effects>
+    </service>
+	<service name="sname8">
+        <inputs>
+            <instance name="output41"/>
+        </inputs>
+        <outputs>
+            <instance name="output81"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname8"/>
+                <literalvalue name="lit81"/>
+                <type name="type81"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="sname8"/>
+                <literalvalue name="lit82"/>
+                <type name="type82"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="eff81"/>
+            <instance name="eff82"/>
+        </effects>
+    </service>
+	<service name="sname9">
+        <inputs>
+            <instance name="output11"/>
+            <instance name="output21"/>
+        </inputs>
+        <outputs>
+            <instance name="output91"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname9"/>
+                <literalvalue name="lit91"/>
+                <type name="type91"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="sname9"/>
+                <literalvalue name="lit92"/>
+                <type name="type92"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="eff91"/>
+            <instance name="eff92"/>
+        </effects>
+    </service>
+	<service name="sname10">
+        <inputs>
+            <instance name="output21"/>
+        </inputs>
+        <outputs>
+            <instance name="output101"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname10"/>
+                <literalvalue name="lit101"/>
+                <type name="type101"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="sname10"/>
+                <literalvalue name="lit102"/>
+                <type name="type102"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="eff101"/>
+            <instance name="eff102"/>
+        </effects>
+    </service>
+	<service name="sname11">
+        <inputs>
+            <instance name="output91"/>
+            <instance name="output101"/>
+        </inputs>
+        <outputs>
+            <instance name="output111"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname11"/>
+                <literalvalue name="lit111"/>
+                <type name="type111"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="sname11"/>
+                <literalvalue name="lit112"/>
+                <type name="type112"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="eff111"/>
+            <instance name="eff112"/>
+        </effects>
+    </service>
+	<service name="sname12">
+        <inputs>
+            <instance name="output91"/>
+            <instance name="output101"/>
+        </inputs>
+        <outputs>
+            <instance name="output121"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname12"/>
+                <literalvalue name="lit121"/>
+                <type name="type121"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="sname12"/>
+                <literalvalue name="lit122"/>
+                <type name="type122"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="eff121"/>
+            <instance name="eff122"/>
+        </effects>
+    </service>
+	<service name="sname13">
+        <inputs>
+            <instance name="output111"/>
+            <instance name="output121"/>
+        </inputs>
+        <outputs>
+            <instance name="output131"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname13"/>
+                <literalvalue name="lit131"/>
+                <type name="type131"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="sname13"/>
+                <literalvalue name="lit132"/>
+                <type name="type132"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="eff131"/>
+            <instance name="eff132"/>
+        </effects>
+    </service>
+</services>
