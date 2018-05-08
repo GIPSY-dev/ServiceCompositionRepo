@@ -76,6 +76,27 @@ public class PlanConstructionTests
 	}
 	
 	/**
+	 * Tests rejection of composition plans if they contain 1 service or less.
+	 */
+	@Test
+	public void planServiceCountCheck()
+	{
+		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("input11", "input12", "input21", "input22"));
+		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("output41"));
+		String repoXMLFileName = "testinput/Test_Services_Set_2.xml";
+		List<String> actualPlanDetails = new ArrayList<String>();
+		
+		int actualPlanCount = getActualPlanResults(compReqInputs, compReqOutputs, repoXMLFileName, actualPlanDetails);
+		
+		int expectedPlanCount = 1;
+		List<String> expectedPlanDetails = new ArrayList<String>();
+		expectedPlanDetails.add("Layer 0: sname2\nLayer 1: sname4");
+		
+		assertEquals(actualPlanCount, expectedPlanCount);
+		assertEquals(actualPlanDetails, expectedPlanDetails);
+	}
+	
+	/**
 	 * Tests the following requirements:
 	 * 1. A pruned plan that does not produce all the requested outputs should be discarded.
 	 * 2. Validation failure of both inputs and outputs of search nodes in a plan and their removal from it.

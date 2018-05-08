@@ -37,19 +37,25 @@ public class PlanConstruction
 			//Validating plan search nodes and removing the invalid nodes
 			prunePlan(plan, planLayerCount, compositionReq);
 			
-			//Checking if the pruned plans still produce all the requested outputs
-			boolean isPlanValid = verifyCompReqOutputs(plan, planLayerCount, compositionReq);
-			if (isPlanValid)
+			//Checking if a pruned plan contains more than 1 service
+			boolean isPlanComposite = checkPlanServiceCount(plan);
+			
+			if (isPlanComposite)
 			{
-				//Checking if the validated plans already exist in the list of plans to be returned
-				boolean isPlanNew = addNewValidPlanSets(plan, validPlanSets);
-				if (isPlanNew)
+				//Checking if the pruned plans still produce all the requested outputs
+				boolean isPlanValid = verifyCompReqOutputs(plan, planLayerCount, compositionReq);
+				if (isPlanValid)
 				{
-					//Adding new (non-duplicate) plans to the list of plans to be returned
-					//Discarding the duplicate plans
-					validPlans.add(plan);
-				}				
-			}
+					//Checking if the validated plans already exist in the list of plans to be returned
+					boolean isPlanNew = addNewValidPlanSets(plan, validPlanSets);
+					if (isPlanNew)
+					{
+						//Adding new (non-duplicate) plans to the list of plans to be returned
+						//Discarding the duplicate plans
+						validPlans.add(plan);
+					}				
+				}
+			}			
 		}
 		
 		return validPlans;
@@ -92,6 +98,30 @@ public class PlanConstruction
 			int invalidOutputSvcCount = verifyServiceOutputs(plan, planLayerCount, compositionReq);
 			removedSvcCount = invalidInputSvcCount + invalidOutputSvcCount;
 		} while (removedSvcCount > 0);
+	}
+	
+	/**
+	 * Method for checking if a pruned plan contains more than 1 service, i.e., the plan represents a composite service and not an individual service.
+	 * @param 	plan	Composition plan that needs to be validated
+	 * @return	true, if the plan contains more than 1 service
+	 * 			false, otherwise
+	 */
+	private static boolean checkPlanServiceCount(CompositionPlan plan)
+	{
+		int planServiceCount = 0;
+		for (List<SearchNode> serviceLayer : plan.getServiceLayers())
+		{
+			planServiceCount += serviceLayer.size();
+		}
+		
+		if (planServiceCount > 1)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	/**
