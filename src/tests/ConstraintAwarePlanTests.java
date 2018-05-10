@@ -16,6 +16,7 @@ import entities.CompositionRequest;
 import entities.ConstraintAwarePlan;
 import entities.SearchGraph;
 import entities.SearchNode;
+import entities.ServiceNode;
 import service.Service;
 import service.ServiceParser;
 import service.ServiceXMLParser;
@@ -30,6 +31,7 @@ public class ConstraintAwarePlanTests
 	/**
 	 * Tests that service nodes are assigned only those predecessors and successors that are present in their plan.
 	 * Other irrelevant predecessors and successors should be removed from their lists for that plan.
+	 * Also tests that empty layer removal method is correctly executed during constraint-aware plan construction. 
 	 */
 	@Test
 	public void excessPredSuccRemoval()
@@ -43,12 +45,6 @@ public class ConstraintAwarePlanTests
 		
 		int expectedPlanCount = 7;
 		List<String> expectedPlanDetails = new ArrayList<String>();
-		expectedPlanDetails.add("Layer 0: "
-								+ "\nLayer 1: {} sname3 {sname5}"
-								+ "\nLayer 2: {sname3} sname5 {}");
-		expectedPlanDetails.add("Layer 0: "
-								+ "\nLayer 1: {} sname4 {sname6}"
-								+ "\nLayer 2: {sname4} sname6 {}");
 		expectedPlanDetails.add("Layer 0: {} sname1 {sname3}"
 								+ "\nLayer 1: {sname1} sname3 {sname5}"
 								+ "\nLayer 2: {sname3} sname5 {}");
@@ -64,8 +60,81 @@ public class ConstraintAwarePlanTests
 		expectedPlanDetails.add("Layer 0: {} sname2 {sname4}" 
 								+ "\nLayer 1: {sname2} sname4 {sname6}, {} sname3 {sname5}" 
 								+ "\nLayer 2: {sname3} sname5 {}, {sname4} sname6 {}");
-		
+		expectedPlanDetails.add("Layer 0: {} sname3 {sname5}"
+								+ "\nLayer 1: {sname3} sname5 {}");
+		expectedPlanDetails.add("Layer 0: {} sname4 {sname6}"
+								+ "\nLayer 1: {sname4} sname6 {}");
+				
 		assertEquals(actualPlanCount, expectedPlanCount);
+		assertEquals(actualPlanDetails, expectedPlanDetails);
+	}
+	
+	/**
+	 * Tests correct removal of empty service layers from a constraint-aware plan
+	 * irrespective of the number and position of the empty layers in the plan. 
+	 */
+	@Test
+	public void emptyLayerRemoval()
+	{
+		//Creating service nodes
+		ServiceNode serviceNode1 = new ServiceNode(new Service("sname1", null, null, null, null), 2);
+		ServiceNode serviceNode2 = new ServiceNode(new Service("sname2", null, null, null, null), 4);
+		ServiceNode serviceNode3 = new ServiceNode(new Service("sname3", null, null, null, null), 4);
+		ServiceNode serviceNode4 = new ServiceNode(new Service("sname4", null, null, null, null), 7);
+		ServiceNode serviceNode5 = new ServiceNode(new Service("sname5", null, null, null, null), 7);
+		ServiceNode serviceNode6 = new ServiceNode(new Service("sname6", null, null, null, null), 7);
+		ServiceNode serviceNode7 = new ServiceNode(new Service("sname7", null, null, null, null), 8);
+		ServiceNode serviceNode8 = new ServiceNode(new Service("sname8", null, null, null, null), 10);
+		ServiceNode serviceNode9 = new ServiceNode(new Service("sname9", null, null, null, null), 10);
+		
+		//Assigning predecessors and successors to the service nodes
+		serviceNode1.addSuccessor(serviceNode2);
+		serviceNode1.addSuccessor(serviceNode3);
+		serviceNode2.addPredecessor(serviceNode1);
+		serviceNode2.addSuccessor(serviceNode4);
+		serviceNode2.addSuccessor(serviceNode5);
+		serviceNode3.addPredecessor(serviceNode1);
+		serviceNode3.addSuccessor(serviceNode6);
+		serviceNode4.addPredecessor(serviceNode2);
+		serviceNode4.addSuccessor(serviceNode7);
+		serviceNode5.addPredecessor(serviceNode2);
+		serviceNode5.addSuccessor(serviceNode8);
+		serviceNode6.addPredecessor(serviceNode3);
+		serviceNode6.addSuccessor(serviceNode7);
+		serviceNode6.addSuccessor(serviceNode9);
+		serviceNode7.addPredecessor(serviceNode4);
+		serviceNode7.addPredecessor(serviceNode6);
+		serviceNode7.addSuccessor(serviceNode8);
+		serviceNode8.addPredecessor(serviceNode5);
+		serviceNode8.addPredecessor(serviceNode7);
+		serviceNode9.addPredecessor(serviceNode6);
+				
+		//Creating a constraint-aware composition plan with the service nodes
+		ConstraintAwarePlan cnstrAwrPlan = new ConstraintAwarePlan(13);
+		cnstrAwrPlan.addServiceNode(serviceNode1);
+		cnstrAwrPlan.addServiceNode(serviceNode2);
+		cnstrAwrPlan.addServiceNode(serviceNode3);
+		cnstrAwrPlan.addServiceNode(serviceNode4);
+		cnstrAwrPlan.addServiceNode(serviceNode5);
+		cnstrAwrPlan.addServiceNode(serviceNode6);
+		cnstrAwrPlan.addServiceNode(serviceNode7);
+		cnstrAwrPlan.addServiceNode(serviceNode8);
+		cnstrAwrPlan.addServiceNode(serviceNode9);
+		
+		//Removing the empty layers from the plan
+		cnstrAwrPlan.removeEmptyLayers();
+		
+		int planLayerCount = cnstrAwrPlan.getServiceLayerCount();
+		int expectedPlanLayerCount = 5;
+		
+		String actualPlanDetails = cnstrAwrPlan.toString();
+		String expectedPlanDetails = "Layer 0: {} sname1 {sname2, sname3}"
+									+ "\nLayer 1: {sname1} sname2 {sname4, sname5}, {sname1} sname3 {sname6}"
+									+ "\nLayer 2: {sname2} sname4 {sname7}, {sname2} sname5 {sname8}, {sname3} sname6 {sname7, sname9}"
+									+ "\nLayer 3: {sname4, sname6} sname7 {sname8}"
+									+ "\nLayer 4: {sname5, sname7} sname8 {}, {sname6} sname9 {}";
+		
+		assertEquals(planLayerCount, expectedPlanLayerCount);
 		assertEquals(actualPlanDetails, expectedPlanDetails);
 	}
 	

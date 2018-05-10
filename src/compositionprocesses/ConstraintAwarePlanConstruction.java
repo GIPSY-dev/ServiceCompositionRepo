@@ -44,6 +44,9 @@ public class ConstraintAwarePlanConstruction
 				}
 			}
 			
+			//Removing empty layers (if any) from the current constraint-aware plan
+			cnstrAwrPlan.removeEmptyLayers();
+			
 			//Adding the current constraint-aware plan to the list of plans to be returned
 			cnstrAwrPlans.add(cnstrAwrPlan);
 		}

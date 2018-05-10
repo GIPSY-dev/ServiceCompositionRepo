@@ -31,12 +31,15 @@ public class ServiceNode
 		predecessors = new ArrayList<ServiceNode>();
 		successors = new ArrayList<ServiceNode>();		
 		constraints = new ArrayList<Constraint>();
-		for (Constraint constraint : service.getConstraints())
+		if (service.getConstraints() != null) 
 		{
-			//Constraint data members are deep-copied to keep them independent of the service data member
-			//This enables constraints to be assigned to different services during constraint-adjustment
-			Constraint newConstraint = new Constraint(constraint.getServiceName(), constraint.getLiteralValue(), constraint.getType(), constraint.getOperator());
-			constraints.add(newConstraint);
+			for (Constraint constraint : service.getConstraints())
+			{
+				//Constraint data members are deep-copied to keep them independent of the service data member
+				//This enables constraints to be assigned to different services during constraint-adjustment
+				Constraint newConstraint = new Constraint(constraint.getServiceName(), constraint.getLiteralValue(), constraint.getType(), constraint.getOperator());
+				constraints.add(newConstraint);
+			}
 		}
 	}
 	
@@ -74,6 +77,15 @@ public class ServiceNode
 	public int getLayerIndex()
 	{
 		return layerIndex;
+	}
+	
+	/**
+	 * Method for assigning a container service layer index to this service node.
+	 * @param 	layerIndex	Container service layer index to be assigned
+	 */
+	public void setLayerIndex(int layerIndex)
+	{
+		this.layerIndex = layerIndex;
 	}
 	
 	/**

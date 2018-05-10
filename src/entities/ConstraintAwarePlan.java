@@ -65,6 +65,49 @@ public class ConstraintAwarePlan
 	}
 	
 	/**
+	 * Method for removing the empty service layers from this constraint-aware composition plan.
+	 */
+	public void removeEmptyLayers()
+	{
+		//Finding and removing the empty service layers
+		boolean emptyLayersFound = false;
+		int planLayerCount = serviceLayers.size();
+		for (int i = 0; i < planLayerCount; i++)
+		{
+			int layerServiceCount = serviceLayers.get(i).size();
+			if (layerServiceCount == 0)
+			{
+				emptyLayersFound = true;
+				serviceLayers.remove(i);
+				planLayerCount--;
+				i--;
+			}
+		}
+		
+		//Adjusting the service layer index of all the service nodes after removal of service layers
+		if (emptyLayersFound)
+		{
+			for (int i = 0; i < planLayerCount; i++)
+			{
+				List<ServiceNode> currLayer = serviceLayers.get(i);
+				for (int j = 0; j < currLayer.size(); j++)
+				{
+					currLayer.get(j).setLayerIndex(i);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Method for fetching the number of service layers in this constraint-aware composition plan.
+	 * @return	Number of service layers in this plan
+	 */
+	public int getServiceLayerCount()
+	{
+		return serviceLayers.size();
+	}
+	
+	/**
 	 * Overridden toString method for Constraint Aware Plan class.
 	 * @return	String containing details of this constraint-aware composition plan
 	 */
