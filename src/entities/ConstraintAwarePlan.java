@@ -2,7 +2,11 @@ package entities;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import constraint.Constraint;
 
 /**
  * Class for representing a constraint-aware service composition plan.
@@ -27,17 +31,12 @@ public class ConstraintAwarePlan
 	}
 	
 	/**
-	 * Method for adding a service node to this constraint-aware composition plan.
-	 * @param 	serviceNode		Service node to be added
+	 * Method for fetching the number of service layers in this constraint-aware composition plan.
+	 * @return	Number of service layers in this plan
 	 */
-	public void addServiceNode(ServiceNode serviceNode)
+	public int getServiceLayerCount()
 	{
-		int planLayerCount = serviceLayers.size();
-		int layerIndex = serviceNode.getLayerIndex();
-		if (planLayerCount > layerIndex)
-		{
-			serviceLayers.get(layerIndex).add(serviceNode);
-		}
+		return serviceLayers.size();
 	}
 	
 	/**
@@ -62,6 +61,20 @@ public class ConstraintAwarePlan
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Method for adding a service node to this constraint-aware composition plan.
+	 * @param 	serviceNode		Service node to be added
+	 */
+	public void addServiceNode(ServiceNode serviceNode)
+	{
+		int planLayerCount = serviceLayers.size();
+		int layerIndex = serviceNode.getLayerIndex();
+		if (planLayerCount > layerIndex)
+		{
+			serviceLayers.get(layerIndex).add(serviceNode);
+		}
 	}
 	
 	/**
@@ -99,12 +112,91 @@ public class ConstraintAwarePlan
 	}
 	
 	/**
-	 * Method for fetching the number of service layers in this constraint-aware composition plan.
-	 * @return	Number of service layers in this plan
+	 * Method for adjusting the constraints in this plan to be able to execute them as early as possible. 
 	 */
-	public int getServiceLayerCount()
+	public void adjustConstraints()
 	{
-		return serviceLayers.size();
+		//For each service layer (starting from the second one) in this plan
+		int planLayerCount = serviceLayers.size();
+		for (int i = 1; i < planLayerCount; i++)
+		{
+			//For each service node in the current layer
+			List<ServiceNode> currLayer = serviceLayers.get(i);
+			int layerServiceCount = currLayer.size();
+			for (int j = 0; j < layerServiceCount; j++)
+			{
+				//For each constraint in the service object of the current service node
+				ServiceNode currServiceNode = currLayer.get(j);
+				List<Constraint> adjConstraints = currServiceNode.getService().getConstraints();
+				int adjCnstrCount = adjConstraints.size();
+				for (int k = 0; k < adjCnstrCount; k++)
+				{
+					boolean constraintAdjusted = false;
+					Constraint currConstraint = adjConstraints.get(k);
+					Set<ServiceNode> predSet = new HashSet<ServiceNode>();
+					predSet.addAll(currServiceNode.getPredecessors());
+					
+					//For each layer before the current layer
+					for (int l = i - 1; l >= 0; l--)
+					{
+						//Creating a set of predecessors to be checked with the highest layer index
+						Set<ServiceNode> closestPredSet = new HashSet<ServiceNode>();
+						for (ServiceNode predecessor : predSet)
+						{
+							if (predecessor.getLayerIndex() == l)
+							{
+								closestPredSet.add(predecessor);
+							}
+						}
+						
+						//For each of the highest layer predecessors
+						for (ServiceNode closestPred : closestPredSet)
+						{
+							//Checking if the predecessor affects the current constraint's feature
+							if (closestPred.getService().getEffects().contains(currConstraint.getType()))
+							{
+								//If yes, adding the constraint to the predecessor's successor nodes
+								constraintAdjusted = true;
+								List<ServiceNode> successorList = closestPred.getSuccessors();								
+								int successorCount = successorList.size();
+								for (int m = 0; m < successorCount; m++)
+								{
+									successorList.get(m).addConstraint(currConstraint);
+								}
+							}
+							else
+							{
+								//If not, adding the predecessor's predecessor nodes in the predecessor set
+								//and removing the predecessor from that set
+								predSet.addAll(closestPred.getPredecessors());
+								predSet.remove(closestPred);
+							}
+						}
+						
+						//If the current constraint was adjusted successfully
+						if (constraintAdjusted)
+						{
+							//Remove this constraint from the current service node and adjust the next constraint
+							currServiceNode.removeConstraint(currConstraint);
+							break;
+						}
+					}
+					
+					//If the constraint feature is not affected by any predecessors
+					if (!constraintAdjusted)
+					{
+						//Move the constraint to the beginning of this plan
+						List<ServiceNode> firstLayer = serviceLayers.get(0);
+						int fstLayerSvcCount = firstLayer.size();
+						for (int n = 0; n < fstLayerSvcCount; n++)
+						{
+							firstLayer.get(n).addConstraint(currConstraint);
+						}
+						currServiceNode.removeConstraint(currConstraint);
+					}
+				}
+			}
+		}
 	}
 	
 	/**

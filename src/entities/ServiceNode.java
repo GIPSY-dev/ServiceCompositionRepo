@@ -27,20 +27,10 @@ public class ServiceNode
 	public ServiceNode(Service service, int layerIndex)
 	{
 		this.service = service;
-		this.layerIndex = layerIndex;
+		constraints = service.getConstraints();
 		predecessors = new ArrayList<ServiceNode>();
-		successors = new ArrayList<ServiceNode>();		
-		constraints = new ArrayList<Constraint>();
-		if (service.getConstraints() != null) 
-		{
-			for (Constraint constraint : service.getConstraints())
-			{
-				//Constraint data members are deep-copied to keep them independent of the service data member
-				//This enables constraints to be assigned to different services during constraint-adjustment
-				Constraint newConstraint = new Constraint(constraint.getServiceName(), constraint.getLiteralValue(), constraint.getType(), constraint.getOperator());
-				constraints.add(newConstraint);
-			}
-		}
+		successors = new ArrayList<ServiceNode>();
+		this.layerIndex = layerIndex;
 	}
 	
 	/**
@@ -50,6 +40,15 @@ public class ServiceNode
 	public Service getService() 
 	{
 		return service;
+	}
+	
+	/**
+	 * Method for fetching the list of constraints attached to this service node.
+	 * @return	List of service node constraints
+	 */
+	public List<Constraint> getConstraints()
+	{
+		return constraints;
 	}
 	
 	/**
@@ -89,6 +88,18 @@ public class ServiceNode
 	}
 	
 	/**
+	 * Method for adding a constraint to this node.
+	 * @param 	constraint		Constraint to be added to this node
+	 */
+	public void addConstraint(Constraint constraint)
+	{
+		if (!constraints.contains(constraint))
+		{
+			constraints.add(constraint);
+		}
+	}
+	
+	/**
 	 * Method for adding a predecessor to this node.
 	 * @param 	predecessor		Service node to be added as a predecessor to this node
 	 */
@@ -104,5 +115,14 @@ public class ServiceNode
 	public void addSuccessor(ServiceNode successor)
 	{
 		successors.add(successor);
+	}
+	
+	/**
+	 * Method for removing a constraint from this service node.
+	 * @param 	constraint		Constraint to be removed from this node
+	 */
+	public void removeConstraint(Constraint constraint)
+	{
+		constraints.remove(constraint);
 	}
 }
