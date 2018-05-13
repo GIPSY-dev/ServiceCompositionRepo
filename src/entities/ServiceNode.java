@@ -27,10 +27,17 @@ public class ServiceNode
 	public ServiceNode(Service service, int layerIndex)
 	{
 		this.service = service;
-		constraints = service.getConstraints();
+		this.layerIndex = layerIndex;
 		predecessors = new ArrayList<ServiceNode>();
 		successors = new ArrayList<ServiceNode>();
-		this.layerIndex = layerIndex;
+		if (service.getConstraints() != null)
+		{
+			constraints = service.getConstraints();
+		}
+		else
+		{
+			constraints = new ArrayList<Constraint>();
+		}
 	}
 	
 	/**

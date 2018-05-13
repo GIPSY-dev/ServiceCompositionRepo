@@ -132,6 +132,7 @@ public class ConstraintAwarePlan
 				for (int k = 0; k < adjCnstrCount; k++)
 				{
 					boolean constraintAdjusted = false;
+					boolean currNodeGetsContsraint = false;
 					Constraint currConstraint = adjConstraints.get(k);
 					Set<ServiceNode> predSet = new HashSet<ServiceNode>();
 					predSet.addAll(currServiceNode.getPredecessors());
@@ -162,6 +163,13 @@ public class ConstraintAwarePlan
 								for (int m = 0; m < successorCount; m++)
 								{
 									successorList.get(m).addConstraint(currConstraint);
+									
+									//If the current service node is one of the successor
+									//nodes to get the constraint during adjustment									
+									if (successorList.get(m) == currServiceNode)
+									{
+										currNodeGetsContsraint = true;
+									}
 								}
 							}
 							else
@@ -176,8 +184,13 @@ public class ConstraintAwarePlan
 						//If the current constraint was adjusted successfully
 						if (constraintAdjusted)
 						{
-							//Remove this constraint from the current service node and adjust the next constraint
-							currServiceNode.removeConstraint(currConstraint);
+							if (!currNodeGetsContsraint)
+							{
+								//If the current service node does not receive this constraint during
+								//adjustment, remove it from the node and adjust the next constraint
+								currServiceNode.removeConstraint(currConstraint);
+							}
+							
 							break;
 						}
 					}
@@ -214,30 +227,66 @@ public class ConstraintAwarePlan
 			List<String> layerServiceDetails = new ArrayList<String>();
 			for (ServiceNode serviceNode : serviceLayer)
 			{
-				//Gathering predecessor service names for the current service node 
-				String predDetails = "";
+				//Gathering predecessor service names for the current service node
+				List<String> predNames = new ArrayList<String>();
 				for (ServiceNode predecessor : serviceNode.getPredecessors())
 				{
-					predDetails += predecessor.getService().getName() + ", ";
+					predNames.add(predecessor.getService().getName());
+				}
+				Collections.sort(predNames);
+				
+				String predDetails = "";
+				for (String predName : predNames)
+				{
+					predDetails += predName + ", ";
 				}
 				if (predDetails.lastIndexOf(",") >= 0)
 				{
 					predDetails = predDetails.substring(0, predDetails.lastIndexOf(","));
-				}	
+				}
 				
 				//Gathering successor service names for the current service node 
-				String succDetails = "";
+				List<String> succNames = new ArrayList<String>();
 				for (ServiceNode successor : serviceNode.getSuccessors())
 				{
-					succDetails += successor.getService().getName() + ", ";
+					succNames.add(successor.getService().getName());
+				}
+				Collections.sort(succNames);
+				
+				String succDetails = "";
+				for (String succName : succNames)
+				{
+					succDetails += succName + ", ";
 				}
 				if (succDetails.lastIndexOf(",") >= 0)
 				{
 					succDetails = succDetails.substring(0, succDetails.lastIndexOf(","));
-				}	
+				}
+				
+				//Gathering constraint details for the current service node
+				List<String> constraintStrs = new ArrayList<String>();
+				for (Constraint constraint : serviceNode.getConstraints())
+				{
+					String cnstrStr = constraint.getType() + " " 
+										+ constraint.getOperator() + " "
+										+ constraint.getLiteralValue();
+					constraintStrs.add(cnstrStr);
+				}
+				Collections.sort(constraintStrs);
+				
+				String cnstrDetails = "";
+				for (String cnstrStr : constraintStrs)
+				{
+					cnstrDetails += cnstrStr + ", ";
+				}
+				if (cnstrDetails.lastIndexOf(",") >= 0)
+				{
+					cnstrDetails = cnstrDetails.substring(0, cnstrDetails.lastIndexOf(","));
+				}
 				
 				//Combining predecessor, successor and service names for the current service node 
 				String serviceDetails = "{" + predDetails + "} " 
+										+ "[" + cnstrDetails + "] "
 										+ serviceNode.getService().getName() 
 										+ " {" + succDetails + "}";
 				layerServiceDetails.add(serviceDetails);

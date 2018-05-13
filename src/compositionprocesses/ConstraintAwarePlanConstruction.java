@@ -15,9 +15,10 @@ import entities.ServiceNode;
 public class ConstraintAwarePlanConstruction 
 {
 	/**
-	 * Method for constructing constraint-aware plans from simple composition plans
+	 * Method for constructing constraint-aware plans from simple composition plans.
+	 * It also triggers adjustment of constraints in the constraint-aware plans constructed.
 	 * @param 	plans	List of simple composition plans that need to be converted into constraint-aware plans
-	 * @return	List of constraint-aware plans constructed
+	 * @return	List of the adjusted constraint-aware plans
 	 */
 	public static List<ConstraintAwarePlan> constructCAPlans(List<CompositionPlan> plans)
 	{
@@ -46,6 +47,9 @@ public class ConstraintAwarePlanConstruction
 			
 			//Removing empty layers (if any) from the current constraint-aware plan
 			cnstrAwrPlan.removeEmptyLayers();
+			
+			//Adjusting constraints in the current constraint-aware plan
+			cnstrAwrPlan.adjustConstraints();
 			
 			//Adding the current constraint-aware plan to the list of plans to be returned
 			cnstrAwrPlans.add(cnstrAwrPlan);
