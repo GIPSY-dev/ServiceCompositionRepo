@@ -296,7 +296,6 @@
     </service>
 	<service name="sname12">
         <inputs>
-            <instance name="output91"/>
             <instance name="output101"/>
         </inputs>
         <outputs>

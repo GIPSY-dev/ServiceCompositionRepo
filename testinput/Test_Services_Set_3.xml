@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<services>
+    <service name="W1">
+        <inputs>
+            <instance name="ProductName"/>
+			<instance name="DeliveryAddress"/>
+        </inputs>
+        <outputs>
+            <instance name="ProductNumber"/>
+			<instance name="ProductAddress"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="ProductNumber"/>
+			<instance name="ProductAddress"/>
+        </effects>
+    </service>
+    <service name="W2">
+        <inputs>
+            <instance name="ProductNumber"/>
+        </inputs>
+        <outputs>
+            <instance name="PaymentNumber"/>
+			<instance name="OrderNumber"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="PaymentNumber"/>
+			<instance name="OrderNumber"/>
+        </effects>
+    </service>
+	<service name="W3">
+        <inputs>
+            <instance name="PaymentNumber"/>
+            <instance name="DeliveryAddress"/>
+			<instance name="ProductAddress"/>
+			<instance name="OrderNumber"/>
+        </inputs>
+        <outputs>
+            <instance name="ShipmentConfirm"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W3"/>
+                <literalvalue name="Montreal"/>
+                <type name="DeliveryAddress"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="W3"/>
+                <literalvalue name="Montreal"/>
+                <type name="ProductAddress"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="ShipmentConfirm"/>
+        </effects>
+    </service>
+	<service name="W4">
+        <inputs>
+            <instance name="PaymentNumber"/>
+            <instance name="DeliveryAddress"/>
+			<instance name="ProductAddress"/>
+			<instance name="OrderNumber"/>
+        </inputs>
+        <outputs>
+            <instance name="ShipmentConfirm"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W4"/>
+                <literalvalue name="Quebec"/>
+                <type name="DeliveryAddress"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="W4"/>
+                <literalvalue name="Quebec"/>
+                <type name="ProductAddress"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="ShipmentConfirm"/>
+        </effects>
+    </service>
+	<service name="W5">
+        <inputs>
+            <instance name="ProductNumber"/>
+        </inputs>
+        <outputs>
+            <instance name="OrderNumber"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="OrderNumber"/>
+        </effects>
+    </service>
+	<service name="W6">
+        <inputs>
+            <instance name="ProductNumber"/>
+        </inputs>
+        <outputs>
+            <instance name="PaymentConfirm"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="PaymentConfirm"/>
+        </effects>
+    </service>
+	<service name="W7">
+        <inputs>
+            <instance name="PaymentConfirm"/>
+			<instance name="DeliveryAddress"/>
+			<instance name="ProductAddress"/>
+			<instance name="OrderNumber"/>
+        </inputs>
+        <outputs>
+            <instance name="ShipmentConfirm"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W7"/>
+                <literalvalue name="Canada"/>
+                <type name="DeliveryAddress"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="W7"/>
+                <literalvalue name="Canada"/>
+                <type name="ProductAddress"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="ShipmentConfirm"/>
+        </effects>
+    </service>
+	<service name="W8">
+        <inputs>
+            <instance name="StudentID"/>
+        </inputs>
+        <outputs>
+            <instance name="TotalMarks"/>
+			<instance name="NumberOfCourses"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="TotalMarks"/>
+			<instance name="NumberOfCourses"/>
+        </effects>
+    </service>
+	<service name="W9">
+        <inputs>
+            <instance name="TotalMarks"/>
+			<instance name="NumberOfCourses"/>
+        </inputs>
+        <outputs>
+            <instance name="AverageMarks"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="AverageMarks"/>
+        </effects>
+    </service>
+	<service name="W10">
+        <inputs>
+            <instance name="AverageMarks"/>
+        </inputs>
+        <outputs>
+            <instance name="MarksPercentage"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="MarksPercentage"/>
+        </effects>
+    </service>
+	<service name="W11">
+        <inputs>
+            <instance name="input111"/>
+        </inputs>
+        <outputs>
+            <instance name="output111"/>
+			<instance name="output112"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W11"/>
+                <literalvalue name="lit111"/>
+                <type name="input111"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="output111"/>
+			<instance name="output112"/>
+        </effects>
+    </service>
+	<service name="W12">
+        <inputs>
+            <instance name="output111"/>
+        </inputs>
+        <outputs>
+            <instance name="output121"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W12"/>
+                <literalvalue name="lit121"/>
+                <type name="output111"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="W12"/>
+                <literalvalue name="lit122"/>
+                <type name="output111"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="output121"/>
+        </effects>
+    </service>
+	<service name="W13">
+        <inputs>
+            <instance name="output112"/>
+        </inputs>
+        <outputs>
+            <instance name="output131"/>
+			<instance name="output132"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="output131"/>
+			<instance name="output132"/>
+        </effects>
+    </service>
+	<service name="W14">
+        <inputs>
+            <instance name="output121"/>
+			<instance name="output131"/>
+        </inputs>
+        <outputs>
+            <instance name="output141"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W14"/>
+                <literalvalue name="lit141"/>
+                <type name="output121"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="W14"/>
+                <literalvalue name="lit142"/>
+                <type name="output131"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="output141"/>
+        </effects>
+    </service>
+	<service name="W15">
+        <inputs>
+            <instance name="output141"/>
+			<instance name="output132"/>
+        </inputs>
+        <outputs>
+            <instance name="output151"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W15"/>
+                <literalvalue name="lit151"/>
+                <type name="output141"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="W15"/>
+                <literalvalue name="lit152"/>
+                <type name="output132"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="output151"/>
+        </effects>
+    </service>
+	<service name="W16">
+        <inputs>
+            <instance name="output121"/>
+        </inputs>
+        <outputs>
+            <instance name="output161"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W16"/>
+                <literalvalue name="lit161"/>
+                <type name="output121"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="W16"/>
+                <literalvalue name="lit162"/>
+                <type name="output121"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="output161"/>
+        </effects>
+    </service>
+	<service name="W17">
+        <inputs>
+            <instance name="input111"/>
+			<instance name="input171"/>
+        </inputs>
+        <outputs>
+            <instance name="output171"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W17"/>
+                <literalvalue name="lit171"/>
+                <type name="input111"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="W17"/>
+                <literalvalue name="lit172"/>
+                <type name="input171"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="output171"/>
+        </effects>
+    </service>
+	<service name="W18">
+        <inputs>
+            <instance name="input111"/>
+			<instance name="input181"/>
+        </inputs>
+        <outputs>
+            <instance name="output181"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W18"/>
+                <literalvalue name="lit181"/>
+                <type name="input111"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="W18"/>
+                <literalvalue name="lit182"/>
+                <type name="input181"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="output181"/>
+        </effects>
+    </service>
+	<service name="W19">
+        <inputs>
+            <instance name="output121"/>
+        </inputs>
+        <outputs>
+            <instance name="output191"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W19"/>
+                <literalvalue name="lit191"/>
+                <type name="output121"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="W19"/>
+                <literalvalue name="lit192"/>
+                <type name="input181"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="output191"/>
+        </effects>
+    </service>
+	<service name="W20">
+        <inputs>
+            <instance name="output171"/>
+        </inputs>
+        <outputs>
+            <instance name="output201"/>
+			<instance name="output202"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="output201"/>
+			<instance name="output202"/>
+        </effects>
+    </service>
+	<service name="W21">
+        <inputs>
+            <instance name="output201"/>
+        </inputs>
+        <outputs>
+            <instance name="output211"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="output211"/>
+        </effects>
+    </service>
+	<service name="W22">
+        <inputs>
+            <instance name="output202"/>
+        </inputs>
+        <outputs>
+            <instance name="output221"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="output221"/>
+        </effects>
+    </service>
+	<service name="W23">
+        <inputs>
+            <instance name="output221"/>
+			<instance name="output211"/>
+        </inputs>
+        <outputs>
+            <instance name="output231"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W23"/>
+                <literalvalue name="lit231"/>
+                <type name="output171"/>
+                <operator name="="/>
+            </instance>
+			<instance>
+                <servicename name="W23"/>
+                <literalvalue name="lit232"/>
+                <type name="output221"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="output231"/>
+        </effects>
+    </service>
+	<service name="W24">
+        <inputs>
+            <instance name="output191"/>
+        </inputs>
+        <outputs>
+            <instance name="output241"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="output241"/>
+        </effects>
+    </service>
+	<service name="W25">
+        <inputs>
+            <instance name="output221"/>
+        </inputs>
+        <outputs>
+            <instance name="output251"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="output251"/>
+        </effects>
+    </service>
+	<service name="W26">
+        <inputs>
+            <instance name="output211"/>
+        </inputs>
+        <outputs>
+            <instance name="output261"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="output261"/>
+        </effects>
+    </service>
+	<service name="W27">
+        <inputs>
+            <instance name="input271"/>
+        </inputs>
+        <outputs>
+            <instance name="output271"/>
+			<instance name="output272"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="output271"/>
+			<instance name="output272"/>
+        </effects>
+    </service>
+	<service name="W28">
+        <inputs>
+            <instance name="output271"/>
+        </inputs>
+        <outputs>
+            <instance name="output281"/>
+			<instance name="output272"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="output281"/>
+			<instance name="output272"/>
+        </effects>
+    </service>
+	<service name="W29">
+        <inputs>
+            <instance name="output281"/>
+        </inputs>
+        <outputs>
+            <instance name="output291"/>
+			<instance name="output272"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="output291"/>
+			<instance name="output272"/>
+        </effects>
+    </service>
+	<service name="W30">
+        <inputs>
+            <instance name="output291"/>
+        </inputs>
+        <outputs>
+            <instance name="output301"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="output301"/>
+        </effects>
+    </service>
+	<service name="W31">
+        <inputs>
+            <instance name="output301"/>
+        </inputs>
+        <outputs>
+            <instance name="output311"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W31"/>
+                <literalvalue name="lit311"/>
+                <type name="output272"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="output311"/>
+        </effects>
+    </service>
+</services>
