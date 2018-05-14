@@ -159,34 +159,4 @@ public class CompositionRequest
 			this.outputs.add(output);
 		}
 	}
-	
-	/**
-	 * Mutator method for the list of quality of service features expected from the composite service by the user.
-	 * Lists are deep-copied so as to avoid unintended alteration from outside the class.
-	 * @param	qos	List of qos features to be assigned to this composition request
-	 */
-	public void setQos(List<String> qos)
-	{
-		//Lists are deep-copied so as to avoid unintended alteration from outside the class
-		this.qos = new ArrayList<String>();
-		for (String qosElem : qos)
-		{
-			this.qos.add(qosElem);
-		}
-	}
-	
-	/**
-	 * Mutator method for the list of constraints to be imposed on the composite service inputs, outputs and QoS features by the user.
-	 * Lists are deep-copied so as to avoid unintended alteration from outside the class.
-	 * @param	constraints	List of constraints to be assigned to this composition request
-	 */
-	public void setConstraints(List<Constraint> constraints)
-	{
-		//Lists are deep-copied so as to avoid unintended alteration from outside the class
-		this.constraints = new ArrayList<Constraint>();
-		for (Constraint constraint : constraints)
-		{
-			this.constraints.add(constraint);
-		}
-	}
 }
