@@ -159,4 +159,72 @@ public class CompositionRequest
 			this.outputs.add(output);
 		}
 	}
+	
+	/**
+	 * Overridden toString method for Composition Request class.
+	 * @return	String containing details of this composition request
+	 */
+	@Override
+	public String toString()
+	{
+		String compReqString = "";
+		
+		//Gathering requested input details
+		String inputString = "";
+		for (String input : inputs)
+		{
+			inputString += input + ", ";
+		}
+		if (inputString.lastIndexOf(",") >= 0)
+		{
+			inputString = inputString.substring(0, inputString.lastIndexOf(","));
+		}
+		
+		//Gathering requested output details
+		String outputString = "";
+		for (String output : outputs)
+		{
+			outputString += output + ", ";
+		}
+		if (outputString.lastIndexOf(",") >= 0)
+		{
+			outputString = outputString.substring(0, outputString.lastIndexOf(","));
+		}
+		
+		//Gathering requested QoS feature details
+		String qosString = "";
+		for (String qosFeature : qos)
+		{
+			qosString += qosFeature + ", ";
+		}
+		if (qosString.lastIndexOf(",") >= 0)
+		{
+			qosString = qosString.substring(0, qosString.lastIndexOf(","));
+		}
+		
+		//Gathering requested constraint details
+		String constraintString = "";
+		for (Constraint constraint : constraints)
+		{
+			String currCnstrStr = "";
+			currCnstrStr += "(" + constraint.getServiceName() + ") "
+							+ constraint.getType() + " "
+							+ constraint.getOperator() + " "
+							+ constraint.getLiteralValue();
+			constraintString += currCnstrStr + ", ";
+		}
+		if (constraintString.lastIndexOf(",") >= 0)
+		{
+			constraintString = constraintString.substring(0, constraintString.lastIndexOf(","));
+		}
+		
+		//Preparing a single string with all the required details for this request
+		compReqString += "Inputs: " + inputString + "\n"
+						+ "Outputs: " + outputString + "\n"
+						+ "QoS: " + qosString + "\n"
+						+ "Constraints: " + constraintString;
+		compReqString = compReqString.trim();
+		
+		return compReqString;
+	}
 }

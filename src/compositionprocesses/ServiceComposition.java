@@ -72,6 +72,8 @@ public class ServiceComposition
 	 */
 	public static CompositionRequest constructCompositionRequest(String inputString, String outputString, String qosString, String constraintString)
 	{
+		boolean isRequestValid = true;
+		
 		//Creating a list of requested inputs
 		List<String> inputs = new ArrayList<String>();
 		String[] inputStrings = inputString.split(",");
@@ -127,6 +129,7 @@ public class ServiceComposition
 					if (operator == null)
 					{
 						System.out.println("Invalid operator for requested constraint: " + constraintStr);
+						isRequestValid = false;
 					}
 					else
 					{
@@ -138,18 +141,22 @@ public class ServiceComposition
 				else
 				{
 					System.out.println("Invalid format for requested constraint: " + constraintStr);
+					isRequestValid = false;
 				}
 			}
 		}
 		
-		//Performing other validations on the composition request components 
-		boolean isRequestValid = validateCompRequestComponents(inputs, outputs, qos, constraints);
 		if (isRequestValid)
 		{
-			//Creating a composition request if all validations are passed
-			CompositionRequest compRequest = new CompositionRequest(inputs, outputs, qos, constraints);
-			return compRequest;
-		}
+			//Performing other validations on the composition request components 
+			isRequestValid = validateCompRequestComponents(inputs, outputs, qos, constraints);
+			if (isRequestValid)
+			{
+				//Creating a composition request if all validations are passed
+				CompositionRequest compRequest = new CompositionRequest(inputs, outputs, qos, constraints);
+				return compRequest;
+			}
+		}		
 		
 		return null;
 	}
