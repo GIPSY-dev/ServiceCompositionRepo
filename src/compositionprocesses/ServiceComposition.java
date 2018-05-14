@@ -23,84 +23,13 @@ import service.ServiceXMLParser;
 public class ServiceComposition 
 {
 	/**
-	 * Method for creating composition requests, reading the service repository and 
-	 * triggering the various phases of the service composition process in sequence.
+	 * Method for gathering information about the composition request and service repository from the user 
+	 * and using it to trigger the construction of a valid composition request and constraint-aware 
+	 * service composition plans.
 	 * @return	List of constraint-aware service composition plans constructed for the composition request
+	 * 			Null, if the service composition process fails at any point
 	 */
-	public static List<ConstraintAwarePlan> createServiceCompositions()
-	{
-		//Creating a valid composition request based on user inputs
-		CompositionRequest compRequest = constructCompositionRequest();
-		if (compRequest == null)
-		{
-			System.out.println("Aborting service composition process.");
-			return null;
-		}
-		
-		//Reading the service repository
-		Scanner userInput = new Scanner(System.in);
-		System.out.println("Please enter the complete file path and name of the service repository XML file: ");
-		String repoFileName = userInput.nextLine();
-		userInput.close();		
-		ServiceParser serviceParser = new ServiceXMLParser();
-		ArrayList<Service> serviceRepo = serviceParser.parse(repoFileName);
-		if (serviceRepo.size() == 0)
-		{
-			System.out.println("Service repository is empty.\nAborting service composition process.");
-			return null;
-		}
-				
-		//Using forward expansion to generate a search graph
-		SearchGraph searchGraph = ForwardExpansion.forwardExpansion(compRequest, serviceRepo);
-		
-		boolean compositionFailure = false;
-		if (searchGraph != null)
-		{
-			//Using backward search for constructing plan sets from the search graph
-			List<Set<SearchNode>> planSets = BackwardSearch.backwardSearch(compRequest, searchGraph);
-			
-			if (planSets.size() > 0)
-			{
-				//Constructing pruned and validated composition plans from the plan sets
-				List<CompositionPlan> plans = PlanConstruction.constructPlans(compRequest, planSets);
-				
-				if (plans.size() > 0)
-				{
-					//Constructing constraint aware plans from the composition plans
-					List<ConstraintAwarePlan> cnstrAwrPlans = ConstraintAwarePlanConstruction.constructCAPlans(plans);
-					return cnstrAwrPlans;
-				}
-				else
-				{
-					compositionFailure = true;
-				}
-			}
-			else
-			{
-				compositionFailure = true;
-			}
-		}
-		else
-		{
-			compositionFailure = true;
-		}
-		
-		//In case the service composition process fails at some point
-		if (compositionFailure)
-		{
-			System.out.println("The given composition problem is either unsolvable based on the existing "
-								+ "repository or can be solved by a single service from the repository."
-								+ "\nAborting service composition process.");
-		}
-		return null;
-	}
-	
-	/**
-	 * Method for constructing a valid service composition request based on the user inputs.
-	 * @return	A valid composition request, if it can be constructed
-	 * 			Null, otherwise
-	 */
-	private static CompositionRequest constructCompositionRequest()
+	public static List<ConstraintAwarePlan> driveServiceComposition()
 	{
 		//Fetching the components of a composition request from the user
 		Scanner userInput = new Scanner(System.in);
@@ -113,8 +42,36 @@ public class ServiceComposition
 		String qosString = userInput.nextLine();
 		System.out.println("Comma-separated list of constraints:");
 		String constraintString = userInput.nextLine();
-		userInput.close();
 		
+		//Creating a valid composition request based on user inputs
+		CompositionRequest compRequest = constructCompositionRequest(inputString, outputString, qosString, constraintString);
+		if (compRequest == null)
+		{
+			System.out.println("Aborting service composition process.");
+			userInput.close();
+			return null;
+		}
+		
+		//Fetching the service repository file location from the user
+		System.out.println("Please enter the complete file path and name of the service repository XML file: ");
+		String repoFileName = userInput.nextLine();
+		userInput.close();		
+		
+		//Building constraint-aware composition plans for the given request and repository
+		return buildServiceCompositions(compRequest, repoFileName);
+	}
+	
+	/**
+	 * Method for constructing a valid service composition request based on the user inputs.
+	 * @param 	inputString			Comma-separated list of requested inputs
+	 * @param 	outputString		Comma-separated list of requested outputs
+	 * @param 	qosString			Comma-separated list of requested QoS features
+	 * @param 	constraintString	Comma-separated list of requested constraints
+	 * @return	A valid composition request, if it can be constructed
+	 * 			Null, otherwise
+	 */
+	public static CompositionRequest constructCompositionRequest(String inputString, String outputString, String qosString, String constraintString)
+	{
 		//Creating a list of requested inputs
 		List<String> inputs = new ArrayList<String>();
 		String[] inputStrings = inputString.split(",");
@@ -198,14 +155,78 @@ public class ServiceComposition
 	}
 	
 	/**
+	 * Method for reading the service repository and triggering the various phases of service 
+	 * composition in sequence based on the given composition request and available services.
+	 * @param 	compRequest		Service composition request
+	 * @param 	repoFileName	Service repository file name
+	 * @return	List of constraint-aware service composition plans constructed for the composition request
+	 * 			Null, if the service composition process fails at any point
+	 */
+	public static List<ConstraintAwarePlan> buildServiceCompositions(CompositionRequest compRequest, String repoFileName)
+	{
+		//Reading the service repository
+		ServiceParser serviceParser = new ServiceXMLParser();
+		ArrayList<Service> serviceRepo = serviceParser.parse(repoFileName);
+		if (serviceRepo.size() == 0)
+		{
+			System.out.println("Service repository is empty.\nAborting service composition process.");
+			return null;
+		}
+				
+		//Using forward expansion to generate a search graph
+		SearchGraph searchGraph = ForwardExpansion.forwardExpansion(compRequest, serviceRepo);
+		
+		boolean compositionFailure = false;
+		if (searchGraph != null)
+		{
+			//Using backward search for constructing plan sets from the search graph
+			List<Set<SearchNode>> planSets = BackwardSearch.backwardSearch(compRequest, searchGraph);
+			
+			if (planSets.size() > 0)
+			{
+				//Constructing pruned and validated composition plans from the plan sets
+				List<CompositionPlan> plans = PlanConstruction.constructPlans(compRequest, planSets);
+				
+				if (plans.size() > 0)
+				{
+					//Constructing constraint aware plans from the composition plans
+					List<ConstraintAwarePlan> cnstrAwrPlans = ConstraintAwarePlanConstruction.constructCAPlans(plans);
+					return cnstrAwrPlans;
+				}
+				else
+				{
+					compositionFailure = true;
+				}
+			}
+			else
+			{
+				compositionFailure = true;
+			}
+		}
+		else
+		{
+			compositionFailure = true;
+		}
+		
+		//In case the service composition process fails at some point
+		if (compositionFailure)
+		{
+			System.out.println("The given composition problem is either unsolvable based on the existing "
+								+ "repository or can be solved by a single service from the repository."
+								+ "\nAborting service composition process.");
+		}
+		return null;
+	}
+	
+	/**
 	 * Method for fetching the operator name from the predefined enumeration based on the given operator symbol. 
-	 * @param 	opString	Operator symbol
+	 * @param 	opSymbol	Operator symbol
 	 * @return	Predefined operator name if the operator symbol is acceptable
 	 * 			Null, otherwise
 	 */
-	private static Operator getOperator(String opString)
+	private static Operator getOperator(String opSymbol)
 	{
-		switch(opString)
+		switch(opSymbol)
 		{
 			case "<":	return Operator.LESS_THAN;
 			case ">":	return Operator.GREATER_THAN;
