@@ -161,32 +161,70 @@ public class CompositionRequest
 	}
 	
 	/**
-	 * Mutator method for the list of quality of service features expected from the composite service by the user.
-	 * Lists are deep-copied so as to avoid unintended alteration from outside the class.
-	 * @param	qos	List of qos features to be assigned to this composition request
+	 * Overridden toString method for Composition Request class.
+	 * @return	String containing details of this composition request
 	 */
-	public void setQos(List<String> qos)
+	@Override
+	public String toString()
 	{
-		//Lists are deep-copied so as to avoid unintended alteration from outside the class
-		this.qos = new ArrayList<String>();
-		for (String qosElem : qos)
+		String compReqString = "";
+		
+		//Gathering requested input details
+		String inputString = "";
+		for (String input : inputs)
 		{
-			this.qos.add(qosElem);
+			inputString += input + ", ";
 		}
-	}
-	
-	/**
-	 * Mutator method for the list of constraints to be imposed on the composite service inputs, outputs and QoS features by the user.
-	 * Lists are deep-copied so as to avoid unintended alteration from outside the class.
-	 * @param	constraints	List of constraints to be assigned to this composition request
-	 */
-	public void setConstraints(List<Constraint> constraints)
-	{
-		//Lists are deep-copied so as to avoid unintended alteration from outside the class
-		this.constraints = new ArrayList<Constraint>();
+		if (inputString.lastIndexOf(",") >= 0)
+		{
+			inputString = inputString.substring(0, inputString.lastIndexOf(","));
+		}
+		
+		//Gathering requested output details
+		String outputString = "";
+		for (String output : outputs)
+		{
+			outputString += output + ", ";
+		}
+		if (outputString.lastIndexOf(",") >= 0)
+		{
+			outputString = outputString.substring(0, outputString.lastIndexOf(","));
+		}
+		
+		//Gathering requested QoS feature details
+		String qosString = "";
+		for (String qosFeature : qos)
+		{
+			qosString += qosFeature + ", ";
+		}
+		if (qosString.lastIndexOf(",") >= 0)
+		{
+			qosString = qosString.substring(0, qosString.lastIndexOf(","));
+		}
+		
+		//Gathering requested constraint details
+		String constraintString = "";
 		for (Constraint constraint : constraints)
 		{
-			this.constraints.add(constraint);
+			String currCnstrStr = "";
+			currCnstrStr += "(" + constraint.getServiceName() + ") "
+							+ constraint.getType() + " "
+							+ constraint.getOperator() + " "
+							+ constraint.getLiteralValue();
+			constraintString += currCnstrStr + ", ";
 		}
+		if (constraintString.lastIndexOf(",") >= 0)
+		{
+			constraintString = constraintString.substring(0, constraintString.lastIndexOf(","));
+		}
+		
+		//Preparing a single string with all the required details for this request
+		compReqString += "Inputs: " + inputString + "\n"
+						+ "Outputs: " + outputString + "\n"
+						+ "QoS: " + qosString + "\n"
+						+ "Constraints: " + constraintString;
+		compReqString = compReqString.trim();
+		
+		return compReqString;
 	}
 }

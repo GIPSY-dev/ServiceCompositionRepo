@@ -32,4 +32,23 @@ public enum QualityOfService
 	{
 		return this.value;
 	}
+	
+	/**
+	 * Method for checking if a given QoS feature exists in this enumeration.
+	 * @param 	qosValue	QoS feature to be validated
+	 * @return	true, if the given QoS feature exists in this enumeration
+	 * 			false, otherwise
+	 */
+	public static boolean contains(String qosValue)
+	{
+		for (QualityOfService qos : QualityOfService.values())
+		{
+			if (qos.name().equals(qosValue))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }
