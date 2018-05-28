@@ -1,13 +1,12 @@
-package compositionprocesses;
+package servicecomposition.compositionprocesses;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import entities.CompositionRequest;
-import entities.SearchGraph;
-import entities.SearchNode;
+import servicecomposition.entities.CompositionRequest;
+import servicecomposition.entities.SearchGraph;
+import servicecomposition.entities.SearchNode;
 
 /**
  * Class for extracting validated service plan sets from a search graph using the Backward Search algorithm.

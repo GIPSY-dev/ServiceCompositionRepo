@@ -1,4 +1,4 @@
-package compositionprocesses;
+package servicecomposition.compositionprocesses;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,12 +6,12 @@ import java.util.Scanner;
 import java.util.Set;
 import constraint.Constraint;
 import constraint.Operator;
-import entities.CompositionPlan;
-import entities.CompositionRequest;
-import entities.ConstraintAwarePlan;
-import entities.QualityOfService;
-import entities.SearchGraph;
-import entities.SearchNode;
+import servicecomposition.entities.CompositionPlan;
+import servicecomposition.entities.CompositionRequest;
+import servicecomposition.entities.ConstraintAwarePlan;
+import servicecomposition.entities.QualityOfService;
+import servicecomposition.entities.SearchGraph;
+import servicecomposition.entities.SearchNode;
 import service.Service;
 import service.ServiceParser;
 import service.ServiceXMLParser;

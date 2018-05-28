@@ -1,4 +1,4 @@
-package tests;
+package servicecomposition.tests;
 
 import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
@@ -8,11 +8,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
-import compositionprocesses.BackwardSearch;
-import compositionprocesses.ForwardExpansion;
-import entities.CompositionRequest;
-import entities.SearchGraph;
-import entities.SearchNode;
+import servicecomposition.compositionprocesses.BackwardSearch;
+import servicecomposition.compositionprocesses.ForwardExpansion;
+import servicecomposition.entities.CompositionRequest;
+import servicecomposition.entities.SearchGraph;
+import servicecomposition.entities.SearchNode;
 import service.Service;
 import service.ServiceParser;
 import service.ServiceXMLParser;

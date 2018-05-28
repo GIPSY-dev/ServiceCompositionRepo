@@ -1,4 +1,4 @@
-package tests;
+package servicecomposition.tests;
 
 import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
@@ -7,8 +7,8 @@ import java.util.List;
 import org.junit.Test;
 import constraint.Constraint;
 import constraint.Operator;
-import entities.SearchGraph;
-import entities.SearchNode;
+import servicecomposition.entities.SearchGraph;
+import servicecomposition.entities.SearchNode;
 import service.Service;
 
 /**

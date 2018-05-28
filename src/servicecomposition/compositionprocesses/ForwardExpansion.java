@@ -1,11 +1,11 @@
-package compositionprocesses;
+package servicecomposition.compositionprocesses;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import entities.CompositionRequest;
-import entities.SearchGraph;
+import servicecomposition.entities.CompositionRequest;
+import servicecomposition.entities.SearchGraph;
 import service.Service;
 
 /**

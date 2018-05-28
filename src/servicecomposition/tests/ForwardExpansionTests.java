@@ -1,17 +1,15 @@
-package tests;
+package servicecomposition.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.Test;
-
-import compositionprocesses.ForwardExpansion;
-import entities.CompositionRequest;
-import entities.SearchGraph;
-import entities.SearchNode;
+import servicecomposition.compositionprocesses.ForwardExpansion;
+import servicecomposition.entities.CompositionRequest;
+import servicecomposition.entities.SearchGraph;
+import servicecomposition.entities.SearchNode;
 import service.Service;
 import service.ServiceParser;
 import service.ServiceXMLParser;

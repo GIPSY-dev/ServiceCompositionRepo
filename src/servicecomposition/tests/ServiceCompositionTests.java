@@ -1,4 +1,4 @@
-package tests;
+package servicecomposition.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Test;
-import compositionprocesses.ServiceComposition;
-import entities.CompositionRequest;
-import entities.ConstraintAwarePlan;
+import servicecomposition.compositionprocesses.ServiceComposition;
+import servicecomposition.entities.CompositionRequest;
+import servicecomposition.entities.ConstraintAwarePlan;
 
 /**
  * Class for testing the complete process of constraint-aware service composition.
