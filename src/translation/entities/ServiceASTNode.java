@@ -2,8 +2,17 @@ package translation.entities;
 
 import servicecomposition.entities.ServiceNode;
 
+/**
+ * Concrete class for service AST node.
+ * It represents a service node from the source constraint-aware plan.
+ * @author Jyotsana Gupta
+ */
 public class ServiceASTNode extends ASTNode
 {
+	/**
+	 * Parameterized constructor.
+	 * @param 	value	Service node from the source constraint-aware plan represented by this AST node
+	 */
 	public ServiceASTNode(ServiceNode value)
 	{
 		nodeType = "service";

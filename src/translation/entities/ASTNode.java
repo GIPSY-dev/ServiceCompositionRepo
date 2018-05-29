@@ -1,6 +1,10 @@
 package translation.entities;
 
-public class ASTNode 
+/**
+ * Abstract parent class for every concrete AST node class.
+ * @author Jyotsana Gupta
+ */
+public abstract class ASTNode 
 {
 	protected ASTNode parent;
 	protected ASTNode leftmostSibling;
