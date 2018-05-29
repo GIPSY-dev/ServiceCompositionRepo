@@ -64,6 +64,15 @@ public class ConstraintAwarePlan
 	}
 	
 	/**
+	 * Method for fetching all the service layers of this constraint-aware composition plan.
+	 * @return	List of service layers of this constraint-aware composition plan
+	 */
+	public List<List<ServiceNode>> getServiceLayers()
+	{
+		return serviceLayers;
+	}
+	
+	/**
 	 * Method for adding a service node to this constraint-aware composition plan.
 	 * @param 	serviceNode		Service node to be added
 	 */
