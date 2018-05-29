@@ -63,6 +63,25 @@ public abstract class ASTNode
 	}
 	
 	/**
+	 * Method for fetching the type of this AST node.
+	 * @return	Type of AST node
+	 */
+	public String getNodeType()
+	{
+		return nodeType;
+	};
+	
+	/**
+	 * Method for fetching the value stored by this AST node (if any).
+	 * @return	Value stored by AST node (if any)
+	 * 			null, otherwise
+	 */
+	public Object getValue()
+	{
+		return value;
+	}
+	
+	/**
 	 * Method for assigning the parent node to this AST node.
 	 * @param	parent	Reference to the parent node
 	 */
