@@ -26,7 +26,7 @@ public class ASTBuilder
 	 * @return	Root node of the AST representing the source composition plan.
 	 * 			The root node can be used to access the entire AST.
 	 */
-	public ASTNode cnstrAwrPlanToAST(ConstraintAwarePlan cnstrAwrPlan, CompositionRequest compositionReq)
+	public static ASTNode cnstrAwrPlanToAST(ConstraintAwarePlan cnstrAwrPlan, CompositionRequest compositionReq)
 	{
 		int lastLayerIndex = cnstrAwrPlan.getServiceLayerCount() - 1;
 		Set<String> compReqOutputSet = new HashSet<String>(compositionReq.getOutputs());
@@ -92,7 +92,7 @@ public class ASTBuilder
 	 * @param 	serviceNode		Service node whose predecessor list needs to be created
 	 * @return	Leftmost AST node from the required list of siblings
 	 */
-	private ASTNode getPredecessors(ServiceNode serviceNode)
+	private static ASTNode getPredecessors(ServiceNode serviceNode)
 	{
 		ASTNode svcPredList = null;
 		Set<String> predProducedInputSet = new HashSet<String>();
