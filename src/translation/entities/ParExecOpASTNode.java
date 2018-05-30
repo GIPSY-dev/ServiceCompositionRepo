@@ -1,5 +1,7 @@
 package translation.entities;
 
+import translation.translationprocesses.Visitor;
+
 /**
  * Concrete class for parallel execution operator AST node.
  * All the operands of a parallel execution operator must be executed
@@ -15,5 +17,13 @@ public class ParExecOpASTNode extends ASTNode
 	{
 		nodeType = "parExecOp";
 		leftmostSibling = this;
+	}
+	
+	/**
+	 * Accept method for this node as part of the Visitor pattern.
+	 */
+	public void accept(Visitor visitor) 
+	{
+		visitor.visit(this);
 	}
 }

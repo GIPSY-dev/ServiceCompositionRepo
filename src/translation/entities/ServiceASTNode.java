@@ -1,6 +1,7 @@
 package translation.entities;
 
 import servicecomposition.entities.ServiceNode;
+import translation.translationprocesses.Visitor;
 
 /**
  * Concrete class for service AST node.
@@ -18,5 +19,13 @@ public class ServiceASTNode extends ASTNode
 		nodeType = "service";
 		leftmostSibling = this;
 		this.value = value;
+	}
+	
+	/**
+	 * Accept method for this node as part of the Visitor pattern.
+	 */
+	public void accept(Visitor visitor) 
+	{
+		visitor.visit(this);
 	}
 }

@@ -1,5 +1,10 @@
 package translation.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import translation.translationprocesses.Visitor;
+
 /**
  * Abstract parent class for every concrete AST node class.
  * @author Jyotsana Gupta
@@ -118,6 +123,22 @@ public abstract class ASTNode
 	}
 	
 	/**
+	 * Method for fetching a list of child nodes for this AST node.
+	 * @return	List of child nodes
+	 */
+	public List<ASTNode> getChildren()
+	{
+		List<ASTNode> children = new ArrayList<ASTNode>();
+		ASTNode currChild = this.getLeftmostChild();
+		while (currChild != null)
+		{
+			children.add(currChild);
+			currChild = currChild.getRightSibling();
+		}
+		return children;
+	}
+	
+	/**
 	 * Method for attaching a list of siblings to the right of the sibling-list of which this AST node is a part.
 	 * @param	sibling		Reference to the leftmost member of the sibling list to be attached to the right
 	 */
@@ -202,5 +223,13 @@ public abstract class ASTNode
 				ySibs = ySibs.getRightSibling();
 			}
 		}
+	}
+	
+	/**
+	 * Accept method for this node as part of the Visitor pattern.
+	 */
+	public void accept(Visitor visitor) 
+	{
+		visitor.visit(this);
 	}
 }
