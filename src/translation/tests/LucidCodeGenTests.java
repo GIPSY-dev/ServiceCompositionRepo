@@ -8,8 +8,9 @@ import servicecomposition.entities.CompositionRequest;
 import servicecomposition.entities.ConstraintAwarePlan;
 import translation.entities.ASTNode;
 import translation.translationprocesses.ASTBuilder;
+import translation.translationprocesses.JavaCodeGenerator;
 import translation.translationprocesses.LucidCodeGenVisitor;
-import translation.translationprocesses.LucidCodeGenerator;
+import translation.translationprocesses.ObjLucidCodeGenerator;
 
 public class LucidCodeGenTests 
 {
@@ -58,7 +59,8 @@ public class LucidCodeGenTests
 		compSvcInputs.add(inpDetails4);
 		compSvcInputs.add(inpDetails5);
 		
-		String lucidCode = LucidCodeGenerator.cnstrAwrPlanToLucid(cnstrAwrPlans.get(0), compRequest, compSvcInputs);
-		System.out.println(lucidCode);
+		String lucidCode = ObjLucidCodeGenerator.generateObjLucidSegment(cnstrAwrPlans.get(0), compRequest, compSvcInputs);
+		String javaCode = JavaCodeGenerator.generateJavaSegment(cnstrAwrPlans.get(0), compRequest);
+		System.out.println(javaCode);
 	}
 }

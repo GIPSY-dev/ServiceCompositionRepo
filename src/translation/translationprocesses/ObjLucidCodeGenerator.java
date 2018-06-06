@@ -14,13 +14,14 @@ import servicecomposition.entities.CompositionRequest;
 import servicecomposition.entities.ConstraintAwarePlan;
 import servicecomposition.entities.ServiceNode;
 
-public class LucidCodeGenerator 
+public class ObjLucidCodeGenerator 
 {	
-	public static String cnstrAwrPlanToLucid(ConstraintAwarePlan cnstrAwrPlan, CompositionRequest compRequest, List<String[]> compSvcInputs)
+	public static String generateObjLucidSegment(ConstraintAwarePlan cnstrAwrPlan, CompositionRequest compRequest, List<String[]> compSvcInputs)
 	{
 		List<String> compSvcDims = new ArrayList<String>();
 		
-		String lucidCode = "oCAWS_main @ [" + assignCompSvcInpContext(compSvcInputs) + "]"
+		String lucidCode = "#OBJECTIVELUCID"
+							+ "\n\n" + "oCAWS_main @ [" + assignCompSvcInpContext(compSvcInputs) + "]"
 							+ "\n" + "where" 
 							+ "\n\t" + "dimension " + listCompSvcInpsOutps(compRequest, compSvcDims) + ";"
 							+ defineOCAWSMain(compRequest, cnstrAwrPlan, compSvcDims)
@@ -79,7 +80,7 @@ public class LucidCodeGenerator
 	{
 		String lucidCode = ""; 
 		
-		lucidCode += "\n\t" + "oCAWS_main = CAWSReqComp(" + listCompSvcOutpDims(compRequest) + ")"
+		lucidCode += "\n\n\t" + "oCAWS_main = CAWSReqComp(" + listCompSvcOutpDims(compRequest) + ")"
 					+ "\n\t\t\t\t\t" + "wvr CAWSreq_cnstr"
 					+ "\n\t\t\t\t\t" + "@ [" + "\t" + assignCompSvcOutpContext(compRequest, cnstrAwrPlan) + " ]"
 					+ "\n\t\t\t\t\t" + "where"
@@ -165,7 +166,7 @@ public class LucidCodeGenerator
 		String svcDef = "";
 		String svcName = serviceNode.getService().getName();
 		
-		svcDef += "CAWS" + svcName + "(" + listAtmSvcInpDims(serviceNode) + ")" 
+		svcDef += svcName + "(" + listAtmSvcInpDims(serviceNode) + ")" 
 				+ "\n\t\t\t\t\t\t\t\t\t" + "wvr c_" + svcName
 				+ "\n\t\t\t\t\t\t\t\t\t" + "@ [" + assignAtmSvcInpContext(serviceNode) + "]"
 				+ "\n\t\t\t\t\t\t\t\t\t" + "where"
@@ -173,7 +174,7 @@ public class LucidCodeGenerator
 				+ "\n\t\t\t\t\t\t\t\t\t\t" + "c_" + svcName + " = " + listAtmSvcCnstrs(serviceNode)
 				+ "\n\t\t\t\t\t\t\t\t\t" + "end;";
 		
-		lucidCode += "\n\t\t\t\t\t\t" + "CAWS_" + svcName + " = " + svcDef;
+		lucidCode += "\n\n\t\t\t\t\t\t" + "CAWS_" + svcName + " = " + svcDef;
 		
 		return lucidCode;
 	}
