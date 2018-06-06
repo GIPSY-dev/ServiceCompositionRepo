@@ -7,27 +7,32 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import constraint.Constraint;
+import constraint.Operator;
 import servicecomposition.entities.CompositionRequest;
 import servicecomposition.entities.ConstraintAwarePlan;
 import servicecomposition.entities.ServiceNode;
 
 public class LucidCodeGenerator 
 {	
-	public static void cnstrAwrPlanToLucid(ConstraintAwarePlan cnstrAwrPlan, CompositionRequest compRequest, List<String[]> compSvcInputs)
+	public static String cnstrAwrPlanToLucid(ConstraintAwarePlan cnstrAwrPlan, CompositionRequest compRequest, List<String[]> compSvcInputs)
 	{
-		String lucidCode = "oCAWS_main @ [";
-		assignCompSvcInpContext(lucidCode, compSvcInputs);
-		lucidCode += "]"
-					+ "\n" + "where" 
-					+ "\n\t" + "dimension ";
-		listCompSvcInpsOutps(lucidCode, compRequest);
-		lucidCode += ";";
-		defineOCAWSMain(lucidCode, compRequest, cnstrAwrPlan);
-		lucidCode += "\n" + "end;";
+		List<String> compSvcDims = new ArrayList<String>();
+		
+		String lucidCode = "oCAWS_main @ [" + assignCompSvcInpContext(compSvcInputs) + "]"
+							+ "\n" + "where" 
+							+ "\n\t" + "dimension " + listCompSvcInpsOutps(compRequest, compSvcDims) + ";"
+							+ defineOCAWSMain(compRequest, cnstrAwrPlan, compSvcDims)
+							+ "\n" + "end;";
+				
+		return lucidCode;
 	}
 	
-	private static void assignCompSvcInpContext(String lucidCode, List<String[]> compSvcInputs)
+	private static String assignCompSvcInpContext(List<String[]> compSvcInputs)
 	{
+		String lucidCode = "";
+		
 		for (String[] input : compSvcInputs)
 		{
 			String inputVal = new String();
@@ -41,63 +46,71 @@ public class LucidCodeGenerator
 			}
 			lucidCode += input[0] + ":" + inputVal + ", ";
 		}
-		
 		if (lucidCode.lastIndexOf(",") >= 0)
 		{
 			lucidCode = lucidCode.substring(0, lucidCode.lastIndexOf(","));
 		}
+		
+		return lucidCode;
 	}
 	
-	private static void listCompSvcInpsOutps(String lucidCode, CompositionRequest compRequest)
+	private static String listCompSvcInpsOutps(CompositionRequest compRequest, List<String> compSvcDims)
 	{
+		String lucidCode = ""; 
 		List<String> compSvcInpsOutps = new ArrayList<String>();
 		compSvcInpsOutps.addAll(compRequest.getInputs());
 		compSvcInpsOutps.addAll(compRequest.getOutputs());
 		
 		for (String param : compSvcInpsOutps)
 		{
-			lucidCode += param.substring(param.indexOf(':') + 2) + ", ";
+			String dimension = param.substring(param.indexOf(':') + 2);
+			lucidCode += dimension + ", ";
+			compSvcDims.add(dimension);
 		}
-		
 		if (lucidCode.lastIndexOf(",") >= 0)
 		{
 			lucidCode = lucidCode.substring(0, lucidCode.lastIndexOf(","));
 		}
+		
+		return lucidCode;
 	}
 	
-	private static void defineOCAWSMain(String lucidCode, CompositionRequest compRequest, ConstraintAwarePlan cnstrAwrPlan)
+	private static String defineOCAWSMain(CompositionRequest compRequest, ConstraintAwarePlan cnstrAwrPlan, List<String> compSvcDims)
 	{
-		lucidCode += "\n\t" + "oCAWS_main = CAWSReqComp(";
-		listCompSvcOutpDims(lucidCode, compRequest);
-		lucidCode += ")"
+		String lucidCode = ""; 
+		
+		lucidCode += "\n\t" + "oCAWS_main = CAWSReqComp(" + listCompSvcOutpDims(compRequest) + ")"
 					+ "\n\t\t\t\t\t" + "wvr CAWSreq_cnstr"
-					+ "\n\t\t\t\t\t" + "@ [" + "\t";
-		assignCompSvcOutpContext(lucidCode, compRequest, cnstrAwrPlan);
-		lucidCode += "]"
+					+ "\n\t\t\t\t\t" + "@ [" + "\t" + assignCompSvcOutpContext(compRequest, cnstrAwrPlan) + " ]"
 					+ "\n\t\t\t\t\t" + "where"
-					+ "\n\t\t\t\t\t\t" + "CAWSreq_cnstr = true;";
-		listAtomicSvcDefs(lucidCode, cnstrAwrPlan);
-		lucidCode += "\n\t\t\t\t\t" + "end;";
+					+ "\n\t\t\t\t\t\t" + "CAWSreq_cnstr = true;"
+					+ listAtomicSvcDefs(cnstrAwrPlan, compSvcDims)
+					+ "\n\t\t\t\t\t" + "end;";
+		
+		return lucidCode;
 	}
 	
-	private static void listCompSvcOutpDims(String lucidCode, CompositionRequest compRequest)
+	private static String listCompSvcOutpDims(CompositionRequest compRequest)
 	{
+		String lucidCode = ""; 
+		
 		for (String output : compRequest.getOutputs())
 		{
 			lucidCode += "#." + output.substring(output.indexOf(':') + 2) + ", ";
 		}
-		
 		if (lucidCode.lastIndexOf(",") >= 0)
 		{
 			lucidCode = lucidCode.substring(0, lucidCode.lastIndexOf(","));
 		}
+		
+		return lucidCode;
 	}
 	
-	private static void assignCompSvcOutpContext(String lucidCode, CompositionRequest compRequest, ConstraintAwarePlan cnstrAwrPlan)
+	private static String assignCompSvcOutpContext(CompositionRequest compRequest, ConstraintAwarePlan cnstrAwrPlan)
 	{
+		String lucidCode = "";
 		Set<String> compReqOutputSet = new HashSet<String>(compRequest.getOutputs());
 		Map<String, String> compSvcOutpMapping = new HashMap<String, String>();
-		String outpContextCode = "";
 	
 		for (List<ServiceNode> serviceLayer : cnstrAwrPlan.getServiceLayers())
 		{
@@ -119,31 +132,190 @@ public class LucidCodeGenerator
 			String output = svcOutpEntry.getKey();
 			String outpName = output.substring(output.indexOf(':') + 2);
 			String svcName = svcOutpEntry.getValue();
-			outpContextCode += "\n\t\t\t\t\t\t" + outpName + ":CAWS_" + svcName + "." + outpName + ", ";
+			lucidCode += "\n\t\t\t\t\t\t" + outpName + ":CAWS_" + svcName + "." + outpName + ", ";
 		}
 		
-		if (outpContextCode.lastIndexOf(",") >= 0)
+		if (lucidCode.lastIndexOf(",") >= 0)
 		{
-			outpContextCode = outpContextCode.substring(0, outpContextCode.lastIndexOf(","));
+			lucidCode = lucidCode.substring(0, lucidCode.lastIndexOf(","));
 		}
-		outpContextCode = outpContextCode.trim();
+		lucidCode = lucidCode.trim();
 		
-		lucidCode += outpContextCode;
+		return lucidCode;
 	}
 		
-	private static void listAtomicSvcDefs(String lucidCode, ConstraintAwarePlan cnstrAwrPlan)
+	private static String listAtomicSvcDefs(ConstraintAwarePlan cnstrAwrPlan, List<String> compSvcDims)
 	{
+		String lucidCode = "";
+		
 		for (List<ServiceNode> serviceLayer : cnstrAwrPlan.getServiceLayers())
 		{
 			for (ServiceNode serviceNode : serviceLayer)
 			{
-				defineAtomicSvc(serviceNode);
+				lucidCode += defineAtomicSvc(serviceNode, compSvcDims);
 			}
 		}
+		
+		return lucidCode;
 	}
 	
-	private static void defineAtomicSvc(ServiceNode serviceNode)
+	private static String defineAtomicSvc(ServiceNode serviceNode, List<String> compSvcDims)
 	{
-		//TODO implement
+		String lucidCode = "";
+		String svcDef = "";
+		String svcName = serviceNode.getService().getName();
+		
+		svcDef += "CAWS" + svcName + "(" + listAtmSvcInpDims(serviceNode) + ")" 
+				+ "\n\t\t\t\t\t\t\t\t\t" + "wvr c_" + svcName
+				+ "\n\t\t\t\t\t\t\t\t\t" + "@ [" + assignAtmSvcInpContext(serviceNode) + "]"
+				+ "\n\t\t\t\t\t\t\t\t\t" + "where"
+				+ listAtmSvcDims(serviceNode, compSvcDims)
+				+ "\n\t\t\t\t\t\t\t\t\t\t" + "c_" + svcName + " = " + listAtmSvcCnstrs(serviceNode)
+				+ "\n\t\t\t\t\t\t\t\t\t" + "end;";
+		
+		lucidCode += "\n\t\t\t\t\t\t" + "CAWS_" + svcName + " = " + svcDef;
+		
+		return lucidCode;
+	}
+	
+	private static String listAtmSvcInpDims(ServiceNode serviceNode)
+	{
+		String svcDef = "";
+		
+		for (String input : serviceNode.getService().getInput())
+		{
+			svcDef += "#." + input.substring(input.indexOf(':') + 2) + ", ";
+		}
+		
+		if (svcDef.lastIndexOf(",") >= 0)
+		{
+			svcDef = svcDef.substring(0, svcDef.lastIndexOf(","));
+		}
+		
+		return svcDef;
+	}
+	
+	private static String assignAtmSvcInpContext(ServiceNode serviceNode)
+	{
+		String svcDef = "";
+		Set<String> atmSvcInpSet = new HashSet<String>(serviceNode.getService().getInput());
+		Map<String, String> svcInpPredMapping = new HashMap<String, String>();
+	
+		for (ServiceNode predecessor : serviceNode.getPredecessors())
+		{
+			//Checking if the current predecessor produces any of the service inputs
+			Set<String> predOutpSet = new HashSet<String>(predecessor.getService().getOutput());
+			predOutpSet.retainAll(atmSvcInpSet);
+			
+			for (String output : predOutpSet)
+			{
+				svcInpPredMapping.put(output, predecessor.getService().getName());
+			}
+		}
+	
+		for (String input : atmSvcInpSet)
+		{
+			String inpName = input.substring(input.indexOf(':') + 2);
+			String predName = svcInpPredMapping.get(input);
+			if (predName != null)
+			{
+				svcDef += "\n\t\t\t\t\t\t\t\t\t\t" + inpName + ":CAWS_" + predName + "." + inpName + ", ";
+			}
+			else
+			{
+				svcDef += "\n\t\t\t\t\t\t\t\t\t\t" + inpName + ":#." + inpName + ", ";
+			}
+		}
+		
+		if (svcDef.lastIndexOf(",") >= 0)
+		{
+			svcDef = svcDef.substring(0, svcDef.lastIndexOf(","));
+		}
+		svcDef = svcDef.trim();
+		
+		return svcDef;
+	}
+	
+	private static String listAtmSvcDims(ServiceNode serviceNode, List<String> compSvcDims)
+	{
+		String svcDef = "";
+		Set<String> atmSvcInpSet = new HashSet<String>();		
+		for (String input : serviceNode.getService().getInput())
+		{
+			String inpName = input.substring(input.indexOf(':') + 2);
+			atmSvcInpSet.add(inpName);
+		}
+		
+		atmSvcInpSet.removeAll(compSvcDims);
+		
+		if (atmSvcInpSet.size() > 0)
+		{
+			svcDef += "\n\t\t\t\t\t\t\t\t\t\t" + "dimension ";
+			
+			for (String input : atmSvcInpSet)
+			{
+				svcDef += input + ", ";
+			}
+			if (svcDef.lastIndexOf(",") >= 0)
+			{
+				svcDef = svcDef.substring(0, svcDef.lastIndexOf(","));
+			}
+						
+			svcDef += ";";
+		}
+		
+		return svcDef;
+	}
+	
+	private static String listAtmSvcCnstrs(ServiceNode serviceNode)
+	{
+		String svcDef = "";
+		for (Constraint constraint : serviceNode.getConstraints())
+		{
+			String cnstrFeature = constraint.getType();
+			String cnstrFeatureName = cnstrFeature.substring(cnstrFeature.indexOf(':') + 2);
+			String cnstrFeatureType = cnstrFeature.substring(0, cnstrFeature.indexOf(':') - 1);
+			
+			svcDef += "#." + cnstrFeatureName + " " + getOpSymbol(constraint.getOperator()) + " ";
+			if ((cnstrFeatureType.equalsIgnoreCase("string")) 
+				|| (cnstrFeatureType.equalsIgnoreCase("char")))
+			{
+				svcDef += "'" + constraint.getLiteralValue() + "' and ";
+			}
+			else
+			{
+				svcDef += constraint.getLiteralValue() + " and ";
+			}
+		}		
+		if (svcDef.length() > 0)
+		{
+			svcDef = svcDef.substring(0, svcDef.lastIndexOf(" and"));
+		}
+		else
+		{
+			svcDef += "true";
+		}		
+		svcDef += ";";
+		
+		return svcDef;
+	}
+	
+	/**
+	 * Method for fetching the operator symbol based on the given operator name. 
+	 * @param 	opName	Operator name
+	 * @return	Operator symbol if the operator name is acceptable
+	 * 			Null, otherwise. This should never happen because a check is made during service composition.
+	 */
+	private static String getOpSymbol(Operator opName)
+	{
+		switch(opName)
+		{
+			case LESS_THAN:					return "<";
+			case GREATER_THAN:				return ">";
+			case EQUALS:					return "==";
+			case LESS_THAN_OR_EQUAL_TO:		return "<=";
+			case GREATER_THAN_OR_EQUAL_TO:	return ">=";
+			default:						return null;
+		}
 	}
 }
