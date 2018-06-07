@@ -119,13 +119,13 @@ public class ServiceComposition
 			constraintStr = constraintStr.trim();
 			if (constraintStr.length() > 0)
 			{
-				String[] constraintElements = constraintStr.split("\\s+");
+				String[] constraintElements = constraintStr.split("\\|");
 				
 				//Each constraint must have 3 elements: type, operator and literal value
 				if (constraintElements.length == 3)
 				{
 					//Operator must be from the enumeration listing the accepted operators
-					Operator operator = getOperator(constraintElements[1]);
+					Operator operator = getOperator(constraintElements[1].trim());
 					if (operator == null)
 					{
 						System.out.println("Invalid operator for requested constraint: " + constraintStr);
@@ -134,7 +134,7 @@ public class ServiceComposition
 					else
 					{
 						//Creating a constraint object if all validations are passed 
-						Constraint constraint = new Constraint("CompositeService", constraintElements[2], constraintElements[0], operator);
+						Constraint constraint = new Constraint("CompositeService", constraintElements[2].trim(), constraintElements[0].trim(), operator);
 						constraints.add(constraint);
 					}
 				}

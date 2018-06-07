@@ -35,8 +35,8 @@ public class ConstraintAwarePlanTests
 	@Test
 	public void excessPredSuccRemoval()
 	{
-		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("input11", "input12", "input21", "input22"));
-		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("output51", "output52"));
+		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("int : input11", "float : input12", "string : input21", "boolean : input22"));
+		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("string : output51", "boolean : output52"));
 		String repoXMLFileName = "testinput/Test_Services_Set_2.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
@@ -44,25 +44,25 @@ public class ConstraintAwarePlanTests
 		
 		int expectedPlanCount = 7;
 		List<String> expectedPlanDetails = new ArrayList<String>();
-		expectedPlanDetails.add("Layer 0: {} [type11 EQUALS lit11, type12 LESS_THAN lit12, type31 EQUALS lit31, type32 LESS_THAN lit32, type41 EQUALS lit41, type42 LESS_THAN lit42, type51 EQUALS lit51, type52 LESS_THAN lit52, type61 EQUALS lit61, type62 LESS_THAN lit62] sname1 {sname3}"
-								+ "\nLayer 1: {sname1} [] sname3 {sname5}, {} [] sname4 {sname6}" 
-								+ "\nLayer 2: {sname3} [] sname5 {}, {sname4} [] sname6 {}");
-		expectedPlanDetails.add("Layer 0: {} [type11 EQUALS lit11, type12 LESS_THAN lit12, type31 EQUALS lit31, type32 LESS_THAN lit32, type41 EQUALS lit41, type42 LESS_THAN lit42, type51 EQUALS lit51, type52 LESS_THAN lit52, type61 EQUALS lit61, type62 LESS_THAN lit62] sname1 {sname3}, {} [type21 EQUALS lit21, type22 LESS_THAN lit22, type31 EQUALS lit31, type32 LESS_THAN lit32, type41 EQUALS lit41, type42 LESS_THAN lit42, type51 EQUALS lit51, type52 LESS_THAN lit52, type61 EQUALS lit61, type62 LESS_THAN lit62] sname2 {sname4}" 
-								+ "\nLayer 1: {sname1} [] sname3 {sname5}, {sname2} [] sname4 {sname6}" 
-								+ "\nLayer 2: {sname3} [] sname5 {}, {sname4} [] sname6 {}");
-		expectedPlanDetails.add("Layer 0: {} [type11 EQUALS lit11, type12 LESS_THAN lit12, type31 EQUALS lit31, type32 LESS_THAN lit32, type51 EQUALS lit51, type52 LESS_THAN lit52] sname1 {sname3}" 
-								+ "\nLayer 1: {sname1} [] sname3 {sname5}" 
-								+ "\nLayer 2: {sname3} [] sname5 {}");
-		expectedPlanDetails.add("Layer 0: {} [type21 EQUALS lit21, type22 LESS_THAN lit22, type31 EQUALS lit31, type32 LESS_THAN lit32, type41 EQUALS lit41, type42 LESS_THAN lit42, type51 EQUALS lit51, type52 LESS_THAN lit52, type61 EQUALS lit61, type62 LESS_THAN lit62] sname2 {sname4}" 
-								+ "\nLayer 1: {sname2} [] sname4 {sname6}, {} [] sname3 {sname5}" 
-								+ "\nLayer 2: {sname3} [] sname5 {}, {sname4} [] sname6 {}");
-		expectedPlanDetails.add("Layer 0: {} [type21 EQUALS lit21, type22 LESS_THAN lit22, type41 EQUALS lit41, type42 LESS_THAN lit42, type61 EQUALS lit61, type62 LESS_THAN lit62] sname2 {sname4}" 
-								+ "\nLayer 1: {sname2} [] sname4 {sname6}" 
-								+ "\nLayer 2: {sname4} [] sname6 {}");
-		expectedPlanDetails.add("Layer 0: {} [type31 EQUALS lit31, type32 LESS_THAN lit32, type51 EQUALS lit51, type52 LESS_THAN lit52] sname3 {sname5}" 
-								+ "\nLayer 1: {sname3} [] sname5 {}");
-		expectedPlanDetails.add("Layer 0: {} [type41 EQUALS lit41, type42 LESS_THAN lit42, type61 EQUALS lit61, type62 LESS_THAN lit62] sname4 {sname6}" 
-								+ "\nLayer 1: {sname4} [] sname6 {}");
+		expectedPlanDetails.add("Layer 0: {} [boolean : input22 EQUALS false, int : input11 EQUALS 31, int : input11 GREATER_THAN_OR_EQUAL_TO 5, int : input11 LESS_THAN_OR_EQUAL_TO 11, string : input21 EQUALS lit41] sname1 {sname3}"
+								+ "\nLayer 1: {sname1} [float : input12 LESS_THAN 32.2] sname3 {sname5}, {} [] sname4 {sname6}" 
+								+ "\nLayer 2: {sname3} [float : output31 GREATER_THAN 51.1, float : output31 LESS_THAN 52.2] sname5 {}, {sname4} [char : output41 EQUALS x] sname6 {}");
+		expectedPlanDetails.add("Layer 0: {} [boolean : input22 EQUALS false, string : input21 EQUALS lit41] sname4 {sname6}" 
+								+ "\nLayer 1: {sname4} [char : output41 EQUALS x] sname6 {}");
+		expectedPlanDetails.add("Layer 0: {} [float : input12 LESS_THAN 32.2, int : input11 EQUALS 31, string : input21 EQUALS lit21, string : input21 EQUALS lit41] sname2 {sname4}" 
+								+ "\nLayer 1: {sname2} [boolean : input22 EQUALS false] sname4 {sname6}, {} [] sname3 {sname5}" 
+								+ "\nLayer 2: {sname3} [float : output31 GREATER_THAN 51.1, float : output31 LESS_THAN 52.2] sname5 {}, {sname4} [char : output41 EQUALS x] sname6 {}");
+		expectedPlanDetails.add("Layer 0: {} [float : input12 LESS_THAN 32.2, int : input11 EQUALS 31] sname3 {sname5}" 
+								+ "\nLayer 1: {sname3} [float : output31 GREATER_THAN 51.1, float : output31 LESS_THAN 52.2] sname5 {}");
+		expectedPlanDetails.add("Layer 0: {} [int : input11 EQUALS 31, int : input11 GREATER_THAN_OR_EQUAL_TO 5, int : input11 LESS_THAN_OR_EQUAL_TO 11, string : input21 EQUALS lit41] sname1 {sname3}, {} [int : input11 EQUALS 31, string : input21 EQUALS lit21, string : input21 EQUALS lit41] sname2 {sname4}" 
+								+ "\nLayer 1: {sname1} [float : input12 LESS_THAN 32.2] sname3 {sname5}, {sname2} [boolean : input22 EQUALS false] sname4 {sname6}" 
+								+ "\nLayer 2: {sname3} [float : output31 GREATER_THAN 51.1, float : output31 LESS_THAN 52.2] sname5 {}, {sname4} [char : output41 EQUALS x] sname6 {}");
+		expectedPlanDetails.add("Layer 0: {} [int : input11 EQUALS 31, int : input11 GREATER_THAN_OR_EQUAL_TO 5, int : input11 LESS_THAN_OR_EQUAL_TO 11] sname1 {sname3}" 
+								+ "\nLayer 1: {sname1} [float : input12 LESS_THAN 32.2] sname3 {sname5}"
+								+ "\nLayer 2: {sname3} [float : output31 GREATER_THAN 51.1, float : output31 LESS_THAN 52.2] sname5 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : input21 EQUALS lit21, string : input21 EQUALS lit41] sname2 {sname4}" 
+								+ "\nLayer 1: {sname2} [boolean : input22 EQUALS false] sname4 {sname6}"
+								+ "\nLayer 2: {sname4} [char : output41 EQUALS x] sname6 {}");
 		
 		assertEquals(actualPlanCount, expectedPlanCount);
 		assertEquals(actualPlanDetails, expectedPlanDetails);
@@ -143,8 +143,8 @@ public class ConstraintAwarePlanTests
 	@Test
 	public void noConstraints()
 	{
-		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("StudentID"));
-		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("MarksPercentage"));
+		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("string : StudentID"));
+		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("float : MarksPercentage"));
 		String repoXMLFileName = "testinput/Test_Services_Set_3.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
@@ -166,8 +166,8 @@ public class ConstraintAwarePlanTests
 	@Test
 	public void noConstraintAdjReqd()
 	{
-		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("input111"));
-		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("output161"));
+		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("int : input111"));
+		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("string : output161"));
 		String repoXMLFileName = "testinput/Test_Services_Set_3.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
@@ -175,9 +175,9 @@ public class ConstraintAwarePlanTests
 		
 		int expectedPlanCount = 1;
 		List<String> expectedPlanDetails = new ArrayList<String>();
-		expectedPlanDetails.add("Layer 0: {} [input111 EQUALS lit111] W11 {W12}"
-								+ "\nLayer 1: {W11} [output111 EQUALS lit121, output111 LESS_THAN lit122] W12 {W16}"
-								+ "\nLayer 2: {W12} [output121 EQUALS lit161, output121 LESS_THAN lit162] W16 {}");
+		expectedPlanDetails.add("Layer 0: {} [int : input111 LESS_THAN_OR_EQUAL_TO 111] W11 {W12}"
+								+ "\nLayer 1: {W11} [float : output111 GREATER_THAN 121.0, float : output111 LESS_THAN 122.0] W12 {W16}"
+								+ "\nLayer 2: {W12} [string : output121 EQUALS lit161, string : output121 EQUALS lit162] W16 {}");
 		
 		assertEquals(actualPlanCount, expectedPlanCount);
 		assertEquals(actualPlanDetails, expectedPlanDetails);
@@ -192,8 +192,8 @@ public class ConstraintAwarePlanTests
 	@Test
 	public void cnstrAddedToAllSuccs()
 	{
-		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("input111"));
-		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("output151"));
+		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("int : input111"));
+		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("char : output151"));
 		String repoXMLFileName = "testinput/Test_Services_Set_3.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
@@ -201,10 +201,10 @@ public class ConstraintAwarePlanTests
 		
 		int expectedPlanCount = 1;
 		List<String> expectedPlanDetails = new ArrayList<String>();
-		expectedPlanDetails.add("Layer 0: {} [input111 EQUALS lit111] W11 {W12, W13}"
-								+ "\nLayer 1: {W11} [output111 EQUALS lit121, output111 LESS_THAN lit122] W12 {W14}, {W11} [output111 EQUALS lit121, output111 LESS_THAN lit122] W13 {W14, W15}"
-								+ "\nLayer 2: {W12, W13} [output121 EQUALS lit141, output131 LESS_THAN lit142, output132 LESS_THAN lit152] W14 {W15}"
-								+ "\nLayer 3: {W13, W14} [output131 LESS_THAN lit142, output132 LESS_THAN lit152, output141 EQUALS lit151] W15 {}");
+		expectedPlanDetails.add("Layer 0: {} [int : input111 LESS_THAN_OR_EQUAL_TO 111] W11 {W12, W13}"
+								+ "\nLayer 1: {W11} [float : output111 GREATER_THAN 121.0, float : output111 LESS_THAN 122.0] W12 {W14}, {W11} [float : output111 GREATER_THAN 121.0, float : output111 LESS_THAN 122.0] W13 {W14, W15}"
+								+ "\nLayer 2: {W12, W13} [boolean : output131 EQUALS true, int : output132 LESS_THAN 152, string : output121 EQUALS lit141] W14 {W15}"
+								+ "\nLayer 3: {W13, W14} [boolean : output131 EQUALS true, float : output141 EQUALS 15.1, int : output132 LESS_THAN 152] W15 {}");
 		
 		assertEquals(actualPlanCount, expectedPlanCount);
 		assertEquals(actualPlanDetails, expectedPlanDetails);
@@ -218,8 +218,8 @@ public class ConstraintAwarePlanTests
 	@Test
 	public void cnstrAdjustedToAffectingPreds()
 	{
-		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("input111", "input171"));
-		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("output231", "output251", "output261"));
+		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("int : input111", "boolean : input171"));
+		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("string : output231", "int : output251", "float : output261"));
 		String repoXMLFileName = "testinput/Test_Services_Set_3.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
@@ -227,10 +227,10 @@ public class ConstraintAwarePlanTests
 		
 		int expectedPlanCount = 1;
 		List<String> expectedPlanDetails = new ArrayList<String>();
-		expectedPlanDetails.add("Layer 0: {} [input111 EQUALS lit171, input171 LESS_THAN lit172] W17 {W20}" 
-								+ "\nLayer 1: {W17} [output171 EQUALS lit231] W20 {W21, W22}" 
+		expectedPlanDetails.add("Layer 0: {} [boolean : input171 EQUALS false, int : input111 EQUALS 171] W17 {W20}" 
+								+ "\nLayer 1: {W17} [int : output171 EQUALS 231] W20 {W21, W22}" 
 								+ "\nLayer 2: {W20} [] W21 {W23, W26}, {W20} [] W22 {W23, W25}" 
-								+ "\nLayer 3: {W21, W22} [output221 EQUALS lit232] W23 {}, {W21} [] W26 {}, {W22} [output221 EQUALS lit232] W25 {}");
+								+ "\nLayer 3: {W21, W22} [char : output221 EQUALS l] W23 {}, {W21} [] W26 {}, {W22} [char : output221 EQUALS l] W25 {}");
 		
 		assertEquals(actualPlanCount, expectedPlanCount);
 		assertEquals(actualPlanDetails, expectedPlanDetails);
@@ -243,8 +243,8 @@ public class ConstraintAwarePlanTests
 	@Test
 	public void cnstrAdjustedToClosestPreds()
 	{
-		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("input271"));
-		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("output311"));
+		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("char : input271"));
+		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("string : output311"));
 		String repoXMLFileName = "testinput/Test_Services_Set_3.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
@@ -255,7 +255,7 @@ public class ConstraintAwarePlanTests
 		expectedPlanDetails.add("Layer 0: {} [] W27 {W28}" 
 								+ "\nLayer 1: {W27} [] W28 {W29}" 
 								+ "\nLayer 2: {W28} [] W29 {W30}" 
-								+ "\nLayer 3: {W29} [output272 EQUALS lit311] W30 {W31}" 
+								+ "\nLayer 3: {W29} [boolean : output272 EQUALS true] W30 {W31}" 
 								+ "\nLayer 4: {W30} [] W31 {}");
 		
 		assertEquals(actualPlanCount, expectedPlanCount);
@@ -274,8 +274,8 @@ public class ConstraintAwarePlanTests
 	@Test
 	public void miscCnstrAdjChecks1()
 	{
-		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("DeliveryAddress", "ProductName"));
-		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("ShipmentConfirm"));
+		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("string : DeliveryAddress", "string : ProductName"));
+		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("string : ShipmentConfirm"));
 		String repoXMLFileName = "testinput/Test_Services_Set_3.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
@@ -283,52 +283,52 @@ public class ConstraintAwarePlanTests
 		
 		int expectedPlanCount = 15;
 		List<String> expectedPlanDetails = new ArrayList<String>();
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Canada, DeliveryAddress EQUALS Montreal, DeliveryAddress EQUALS Quebec] W1 {W2, W3, W4, W5, W6, W7}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W2 {W3, W4, W7}, {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W5 {W3, W4, W7}, {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W6 {W7}" 
-								+ "\nLayer 2: {W1, W2, W5, W6} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W7 {}, {W1, W2, W5} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W3 {}, {W1, W2, W5} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W4 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Canada, DeliveryAddress EQUALS Montreal, DeliveryAddress EQUALS Quebec] W1 {W2, W3, W4, W6, W7}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W2 {W3, W4, W7}, {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W6 {W7}" 
-								+ "\nLayer 2: {W1, W2, W6} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W7 {}, {W1, W2} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W3 {}, {W1, W2} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W4 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Canada, DeliveryAddress EQUALS Montreal] W1 {W2, W3, W5, W6, W7}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal] W2 {W3, W7}, {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal] W5 {W3, W7}, {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal] W6 {W7}" 
-								+ "\nLayer 2: {W1, W2, W5, W6} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal] W7 {}, {W1, W2, W5} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal] W3 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Canada, DeliveryAddress EQUALS Montreal] W1 {W2, W3, W6, W7}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal] W2 {W3, W7}, {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal] W6 {W7}" 
-								+ "\nLayer 2: {W1, W2, W6} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal] W7 {}, {W1, W2} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal] W3 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Canada, DeliveryAddress EQUALS Quebec] W1 {W2, W4, W5, W6, W7}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Quebec] W2 {W4, W7}, {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Quebec] W5 {W4, W7}, {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Quebec] W6 {W7}" 
-								+ "\nLayer 2: {W1, W2, W5, W6} [ProductAddress EQUALS Canada, ProductAddress EQUALS Quebec] W7 {}, {W1, W2, W5} [ProductAddress EQUALS Canada, ProductAddress EQUALS Quebec] W4 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Canada, DeliveryAddress EQUALS Quebec] W1 {W2, W4, W6, W7}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Quebec] W2 {W4, W7}, {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Quebec] W6 {W7}" 
-								+ "\nLayer 2: {W1, W2, W6} [ProductAddress EQUALS Canada, ProductAddress EQUALS Quebec] W7 {}, {W1, W2} [ProductAddress EQUALS Canada, ProductAddress EQUALS Quebec] W4 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Canada] W1 {W2, W5, W6, W7}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Canada] W2 {W7}, {W1} [ProductAddress EQUALS Canada] W5 {W7}, {W1} [ProductAddress EQUALS Canada] W6 {W7}" 
-								+ "\nLayer 2: {W1, W2, W5, W6} [ProductAddress EQUALS Canada] W7 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Canada] W1 {W2, W6, W7}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Canada] W2 {W7}, {W1} [ProductAddress EQUALS Canada] W6 {W7}" 
-								+ "\nLayer 2: {W1, W2, W6} [ProductAddress EQUALS Canada] W7 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Canada] W1 {W5, W6, W7}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Canada] W5 {W7}, {W1} [ProductAddress EQUALS Canada] W6 {W7}" 
-								+ "\nLayer 2: {W1, W5, W6} [ProductAddress EQUALS Canada] W7 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Montreal, DeliveryAddress EQUALS Quebec] W1 {W2, W3, W4, W5}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W2 {W3, W4}, {W1} [ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W5 {W3, W4}" 
-								+ "\nLayer 2: {W1, W2, W5} [ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W3 {}, {W1, W2, W5} [ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W4 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Montreal, DeliveryAddress EQUALS Quebec] W1 {W2, W3, W4}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W2 {W3, W4}" 
-								+ "\nLayer 2: {W1, W2} [ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W3 {}, {W1, W2} [ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W4 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Montreal] W1 {W2, W3, W5}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Montreal] W2 {W3}, {W1} [ProductAddress EQUALS Montreal] W5 {W3}" 
-								+ "\nLayer 2: {W1, W2, W5} [ProductAddress EQUALS Montreal] W3 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Montreal] W1 {W2, W3}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Montreal] W2 {W3}" 
-								+ "\nLayer 2: {W1, W2} [ProductAddress EQUALS Montreal] W3 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Quebec] W1 {W2, W4, W5}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Quebec] W2 {W4}, {W1} [ProductAddress EQUALS Quebec] W5 {W4}" 
-								+ "\nLayer 2: {W1, W2, W5} [ProductAddress EQUALS Quebec] W4 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Quebec] W1 {W2, W4}"
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Quebec] W2 {W4}" 
-								+ "\nLayer 2: {W1, W2} [ProductAddress EQUALS Quebec] W4 {}");
-				
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Canada, string : DeliveryAddress EQUALS Montreal, string : DeliveryAddress EQUALS Quebec] W1 {W2, W3, W4, W5, W6, W7}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W2 {W3, W4, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W5 {W3, W4, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W6 {W7}" 
+								+ "\nLayer 2: {W1, W2, W5, W6} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W7 {}, {W1, W2, W5} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W3 {}, {W1, W2, W5} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W4 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Canada, string : DeliveryAddress EQUALS Montreal, string : DeliveryAddress EQUALS Quebec] W1 {W2, W3, W4, W6, W7}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W2 {W3, W4, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W6 {W7}" 
+								+ "\nLayer 2: {W1, W2, W6} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W7 {}, {W1, W2} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W3 {}, {W1, W2} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W4 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Canada, string : DeliveryAddress EQUALS Montreal] W1 {W2, W3, W5, W6, W7}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W2 {W3, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W5 {W3, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W6 {W7}" 
+								+ "\nLayer 2: {W1, W2, W5, W6} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W7 {}, {W1, W2, W5} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W3 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Canada, string : DeliveryAddress EQUALS Montreal] W1 {W2, W3, W6, W7}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W2 {W3, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W6 {W7}" 
+								+ "\nLayer 2: {W1, W2, W6} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W7 {}, {W1, W2} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W3 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Canada, string : DeliveryAddress EQUALS Quebec] W1 {W2, W4, W5, W6, W7}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Quebec] W2 {W4, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Quebec] W5 {W4, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Quebec] W6 {W7}" 
+								+ "\nLayer 2: {W1, W2, W5, W6} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Quebec] W7 {}, {W1, W2, W5} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Quebec] W4 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Canada, string : DeliveryAddress EQUALS Quebec] W1 {W2, W4, W6, W7}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Quebec] W2 {W4, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Quebec] W6 {W7}" 
+								+ "\nLayer 2: {W1, W2, W6} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Quebec] W7 {}, {W1, W2} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Quebec] W4 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Canada] W1 {W2, W5, W6, W7}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Canada] W2 {W7}, {W1} [string : ProductAddress EQUALS Canada] W5 {W7}, {W1} [string : ProductAddress EQUALS Canada] W6 {W7}" 
+								+ "\nLayer 2: {W1, W2, W5, W6} [string : ProductAddress EQUALS Canada] W7 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Canada] W1 {W2, W6, W7}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Canada] W2 {W7}, {W1} [string : ProductAddress EQUALS Canada] W6 {W7}" 
+								+ "\nLayer 2: {W1, W2, W6} [string : ProductAddress EQUALS Canada] W7 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Canada] W1 {W5, W6, W7}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Canada] W5 {W7}, {W1} [string : ProductAddress EQUALS Canada] W6 {W7}" 
+								+ "\nLayer 2: {W1, W5, W6} [string : ProductAddress EQUALS Canada] W7 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Montreal, string : DeliveryAddress EQUALS Quebec] W1 {W2, W3, W4, W5}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W2 {W3, W4}, {W1} [string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W5 {W3, W4}" 
+								+ "\nLayer 2: {W1, W2, W5} [string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W3 {}, {W1, W2, W5} [string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W4 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Montreal, string : DeliveryAddress EQUALS Quebec] W1 {W2, W3, W4}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W2 {W3, W4}" 
+								+ "\nLayer 2: {W1, W2} [string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W3 {}, {W1, W2} [string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W4 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Montreal] W1 {W2, W3, W5}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Montreal] W2 {W3}, {W1} [string : ProductAddress EQUALS Montreal] W5 {W3}" 
+								+ "\nLayer 2: {W1, W2, W5} [string : ProductAddress EQUALS Montreal] W3 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Montreal] W1 {W2, W3}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Montreal] W2 {W3}" 
+								+ "\nLayer 2: {W1, W2} [string : ProductAddress EQUALS Montreal] W3 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Quebec] W1 {W2, W4, W5}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Quebec] W2 {W4}, {W1} [string : ProductAddress EQUALS Quebec] W5 {W4}" 
+								+ "\nLayer 2: {W1, W2, W5} [string : ProductAddress EQUALS Quebec] W4 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Quebec] W1 {W2, W4}"
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Quebec] W2 {W4}" 
+								+ "\nLayer 2: {W1, W2} [string : ProductAddress EQUALS Quebec] W4 {}");
+						
 		assertEquals(actualPlanCount, expectedPlanCount);
 		assertEquals(actualPlanDetails, expectedPlanDetails);
 	}
@@ -342,8 +342,8 @@ public class ConstraintAwarePlanTests
 	@Test
 	public void miscCnstrAdjChecks2()
 	{
-		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("input111", "input171"));
-		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("output241", "output231"));
+		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("int : input111", "boolean : input171"));
+		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("boolean : output241", "string : output231"));
 		String repoXMLFileName = "testinput/Test_Services_Set_3.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
@@ -351,10 +351,10 @@ public class ConstraintAwarePlanTests
 		
 		int expectedPlanCount = 1;
 		List<String> expectedPlanDetails = new ArrayList<String>();
-		expectedPlanDetails.add("Layer 0: {} [input111 EQUALS lit111, input181 LESS_THAN lit192] W11 {W12}, {} [input111 EQUALS lit171, input171 LESS_THAN lit172, input181 LESS_THAN lit192] W17 {W20}" 
-								+ "\nLayer 1: {W11} [output111 EQUALS lit121, output111 LESS_THAN lit122] W12 {W19}, {W17} [output171 EQUALS lit231] W20 {W21, W22}" 
-								+ "\nLayer 2: {W12} [output121 EQUALS lit191] W19 {W24}, {W20} [] W21 {W23}, {W20} [] W22 {W23}" 
-								+ "\nLayer 3: {W19} [] W24 {}, {W21, W22} [output221 EQUALS lit232] W23 {}");
+		expectedPlanDetails.add("Layer 0: {} [boolean : input171 EQUALS false, float : input181 LESS_THAN 1.92, int : input111 EQUALS 171] W17 {W20}, {} [float : input181 LESS_THAN 1.92, int : input111 LESS_THAN_OR_EQUAL_TO 111] W11 {W12}" 
+								+ "\nLayer 1: {W11} [float : output111 GREATER_THAN 121.0, float : output111 LESS_THAN 122.0] W12 {W19}, {W17} [int : output171 EQUALS 231] W20 {W21, W22}" 
+								+ "\nLayer 2: {W12} [string : output121 EQUALS lit191] W19 {W24}, {W20} [] W21 {W23}, {W20} [] W22 {W23}" 
+								+ "\nLayer 3: {W19} [] W24 {}, {W21, W22} [char : output221 EQUALS l] W23 {}");
 		
 		assertEquals(actualPlanCount, expectedPlanCount);
 		assertEquals(actualPlanDetails, expectedPlanDetails);

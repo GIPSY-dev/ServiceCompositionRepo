@@ -20,13 +20,13 @@ public class ServiceCompositionTests
 	 * Tests successful completion of service composition process, including user interaction.
 	 * For the following console input, this test should complete successfully:
 	 * Comma-separated list of inputs:
-	 * DeliveryAddress, ProductName
+	 * string : DeliveryAddress, string : ProductName
 	 * Comma-separated list of outputs:
-	 * ShipmentConfirm
+	 * string : ShipmentConfirm
 	 * Comma-separated list of QoS features:
 	 * COST, AVAILABILITY
 	 * Comma-separated list of constraints:
-	 * COST < 100, ShipmentConfirm = true, DeliveryAddress = Canada
+	 * COST | < | 100, string : ShipmentConfirm | = | true, string : DeliveryAddress | = | Canada
 	 * Please enter the complete file path and name of the service repository XML file:
 	 * testinput/Test_Services_Set_3.xml
 	 */
@@ -42,51 +42,51 @@ public class ServiceCompositionTests
 		Collections.sort(actualPlanDetails);
 		
 		List<String> expectedPlanDetails = new ArrayList<String>();
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Canada, DeliveryAddress EQUALS Montreal, DeliveryAddress EQUALS Quebec] W1 {W2, W3, W4, W5, W6, W7}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W2 {W3, W4, W7}, {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W5 {W3, W4, W7}, {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W6 {W7}" 
-								+ "\nLayer 2: {W1, W2, W5, W6} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W7 {}, {W1, W2, W5} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W3 {}, {W1, W2, W5} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W4 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Canada, DeliveryAddress EQUALS Montreal, DeliveryAddress EQUALS Quebec] W1 {W2, W3, W4, W6, W7}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W2 {W3, W4, W7}, {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W6 {W7}" 
-								+ "\nLayer 2: {W1, W2, W6} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W7 {}, {W1, W2} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W3 {}, {W1, W2} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W4 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Canada, DeliveryAddress EQUALS Montreal] W1 {W2, W3, W5, W6, W7}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal] W2 {W3, W7}, {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal] W5 {W3, W7}, {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal] W6 {W7}" 
-								+ "\nLayer 2: {W1, W2, W5, W6} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal] W7 {}, {W1, W2, W5} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal] W3 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Canada, DeliveryAddress EQUALS Montreal] W1 {W2, W3, W6, W7}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal] W2 {W3, W7}, {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal] W6 {W7}" 
-								+ "\nLayer 2: {W1, W2, W6} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal] W7 {}, {W1, W2} [ProductAddress EQUALS Canada, ProductAddress EQUALS Montreal] W3 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Canada, DeliveryAddress EQUALS Quebec] W1 {W2, W4, W5, W6, W7}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Quebec] W2 {W4, W7}, {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Quebec] W5 {W4, W7}, {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Quebec] W6 {W7}" 
-								+ "\nLayer 2: {W1, W2, W5, W6} [ProductAddress EQUALS Canada, ProductAddress EQUALS Quebec] W7 {}, {W1, W2, W5} [ProductAddress EQUALS Canada, ProductAddress EQUALS Quebec] W4 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Canada, DeliveryAddress EQUALS Quebec] W1 {W2, W4, W6, W7}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Quebec] W2 {W4, W7}, {W1} [ProductAddress EQUALS Canada, ProductAddress EQUALS Quebec] W6 {W7}" 
-								+ "\nLayer 2: {W1, W2, W6} [ProductAddress EQUALS Canada, ProductAddress EQUALS Quebec] W7 {}, {W1, W2} [ProductAddress EQUALS Canada, ProductAddress EQUALS Quebec] W4 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Canada] W1 {W2, W5, W6, W7}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Canada] W2 {W7}, {W1} [ProductAddress EQUALS Canada] W5 {W7}, {W1} [ProductAddress EQUALS Canada] W6 {W7}" 
-								+ "\nLayer 2: {W1, W2, W5, W6} [ProductAddress EQUALS Canada] W7 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Canada] W1 {W2, W6, W7}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Canada] W2 {W7}, {W1} [ProductAddress EQUALS Canada] W6 {W7}" 
-								+ "\nLayer 2: {W1, W2, W6} [ProductAddress EQUALS Canada] W7 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Canada] W1 {W5, W6, W7}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Canada] W5 {W7}, {W1} [ProductAddress EQUALS Canada] W6 {W7}" 
-								+ "\nLayer 2: {W1, W5, W6} [ProductAddress EQUALS Canada] W7 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Montreal, DeliveryAddress EQUALS Quebec] W1 {W2, W3, W4, W5}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W2 {W3, W4}, {W1} [ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W5 {W3, W4}" 
-								+ "\nLayer 2: {W1, W2, W5} [ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W3 {}, {W1, W2, W5} [ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W4 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Montreal, DeliveryAddress EQUALS Quebec] W1 {W2, W3, W4}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W2 {W3, W4}" 
-								+ "\nLayer 2: {W1, W2} [ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W3 {}, {W1, W2} [ProductAddress EQUALS Montreal, ProductAddress EQUALS Quebec] W4 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Montreal] W1 {W2, W3, W5}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Montreal] W2 {W3}, {W1} [ProductAddress EQUALS Montreal] W5 {W3}" 
-								+ "\nLayer 2: {W1, W2, W5} [ProductAddress EQUALS Montreal] W3 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Montreal] W1 {W2, W3}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Montreal] W2 {W3}" 
-								+ "\nLayer 2: {W1, W2} [ProductAddress EQUALS Montreal] W3 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Quebec] W1 {W2, W4, W5}" 
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Quebec] W2 {W4}, {W1} [ProductAddress EQUALS Quebec] W5 {W4}" 
-								+ "\nLayer 2: {W1, W2, W5} [ProductAddress EQUALS Quebec] W4 {}");
-		expectedPlanDetails.add("Layer 0: {} [DeliveryAddress EQUALS Quebec] W1 {W2, W4}"
-								+ "\nLayer 1: {W1} [ProductAddress EQUALS Quebec] W2 {W4}" 
-								+ "\nLayer 2: {W1, W2} [ProductAddress EQUALS Quebec] W4 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Canada, string : DeliveryAddress EQUALS Montreal, string : DeliveryAddress EQUALS Quebec] W1 {W2, W3, W4, W5, W6, W7}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W2 {W3, W4, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W5 {W3, W4, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W6 {W7}" 
+								+ "\nLayer 2: {W1, W2, W5, W6} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W7 {}, {W1, W2, W5} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W3 {}, {W1, W2, W5} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W4 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Canada, string : DeliveryAddress EQUALS Montreal, string : DeliveryAddress EQUALS Quebec] W1 {W2, W3, W4, W6, W7}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W2 {W3, W4, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W6 {W7}" 
+								+ "\nLayer 2: {W1, W2, W6} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W7 {}, {W1, W2} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W3 {}, {W1, W2} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W4 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Canada, string : DeliveryAddress EQUALS Montreal] W1 {W2, W3, W5, W6, W7}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W2 {W3, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W5 {W3, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W6 {W7}" 
+								+ "\nLayer 2: {W1, W2, W5, W6} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W7 {}, {W1, W2, W5} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W3 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Canada, string : DeliveryAddress EQUALS Montreal] W1 {W2, W3, W6, W7}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W2 {W3, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W6 {W7}" 
+								+ "\nLayer 2: {W1, W2, W6} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W7 {}, {W1, W2} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W3 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Canada, string : DeliveryAddress EQUALS Quebec] W1 {W2, W4, W5, W6, W7}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Quebec] W2 {W4, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Quebec] W5 {W4, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Quebec] W6 {W7}" 
+								+ "\nLayer 2: {W1, W2, W5, W6} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Quebec] W7 {}, {W1, W2, W5} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Quebec] W4 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Canada, string : DeliveryAddress EQUALS Quebec] W1 {W2, W4, W6, W7}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Quebec] W2 {W4, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Quebec] W6 {W7}" 
+								+ "\nLayer 2: {W1, W2, W6} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Quebec] W7 {}, {W1, W2} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Quebec] W4 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Canada] W1 {W2, W5, W6, W7}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Canada] W2 {W7}, {W1} [string : ProductAddress EQUALS Canada] W5 {W7}, {W1} [string : ProductAddress EQUALS Canada] W6 {W7}" 
+								+ "\nLayer 2: {W1, W2, W5, W6} [string : ProductAddress EQUALS Canada] W7 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Canada] W1 {W2, W6, W7}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Canada] W2 {W7}, {W1} [string : ProductAddress EQUALS Canada] W6 {W7}" 
+								+ "\nLayer 2: {W1, W2, W6} [string : ProductAddress EQUALS Canada] W7 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Canada] W1 {W5, W6, W7}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Canada] W5 {W7}, {W1} [string : ProductAddress EQUALS Canada] W6 {W7}" 
+								+ "\nLayer 2: {W1, W5, W6} [string : ProductAddress EQUALS Canada] W7 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Montreal, string : DeliveryAddress EQUALS Quebec] W1 {W2, W3, W4, W5}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W2 {W3, W4}, {W1} [string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W5 {W3, W4}" 
+								+ "\nLayer 2: {W1, W2, W5} [string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W3 {}, {W1, W2, W5} [string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W4 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Montreal, string : DeliveryAddress EQUALS Quebec] W1 {W2, W3, W4}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W2 {W3, W4}" 
+								+ "\nLayer 2: {W1, W2} [string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W3 {}, {W1, W2} [string : ProductAddress EQUALS Montreal, string : ProductAddress EQUALS Quebec] W4 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Montreal] W1 {W2, W3, W5}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Montreal] W2 {W3}, {W1} [string : ProductAddress EQUALS Montreal] W5 {W3}" 
+								+ "\nLayer 2: {W1, W2, W5} [string : ProductAddress EQUALS Montreal] W3 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Montreal] W1 {W2, W3}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Montreal] W2 {W3}" 
+								+ "\nLayer 2: {W1, W2} [string : ProductAddress EQUALS Montreal] W3 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Quebec] W1 {W2, W4, W5}" 
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Quebec] W2 {W4}, {W1} [string : ProductAddress EQUALS Quebec] W5 {W4}" 
+								+ "\nLayer 2: {W1, W2, W5} [string : ProductAddress EQUALS Quebec] W4 {}");
+		expectedPlanDetails.add("Layer 0: {} [string : DeliveryAddress EQUALS Quebec] W1 {W2, W4}"
+								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Quebec] W2 {W4}" 
+								+ "\nLayer 2: {W1, W2} [string : ProductAddress EQUALS Quebec] W4 {}");
 				
 		assertEquals(actualPlanDetails, expectedPlanDetails);
 	}
@@ -98,11 +98,11 @@ public class ServiceCompositionTests
 	 * Comma-separated list of inputs:
 	 * 
 	 * Comma-separated list of outputs:
-	 * ShipmentConfirm
+	 * string : ShipmentConfirm
 	 * Comma-separated list of QoS features:
 	 * COST, AVAILABILITY
 	 * Comma-separated list of constraints:
-	 * COST < 100, ShipmentConfirm = true, DeliveryAddress = Canada
+	 * COST | < | 100, string : ShipmentConfirm | = | true, string : DeliveryAddress | = | Canada
 	 * Please enter the complete file path and name of the service repository XML file:
 	 * testinput/Test_Services_Set_3.xml
 	 */
@@ -120,20 +120,22 @@ public class ServiceCompositionTests
 	 * 3. Trimming of leading and trailing spaces from request components and discarding empty components.
 	 * 4. Trimming/discarding of all spaces between elements of a constraint.
 	 * 5. Correct fetching of constraint operator name based on the given operator symbol.
+	 * 6. Correct use of pipe symbol for splitting constraint elements.
+	 * 7. Allowing spaces in parameter names.
 	 */
 	@Test
 	public void compReqComponentCreation()
 	{
-		String inputString = "DeliveryAddress, Product Name, Customer Name, Price";
-		String outputString = ", Shipment Confirmation  ,  Invoice , 	 ,  	";
+		String inputString = "string : Delivery Address, string : Product Name, string : Customer Name, float : Price";
+		String outputString = ", string : Shipment Confirmation  ,  string : Invoice , 	 ,  	";
 		String qosString = "    		";
-		String constraintString = "	 Price < 	100  , 		Invoice		= true , DeliveryAddress = Canada";
+		String constraintString = "	 float : Price	 |  < |	100  , 		string : Invoice |		=| true , string : Delivery Address | = | Canada";
 		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
 		
-		String expectedCompReq = "Inputs: DeliveryAddress, Product Name, Customer Name, Price" 
-								+ "\nOutputs: Shipment Confirmation, Invoice" 
+		String expectedCompReq = "Inputs: string : Delivery Address, string : Product Name, string : Customer Name, float : Price" 
+								+ "\nOutputs: string : Shipment Confirmation, string : Invoice" 
 								+ "\nQoS: " 
-								+ "\nConstraints: (CompositeService) Price LESS_THAN 100, (CompositeService) Invoice EQUALS true, (CompositeService) DeliveryAddress EQUALS Canada";
+								+ "\nConstraints: (CompositeService) float : Price LESS_THAN 100, (CompositeService) string : Invoice EQUALS true, (CompositeService) string : Delivery Address EQUALS Canada";
 		
 		assertEquals(expectedCompReq, compRequest.toString());
 	}
@@ -147,10 +149,10 @@ public class ServiceCompositionTests
 	@Test
 	public void compReqCnstrOpFormatValidation()
 	{
-		String inputString = "DeliveryAddress, ProductName, CustomerName, Price";
-		String outputString = "ShipmentConfirm, Invoice";
+		String inputString = "string : DeliveryAddress, string : ProductName, string : CustomerName, float : Price";
+		String outputString = "string : ShipmentConfirm, string : Invoice";
 		String qosString = "COST";
-		String constraintString = "COST < , Invoice <> false, DeliveryAddress = Quebec City";
+		String constraintString = "COST | < | , string : Invoice | <> | false, string : DeliveryAddress | = | Quebec | City";
 		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
 		
 		assertNull(compRequest);
@@ -165,9 +167,9 @@ public class ServiceCompositionTests
 	public void noRequestedInput()
 	{
 		String inputString = ", , , ";
-		String outputString = "ShipmentConfirm, Invoice";
+		String outputString = "string : ShipmentConfirm, string : Invoice";
 		String qosString = "COST";
-		String constraintString = "COST < 100, Invoice = true";
+		String constraintString = "COST | < | 100, string : Invoice | = | true";
 		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
 		
 		assertNull(compRequest);
@@ -181,10 +183,10 @@ public class ServiceCompositionTests
 	@Test
 	public void noRequestedOutput()
 	{
-		String inputString = "DeliveryAddress, ProductName, CustomerName, Price";
+		String inputString = "string : DeliveryAddress, string : ProductName, string : CustomerName, float : Price";
 		String outputString = "";
 		String qosString = "COST";
-		String constraintString = "COST < 100, DeliveryAddress = Quebec";
+		String constraintString = "COST | < | 100, string : DeliveryAddress | = | Quebec";
 		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
 		
 		assertNull(compRequest);
@@ -198,10 +200,10 @@ public class ServiceCompositionTests
 	@Test
 	public void invalidQOS()
 	{
-		String inputString = "DeliveryAddress, ProductName, CustomerName, Price";
-		String outputString = "ShipmentConfirm, Invoice";
+		String inputString = "string : DeliveryAddress, string : ProductName, string : CustomerName, float : Price";
+		String outputString = "string : ShipmentConfirm, string : Invoice";
 		String qosString = "COST, THROUGHPUT, response_time";
-		String constraintString = "COST < 100, DeliveryAddress = Quebec, Invoice = true";
+		String constraintString = "COST | < | 100, string : DeliveryAddress | = | Quebec, string : Invoice | = | true";
 		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
 		
 		assertNull(compRequest);
@@ -215,10 +217,10 @@ public class ServiceCompositionTests
 	@Test
 	public void invalidConstraintType()
 	{
-		String inputString = "DeliveryAddress, ProductName, CustomerName, Price";
-		String outputString = "ShipmentConfirm, Invoice";
+		String inputString = "string : DeliveryAddress, string : ProductName, string : CustomerName, float : Price";
+		String outputString = "string : ShipmentConfirm, string : Invoice";
 		String qosString = "COST";
-		String constraintString = "AVAILABILITY = 60, DeliveryAddress = Quebec, Invoice = true";
+		String constraintString = "AVAILABILITY | = | 60, string : DeliveryAddress | = | Quebec, string : Invoice | = | true";
 		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
 		
 		assertNull(compRequest);
@@ -232,10 +234,10 @@ public class ServiceCompositionTests
 	@Test
 	public void emptySvcRepository()
 	{
-		String inputString = "DeliveryAddress, ProductName";
-		String outputString = "ShipmentConfirm";
+		String inputString = "string : DeliveryAddress, string : ProductName";
+		String outputString = "string : ShipmentConfirm";
 		String qosString = "COST";
-		String constraintString = "COST < 100, DeliveryAddress = Canada";
+		String constraintString = "COST | < | 100, string : DeliveryAddress | = | Canada";
 		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
 		String repoFileName = "testinput/Test_Services_Set_4.xml";
 		
@@ -250,10 +252,10 @@ public class ServiceCompositionTests
 	@Test
 	public void unsolvableProblem()
 	{
-		String inputString = "DeliveryAddress, ProductName";
-		String outputString = "Invoice";
+		String inputString = "string : DeliveryAddress, string : ProductName";
+		String outputString = "string : Invoice";
 		String qosString = "COST";
-		String constraintString = "COST < 100, DeliveryAddress = Canada";
+		String constraintString = "COST | < | 100, string : DeliveryAddress | = | Canada";
 		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
 		String repoFileName = "testinput/Test_Services_Set_3.xml";
 		
@@ -269,10 +271,10 @@ public class ServiceCompositionTests
 	@Test
 	public void noSvcCompositionReqd()
 	{
-		String inputString = "DeliveryAddress, ProductName";
-		String outputString = "ProductNumber";
+		String inputString = "string : DeliveryAddress, string : ProductName";
+		String outputString = "string : ProductNumber";
 		String qosString = "COST";
-		String constraintString = "COST < 100, DeliveryAddress = Canada";
+		String constraintString = "COST | < | 100, string : DeliveryAddress | = | Canada";
 		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
 		String repoFileName = "testinput/Test_Services_Set_3.xml";
 		

@@ -29,8 +29,8 @@ public class ForwardExpansionTests
 	public void inputVerificationFailure()
 	{
 		CompositionRequest compositionReq = new CompositionRequest();
-		compositionReq.setInputs(Arrays.asList("inputXX", "inputYY"));
-		compositionReq.setOutputs(Arrays.asList("output42", "output71"));
+		compositionReq.setInputs(Arrays.asList("int : inputXX", "char : inputYY"));
+		compositionReq.setOutputs(Arrays.asList("int : output42", "string : output71"));
 		
 		ServiceParser serviceParser = new ServiceXMLParser();
 		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
@@ -47,8 +47,8 @@ public class ForwardExpansionTests
 	public void inputVerificationSuccess()
 	{
 		CompositionRequest compositionReq = new CompositionRequest();
-		compositionReq.setInputs(Arrays.asList("input11", "input21", "input22", "input31", "input32"));
-		compositionReq.setOutputs(Arrays.asList("output32", "output71"));
+		compositionReq.setInputs(Arrays.asList("int : input11", "boolean : input21", "int : input22", "string : input31", "boolean : input32"));
+		compositionReq.setOutputs(Arrays.asList("char : output32", "string : output71"));
 		
 		ServiceParser serviceParser = new ServiceXMLParser();
 		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
@@ -82,14 +82,14 @@ public class ForwardExpansionTests
 	public void outputVerificationFailure()
 	{
 		CompositionRequest compositionReq = new CompositionRequest();
-		compositionReq.setInputs(Arrays.asList("input11", "input12", "output11", "output12", 
-												"input21", "input22", "output21", "output22",
-												"input31", "input32", "output31", "output32",
-												"input42", "output41", "output42",
-												"input51", "input52", "output51", "output52",
-												"input61", "output61",
-												"output71"));
-		compositionReq.setOutputs(Arrays.asList("output42", "output71"));
+		compositionReq.setInputs(Arrays.asList("int : input11", "char : input12", "float : output11", "string : output12", 
+												"boolean : input21", "int : input22", "char : output21", "float : output22",
+												"string : input31", "boolean : input32", "int : output31", "char : output32",
+												"string : input42", "boolean : output41", "int : output42",
+												"char : input51", "float : input52", "string : output51", "boolean : output52",
+												"char : input61", "char : output61",
+												"string : output71"));
+		compositionReq.setOutputs(Arrays.asList("int : output42", "string : output71"));
 		
 		ServiceParser serviceParser = new ServiceXMLParser();
 		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
@@ -107,8 +107,8 @@ public class ForwardExpansionTests
 	public void outputVerificationSuccess()
 	{
 		CompositionRequest compositionReq = new CompositionRequest();
-		compositionReq.setInputs(Arrays.asList("input11", "input12", "input21", "input22", "input31", "input32"));
-		compositionReq.setOutputs(Arrays.asList("output32", "output71"));
+		compositionReq.setInputs(Arrays.asList("int : input11", "char : input12", "boolean : input21", "int : input22", "string : input31", "boolean : input32"));
+		compositionReq.setOutputs(Arrays.asList("char : output32", "string : output71"));
 		
 		ServiceParser serviceParser = new ServiceXMLParser();
 		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
@@ -142,8 +142,8 @@ public class ForwardExpansionTests
 	public void singleServiceSolution()
 	{
 		CompositionRequest compositionReq = new CompositionRequest();
-		compositionReq.setInputs(Arrays.asList("input21", "input22"));
-		compositionReq.setOutputs(Arrays.asList("output21", "output22"));
+		compositionReq.setInputs(Arrays.asList("boolean : input21", "int : input22"));
+		compositionReq.setOutputs(Arrays.asList("char : output21", "float : output22"));
 		
 		ServiceParser serviceParser = new ServiceXMLParser();
 		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
@@ -160,8 +160,8 @@ public class ForwardExpansionTests
 	public void unsolvableProblem()
 	{
 		CompositionRequest compositionReq = new CompositionRequest();
-		compositionReq.setInputs(Arrays.asList("input11", "input12", "input21", "input22", "input31", "input32"));
-		compositionReq.setOutputs(Arrays.asList("outputXX", "outputYY"));
+		compositionReq.setInputs(Arrays.asList("int : input11", "char : input12", "boolean : input21", "int : input22", "string : input31", "boolean : input32"));
+		compositionReq.setOutputs(Arrays.asList("string : outputXX", "boolean : outputYY"));
 		
 		ServiceParser serviceParser = new ServiceXMLParser();
 		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
@@ -178,8 +178,8 @@ public class ForwardExpansionTests
 	public void duplicateInputOutputServices()
 	{
 		CompositionRequest compositionReq = new CompositionRequest();
-		compositionReq.setInputs(Arrays.asList("input11", "input21", "input22", "input42", "input61"));
-		compositionReq.setOutputs(Arrays.asList("output42", "output61"));
+		compositionReq.setInputs(Arrays.asList("int : input11", "boolean : input21", "int : input22", "string : input42", "char : input61"));
+		compositionReq.setOutputs(Arrays.asList("int : output42", "char : output61"));
 		
 		ServiceParser serviceParser = new ServiceXMLParser();
 		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
@@ -213,13 +213,13 @@ public class ForwardExpansionTests
 	public void verifyPredecessorsSuccessors()
 	{
 		CompositionRequest compositionReq = new CompositionRequest();
-		compositionReq.setInputs(Arrays.asList("input11", "input12", 
-												"input21", "input22", 
-												"input31", "input32", 
-												"input42", 
-												"input51", "input52",
-												"input61"));
-		compositionReq.setOutputs(Arrays.asList("output42", "output61"));
+		compositionReq.setInputs(Arrays.asList("int : input11", "char : input12", 
+												"boolean : input21", "int : input22", 
+												"string : input31", "boolean : input32", 
+												"string : input42", 
+												"char : input51", "float : input52",
+												"char : input61"));
+		compositionReq.setOutputs(Arrays.asList("int : output42", "char : output61"));
 		
 		ServiceParser serviceParser = new ServiceXMLParser();
 		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
