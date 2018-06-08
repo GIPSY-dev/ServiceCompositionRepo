@@ -9,12 +9,11 @@ import translation.utilities.ReadWriteUtil;
 
 public class LucidTranslationDriver 
 {
-	public static void driveTranslation(ConstraintAwarePlan cnstrAwrPlan, CompositionRequest compRequest)
+	public static void driveTranslation(ConstraintAwarePlan cnstrAwrPlan, CompositionRequest compRequest, String lucidCodeFileName)
 	{
-		String lucidCodeFileName = "testinput/complexPlanTranslation/testobjlucidprogram.ipl";
 		List<String[]> inputDetails = new ArrayList<String[]>();
 		Scanner scanner = new Scanner(System.in);
-		System.out.print("Please enter the values for the following composite service inputs:");
+		System.out.println("Please enter the values for the following composite service inputs:");
 		
 		for (String input : compRequest.getInputs())
 		{
@@ -22,7 +21,7 @@ public class LucidTranslationDriver
 			String inpType = input.substring(0, input.indexOf(':') - 1);
 			String inpName = input.substring(input.indexOf(':') + 2);
 			
-			System.out.print("\n" + inpName + "(" + inpType + "): ");
+			System.out.println(inpName + "(" + inpType + "): ");
 			String inpValue = scanner.nextLine();
 			
 			inpDtls[0] = inpName;
@@ -36,7 +35,7 @@ public class LucidTranslationDriver
 		if (inpValid)
 		{
 			compPlanToObjLucid(cnstrAwrPlan, compRequest, inputDetails, lucidCodeFileName);
-			System.out.println("\nTranslated Lucid program has been written to file " + lucidCodeFileName);
+			System.out.println("Translated Lucid program has been written to file " + lucidCodeFileName);
 		}
 		else
 		{

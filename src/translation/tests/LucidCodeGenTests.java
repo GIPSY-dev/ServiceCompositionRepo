@@ -15,11 +15,31 @@ import translation.utilities.ReadWriteUtil;
 public class LucidCodeGenTests 
 {
 	@Test
+	public void translationCLI()
+	{
+		String actualLucidFileName = "testinput/translationCLI/testobjlucidprogram.ipl";
+		String expectedLucidFileName = "testinput/translationCLI/expectedtestobjlucidprogram.ipl";
+		String repoFileName = "testinput/translationCLI/Test_Services_Set_3.xml";
+		String inputString = "char : input271";
+		String outputString = "string : output311";
+		String qosString = "";
+		String constraintString = "";
+		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
+		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.buildServiceCompositions(compRequest, repoFileName);
+		
+		LucidTranslationDriver.driveTranslation(cnstrAwrPlans.get(0), compRequest, actualLucidFileName);
+		
+		String expectedProgram = ReadWriteUtil.readTextFile(expectedLucidFileName);
+		String actualProgram = ReadWriteUtil.readTextFile(actualLucidFileName);
+		assertEquals(expectedProgram, actualProgram);
+	}
+	
+	@Test
 	public void complexPlanTranslation()
 	{
 		String actualLucidFileName = "testinput/complexPlanTranslation/testobjlucidprogram.ipl";
 		String expectedLucidFileName = "testinput/complexPlanTranslation/expectedtestobjlucidprogram.ipl";
-		String repoFileName = "testinput/complexPlanTranslation/Test_Services_Set_6.xml";
+		String repoFileName = "testinput/complexPlanTranslation/Test_Services_Set_5.xml";
 		String inputString = "int : input11, int : input21, string : input31, int : input32, int : input41";
 		String outputString = "float : output15, int : output86, char : output91, boolean : output101, string : output111";
 		String qosString = "";
