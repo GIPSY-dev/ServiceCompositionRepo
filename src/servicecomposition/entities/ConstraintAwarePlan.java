@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import constraint.Constraint;
+import service.ConstrainedService;
 
 /**
  * Class for representing a constraint-aware service composition plan.
@@ -136,7 +137,8 @@ public class ConstraintAwarePlan
 			{
 				//For each constraint in the service object of the current service node
 				ServiceNode currServiceNode = currLayer.get(j);
-				List<Constraint> adjConstraints = currServiceNode.getService().getConstraints();
+				ConstrainedService currConstrService = (ConstrainedService) currServiceNode.getService();
+				List<Constraint> adjConstraints = currConstrService.getConstraints();
 				int adjCnstrCount = adjConstraints.size();
 				for (int k = 0; k < adjCnstrCount; k++)
 				{
@@ -163,7 +165,7 @@ public class ConstraintAwarePlan
 						for (ServiceNode closestPred : closestPredSet)
 						{
 							//Checking if the predecessor affects the current constraint's feature
-							if (closestPred.getService().getEffects().contains(currConstraint.getType()))
+							if (((ConstrainedService) closestPred.getService()).getEffects().contains(currConstraint.getType()))
 							{
 								//If yes, adding the constraint to the predecessor's successor nodes
 								constraintAdjusted = true;

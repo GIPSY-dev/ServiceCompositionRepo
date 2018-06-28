@@ -3,6 +3,7 @@ package servicecomposition.entities;
 import java.util.ArrayList;
 import java.util.List;
 import constraint.Constraint;
+import service.ConstrainedService;
 import service.Service;
 
 /**
@@ -30,9 +31,11 @@ public class ServiceNode
 		this.layerIndex = layerIndex;
 		predecessors = new ArrayList<ServiceNode>();
 		successors = new ArrayList<ServiceNode>();
-		if (service.getConstraints() != null)
+		
+		ConstrainedService constrainedService = (ConstrainedService) service;
+		if (constrainedService.getConstraints() != null)
 		{
-			constraints = service.getConstraints();
+			constraints = constrainedService.getConstraints();
 		}
 		else
 		{

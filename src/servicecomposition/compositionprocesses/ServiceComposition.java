@@ -13,8 +13,9 @@ import servicecomposition.entities.QualityOfService;
 import servicecomposition.entities.SearchGraph;
 import servicecomposition.entities.SearchNode;
 import service.Service;
-import service.ServiceParser;
-import service.ServiceXMLParser;
+import service.parser.BasicServiceParser;
+import service.parser.ConstrainedServiceXMLParser;
+import service.parser.ServiceFileParserDecorator;
 
 /**
  * Class for driving the service composition process.
@@ -172,8 +173,9 @@ public class ServiceComposition
 	public static List<ConstraintAwarePlan> buildServiceCompositions(CompositionRequest compRequest, String repoFileName)
 	{
 		//Reading the service repository
-		ServiceParser serviceParser = new ServiceXMLParser();
-		ArrayList<Service> serviceRepo = serviceParser.parse(repoFileName);
+		ServiceFileParserDecorator serviceParser = new ConstrainedServiceXMLParser(new BasicServiceParser());
+		serviceParser.setLocation(repoFileName);
+		ArrayList<Service> serviceRepo = serviceParser.parse();
 		if (serviceRepo.size() == 0)
 		{
 			System.out.println("Service repository is empty.\nAborting service composition process.");

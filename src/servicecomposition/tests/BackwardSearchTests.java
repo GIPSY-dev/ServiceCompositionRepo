@@ -14,8 +14,9 @@ import servicecomposition.entities.CompositionRequest;
 import servicecomposition.entities.SearchGraph;
 import servicecomposition.entities.SearchNode;
 import service.Service;
-import service.ServiceParser;
-import service.ServiceXMLParser;
+import service.parser.BasicServiceParser;
+import service.parser.ConstrainedServiceXMLParser;
+import service.parser.ServiceFileParserDecorator;
 
 /**
  * Class for testing the backward search process in various scenarios.
@@ -168,8 +169,9 @@ public class BackwardSearchTests
 		compositionReq.setOutputs(compReqOutputs);
 		
 		//Reading the service repository
-		ServiceParser serviceParser = new ServiceXMLParser();
-		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
+		ServiceFileParserDecorator serviceParser = new ConstrainedServiceXMLParser(new BasicServiceParser());
+		serviceParser.setLocation("testinput/Test_Services_Set_1.xml");
+		ArrayList<Service> serviceRepo = serviceParser.parse();
 		
 		//Using forward expansion to generate a search graph
 		SearchGraph resultingGraph = ForwardExpansion.forwardExpansion(compositionReq, serviceRepo);
