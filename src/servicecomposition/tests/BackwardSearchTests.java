@@ -1,4 +1,4 @@
-package tests;
+package servicecomposition.tests;
 
 import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
@@ -8,11 +8,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
-import compositionprocesses.BackwardSearch;
-import compositionprocesses.ForwardExpansion;
-import entities.CompositionRequest;
-import entities.SearchGraph;
-import entities.SearchNode;
+import servicecomposition.compositionprocesses.BackwardSearch;
+import servicecomposition.compositionprocesses.ForwardExpansion;
+import servicecomposition.entities.CompositionRequest;
+import servicecomposition.entities.SearchGraph;
+import servicecomposition.entities.SearchNode;
 import service.Service;
 import service.ServiceParser;
 import service.ServiceXMLParser;
@@ -33,8 +33,8 @@ public class BackwardSearchTests
 	@Test
 	public void planSetGeneration()
 	{
-		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("input31", "input32", "input42", "output21"));
-		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("output22", "output32", "output42"));
+		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("string : input31", "boolean : input32", "string : input42", "char : output21"));
+		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("float : output22", "char : output32", "int : output42"));
 		List<List<String>> planSetServiceLists = new ArrayList<List<String>>();
 		
 		int planSetCount = getActualPlanSetResults(compReqInputs, compReqOutputs, planSetServiceLists);
@@ -59,8 +59,8 @@ public class BackwardSearchTests
 	@Test
 	public void startingLayers()
 	{
-		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("input12", "input31", "input32"));
-		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("output11"));
+		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("char : input12", "string : input31", "boolean : input32"));
+		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("float : output11"));
 		List<List<String>> planSetServiceLists = new ArrayList<List<String>>();
 		
 		int planSetCount = getActualPlanSetResults(compReqInputs, compReqOutputs, planSetServiceLists);
@@ -81,8 +81,8 @@ public class BackwardSearchTests
 	@Test
 	public void singleNodePlanSet()
 	{
-		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("input12", "output31"));
-		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("output11"));
+		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("char : input12", "int : output31"));
+		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("float : output11"));
 		List<List<String>> planSetServiceLists = new ArrayList<List<String>>();
 		
 		int planSetCount = getActualPlanSetResults(compReqInputs, compReqOutputs, planSetServiceLists);
@@ -106,8 +106,8 @@ public class BackwardSearchTests
 	@Test
 	public void layerZeroPlanSets()
 	{
-		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("input11", "input12", "input31", "input42", "input61", "output22"));
-		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("output11", "input32"));
+		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("int : input11", "char : input12", "string : input31", "string : input42", "char : input61", "float : output22"));
+		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("float : output11", "boolean : input32"));
 		List<List<String>> planSetServiceLists = new ArrayList<List<String>>();
 		
 		int planSetCount = getActualPlanSetResults(compReqInputs, compReqOutputs, planSetServiceLists);
@@ -128,8 +128,8 @@ public class BackwardSearchTests
 	@Test
 	public void complexSearchGraph()
 	{
-		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("input11", "input12", "input21", "input22", "input31", "input42", "input61", "output22"));
-		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("output11", "input32"));
+		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("int : input11", "char : input12", "boolean : input21", "int : input22", "string : input31", "string : input42", "char : input61", "float : output22"));
+		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("float : output11", "boolean : input32"));
 		List<List<String>> planSetServiceLists = new ArrayList<List<String>>();
 		
 		int planSetCount = getActualPlanSetResults(compReqInputs, compReqOutputs, planSetServiceLists);

@@ -1,4 +1,4 @@
-package tests;
+package servicecomposition.tests;
 
 import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
@@ -7,8 +7,8 @@ import java.util.List;
 import org.junit.Test;
 import constraint.Constraint;
 import constraint.Operator;
-import entities.SearchGraph;
-import entities.SearchNode;
+import servicecomposition.entities.SearchGraph;
+import servicecomposition.entities.SearchNode;
 import service.Service;
 
 /**
@@ -26,14 +26,14 @@ public class SearchGraphTests
 		SearchGraph searchGraph = new SearchGraph();
 		
 		ArrayList<String> inputs = new ArrayList<String>();
-		inputs.addAll(Arrays.asList("input11", "input12"));
+		inputs.addAll(Arrays.asList("int : input11", "char : input12"));
 		ArrayList<String> outputs = new ArrayList<String>();
-		outputs.addAll(Arrays.asList("output11", "output12"));
+		outputs.addAll(Arrays.asList("float : output11", "string : output12"));
 		ArrayList<Constraint> constraints = new ArrayList<Constraint>();
-		constraints.add(new Constraint("sname1", "lit11", "type11", Operator.EQUALS));
-		constraints.add(new Constraint("sname1", "lit12", "type12", Operator.LESS_THAN));
+		constraints.add(new Constraint("sname1", "11", "int : input11", Operator.LESS_THAN));
+		constraints.add(new Constraint("sname1", "a", "char : input12", Operator.EQUALS));
 		ArrayList<String> effects = new ArrayList<String>();
-		effects.addAll(Arrays.asList("eff11", "eff12"));
+		effects.addAll(Arrays.asList("float : output11", "string : output12"));
 		Service service = new Service("sname1", inputs, outputs, constraints, effects);
 		
 		searchGraph.addService(service);
@@ -65,25 +65,25 @@ public class SearchGraphTests
 		SearchGraph searchGraph = getSingleLayerGraph();
 		
 		ArrayList<String> inputs4 = new ArrayList<String>();
-		inputs4.addAll(Arrays.asList("input41", "input42"));
+		inputs4.addAll(Arrays.asList("float : input41", "string : input42"));
 		ArrayList<String> outputs4 = new ArrayList<String>();
-		outputs4.addAll(Arrays.asList("output41", "output42"));
+		outputs4.addAll(Arrays.asList("boolean : output41", "int : output42"));
 		ArrayList<Constraint> constraints4 = new ArrayList<Constraint>();
-		constraints4.add(new Constraint("sname4", "lit41", "type41", Operator.EQUALS));
-		constraints4.add(new Constraint("sname4", "lit42", "type42", Operator.LESS_THAN));
+		constraints4.add(new Constraint("sname4", "41.0", "float : input41", Operator.GREATER_THAN));
+		constraints4.add(new Constraint("sname4", "lit42", "string : input42", Operator.EQUALS));
 		ArrayList<String> effects4 = new ArrayList<String>();
-		effects4.addAll(Arrays.asList("eff41", "eff42"));
+		effects4.addAll(Arrays.asList("boolean : output41", "int : output42"));
 		Service service4 = new Service("sname4", inputs4, outputs4, constraints4, effects4);
 		
 		ArrayList<String> inputs5 = new ArrayList<String>();
-		inputs5.addAll(Arrays.asList("input51", "input52"));
+		inputs5.addAll(Arrays.asList("char : input51", "float : input52"));
 		ArrayList<String> outputs5 = new ArrayList<String>();
-		outputs5.addAll(Arrays.asList("output51", "output52"));
+		outputs5.addAll(Arrays.asList("string : output51", "boolean : output52"));
 		ArrayList<Constraint> constraints5 = new ArrayList<Constraint>();
-		constraints5.add(new Constraint("sname5", "lit51", "type51", Operator.EQUALS));
-		constraints5.add(new Constraint("sname5", "lit52", "type52", Operator.LESS_THAN));
+		constraints5.add(new Constraint("sname5", "b", "char : input51", Operator.EQUALS));
+		constraints5.add(new Constraint("sname5", "5.2", "float : input52", Operator.LESS_THAN));
 		ArrayList<String> effects5 = new ArrayList<String>();
-		effects5.addAll(Arrays.asList("eff51", "eff52"));
+		effects5.addAll(Arrays.asList("string : output51", "boolean : output52"));
 		Service service5 = new Service("sname5", inputs5, outputs5, constraints5, effects5);
 		
 		searchGraph.addService(service4);
@@ -103,25 +103,25 @@ public class SearchGraphTests
 		SearchGraph searchGraph = getSingleLayerGraph();
 		
 		ArrayList<String> inputs4 = new ArrayList<String>();
-		inputs4.addAll(Arrays.asList("output22", "input42"));
+		inputs4.addAll(Arrays.asList("float : output22", "string : input42"));
 		ArrayList<String> outputs4 = new ArrayList<String>();
-		outputs4.addAll(Arrays.asList("output41", "output42"));
+		outputs4.addAll(Arrays.asList("boolean : output41", "int : output42"));
 		ArrayList<Constraint> constraints4 = new ArrayList<Constraint>();
-		constraints4.add(new Constraint("sname4", "lit41", "type41", Operator.EQUALS));
-		constraints4.add(new Constraint("sname4", "lit42", "type42", Operator.LESS_THAN));
+		constraints4.add(new Constraint("sname4", "41.0", "float : output22", Operator.GREATER_THAN));
+		constraints4.add(new Constraint("sname4", "lit42", "string : input42", Operator.EQUALS));
 		ArrayList<String> effects4 = new ArrayList<String>();
-		effects4.addAll(Arrays.asList("eff41", "eff42"));
+		effects4.addAll(Arrays.asList("boolean : output41", "int : output42"));
 		Service service4 = new Service("sname4", inputs4, outputs4, constraints4, effects4);
 		
 		ArrayList<String> inputs5 = new ArrayList<String>();
-		inputs5.addAll(Arrays.asList("output12", "output31"));
+		inputs5.addAll(Arrays.asList("string : output12", "int : output31"));
 		ArrayList<String> outputs5 = new ArrayList<String>();
-		outputs5.addAll(Arrays.asList("output51", "output52"));
+		outputs5.addAll(Arrays.asList("string : output51", "boolean : output52"));
 		ArrayList<Constraint> constraints5 = new ArrayList<Constraint>();
-		constraints5.add(new Constraint("sname5", "lit51", "type51", Operator.EQUALS));
-		constraints5.add(new Constraint("sname5", "lit52", "type52", Operator.LESS_THAN));
+		constraints5.add(new Constraint("sname5", "lit51", "string : output12", Operator.EQUALS));
+		constraints5.add(new Constraint("sname5", "52", "int : output31", Operator.LESS_THAN));
 		ArrayList<String> effects5 = new ArrayList<String>();
-		effects5.addAll(Arrays.asList("eff51", "eff52"));
+		effects5.addAll(Arrays.asList("string : output51", "boolean : output52"));
 		Service service5 = new Service("sname5", inputs5, outputs5, constraints5, effects5);
 		
 		searchGraph.addService(service4);
@@ -238,36 +238,36 @@ public class SearchGraphTests
 		SearchGraph searchGraph = new SearchGraph();
 		
 		ArrayList<String> inputs1 = new ArrayList<String>();
-		inputs1.addAll(Arrays.asList("input11", "input12"));
+		inputs1.addAll(Arrays.asList("int : input11", "char : input12"));
 		ArrayList<String> outputs1 = new ArrayList<String>();
-		outputs1.addAll(Arrays.asList("output11", "output12"));
+		outputs1.addAll(Arrays.asList("float : output11", "string : output12"));
 		ArrayList<Constraint> constraints1 = new ArrayList<Constraint>();
-		constraints1.add(new Constraint("sname1", "lit11", "type11", Operator.EQUALS));
-		constraints1.add(new Constraint("sname1", "lit12", "type12", Operator.LESS_THAN));
+		constraints1.add(new Constraint("sname1", "11", "int : input11", Operator.LESS_THAN));
+		constraints1.add(new Constraint("sname1", "a", "char : input12", Operator.EQUALS));
 		ArrayList<String> effects1 = new ArrayList<String>();
-		effects1.addAll(Arrays.asList("eff11", "eff12"));
+		effects1.addAll(Arrays.asList("float : output11", "string : output12"));
 		Service service1 = new Service("sname1", inputs1, outputs1, constraints1, effects1);
 		
 		ArrayList<String> inputs2 = new ArrayList<String>();
-		inputs2.addAll(Arrays.asList("input21", "input22"));
+		inputs2.addAll(Arrays.asList("boolean : input21", "int : input22"));
 		ArrayList<String> outputs2 = new ArrayList<String>();
-		outputs2.addAll(Arrays.asList("output21", "output22"));
+		outputs2.addAll(Arrays.asList("char : output21", "float : output22"));
 		ArrayList<Constraint> constraints2 = new ArrayList<Constraint>();
-		constraints2.add(new Constraint("sname2", "lit21", "type21", Operator.EQUALS));
-		constraints2.add(new Constraint("sname2", "lit22", "type22", Operator.LESS_THAN));
+		constraints2.add(new Constraint("sname2", "true", "boolean : input21", Operator.EQUALS));
+		constraints2.add(new Constraint("sname2", "22", "int : input22", Operator.LESS_THAN));
 		ArrayList<String> effects2 = new ArrayList<String>();
-		effects2.addAll(Arrays.asList("eff21", "eff22"));
+		effects2.addAll(Arrays.asList("char : output21", "float : output22"));
 		Service service2 = new Service("sname2", inputs2, outputs2, constraints2, effects2);
 		
 		ArrayList<String> inputs3 = new ArrayList<String>();
-		inputs3.addAll(Arrays.asList("input31", "input32"));
+		inputs3.addAll(Arrays.asList("string : input31", "boolean : input32"));
 		ArrayList<String> outputs3 = new ArrayList<String>();
-		outputs3.addAll(Arrays.asList("output31", "output32"));
+		outputs3.addAll(Arrays.asList("int : output31", "char : output32"));
 		ArrayList<Constraint> constraints3 = new ArrayList<Constraint>();
-		constraints3.add(new Constraint("sname3", "lit31", "type31", Operator.EQUALS));
-		constraints3.add(new Constraint("sname3", "lit32", "type32", Operator.LESS_THAN));
+		constraints3.add(new Constraint("sname3", "lit31", "string : input31", Operator.EQUALS));
+		constraints3.add(new Constraint("sname3", "false", "boolean : input32", Operator.EQUALS));
 		ArrayList<String> effects3 = new ArrayList<String>();
-		effects3.addAll(Arrays.asList("eff31", "eff32"));
+		effects3.addAll(Arrays.asList("int : output31", "char : output32"));
 		Service service3 = new Service("sname3", inputs3, outputs3, constraints3, effects3);
 		
 		searchGraph.addService(service1);
@@ -288,50 +288,50 @@ public class SearchGraphTests
 		
 		//Service has predecessor in layer 0. It should be added to layer 1.
 		ArrayList<String> inputs4 = new ArrayList<String>();
-		inputs4.addAll(Arrays.asList("output22", "input42"));
+		inputs4.addAll(Arrays.asList("float : output22", "string : input42"));
 		ArrayList<String> outputs4 = new ArrayList<String>();
-		outputs4.addAll(Arrays.asList("output41", "output42"));
+		outputs4.addAll(Arrays.asList("boolean : output41", "int : output42"));
 		ArrayList<Constraint> constraints4 = new ArrayList<Constraint>();
-		constraints4.add(new Constraint("sname4", "lit41", "type41", Operator.EQUALS));
-		constraints4.add(new Constraint("sname4", "lit42", "type42", Operator.LESS_THAN));
+		constraints4.add(new Constraint("sname4", "41.0", "float : output22", Operator.GREATER_THAN));
+		constraints4.add(new Constraint("sname4", "lit42", "string : input42", Operator.EQUALS));
 		ArrayList<String> effects4 = new ArrayList<String>();
-		effects4.addAll(Arrays.asList("eff41", "eff42"));
+		effects4.addAll(Arrays.asList("boolean : output41", "int : output42"));
 		Service service4 = new Service("sname4", inputs4, outputs4, constraints4, effects4);
 		
 		//Service has no predecessors. It should be added to layer 0.
 		ArrayList<String> inputs5 = new ArrayList<String>();
-		inputs5.addAll(Arrays.asList("input51", "input52"));
+		inputs5.addAll(Arrays.asList("char : input51", "float : input52"));
 		ArrayList<String> outputs5 = new ArrayList<String>();
-		outputs5.addAll(Arrays.asList("output51", "output52"));
+		outputs5.addAll(Arrays.asList("string : output51", "boolean : output52"));
 		ArrayList<Constraint> constraints5 = new ArrayList<Constraint>();
-		constraints5.add(new Constraint("sname5", "lit51", "type51", Operator.EQUALS));
-		constraints5.add(new Constraint("sname5", "lit52", "type52", Operator.LESS_THAN));
+		constraints5.add(new Constraint("sname5", "b", "char : input51", Operator.EQUALS));
+		constraints5.add(new Constraint("sname5", "5.2", "float : input52", Operator.LESS_THAN));
 		ArrayList<String> effects5 = new ArrayList<String>();
-		effects5.addAll(Arrays.asList("eff51", "eff52"));
+		effects5.addAll(Arrays.asList("string : output51", "boolean : output52"));
 		Service service5 = new Service("sname5", inputs5, outputs5, constraints5, effects5);
 		
 		//Service has predecessors in layers 0 and 1. It should be added to layer 2.
 		ArrayList<String> inputs6 = new ArrayList<String>();
-		inputs6.addAll(Arrays.asList("output41", "input61", "output22", "input11"));
+		inputs6.addAll(Arrays.asList("boolean : output41", "char : input61", "float : output22", "int : input11"));
 		ArrayList<String> outputs6 = new ArrayList<String>();
-		outputs6.addAll(Arrays.asList("output51", "output42", "output61"));
+		outputs6.addAll(Arrays.asList("string : output51", "int : output42", "char : output61"));
 		ArrayList<Constraint> constraints6 = new ArrayList<Constraint>();
-		constraints6.add(new Constraint("sname6", "lit61", "type61", Operator.EQUALS));
-		constraints6.add(new Constraint("sname6", "lit62", "type62", Operator.LESS_THAN));
+		constraints6.add(new Constraint("sname6", "true", "boolean : output41", Operator.EQUALS));
+		constraints6.add(new Constraint("sname6", "c", "char : input61", Operator.EQUALS));
 		ArrayList<String> effects6 = new ArrayList<String>();
-		effects6.addAll(Arrays.asList("eff61", "eff62"));
+		effects6.addAll(Arrays.asList("string : output51", "int : output42", "char : output61"));
 		Service service6 = new Service("sname6", inputs6, outputs6, constraints6, effects6);
 		
 		//Service has predecessor in layer 0. It should be added to layer 1.
 		ArrayList<String> inputs7 = new ArrayList<String>();
-		inputs7.addAll(Arrays.asList("output31"));
+		inputs7.addAll(Arrays.asList("int : output31"));
 		ArrayList<String> outputs7 = new ArrayList<String>();
-		outputs7.addAll(Arrays.asList("output71", "output11"));
+		outputs7.addAll(Arrays.asList("string : output71", "float : output11"));
 		ArrayList<Constraint> constraints7 = new ArrayList<Constraint>();
-		constraints7.add(new Constraint("sname7", "lit71", "type71", Operator.EQUALS));
-		constraints7.add(new Constraint("sname7", "lit72", "type72", Operator.LESS_THAN));
+		constraints7.add(new Constraint("sname7", "71", "int : output31", Operator.GREATER_THAN));
+		constraints7.add(new Constraint("sname7", "72", "int : output31", Operator.LESS_THAN));
 		ArrayList<String> effects7 = new ArrayList<String>();
-		effects7.addAll(Arrays.asList("eff71", "eff72"));
+		effects7.addAll(Arrays.asList("string : output71", "float : output11"));
 		Service service7 = new Service("sname7", inputs7, outputs7, constraints7, effects7);
 		
 		searchGraph.addService(service4);

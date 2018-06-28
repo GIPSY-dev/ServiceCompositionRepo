@@ -1,4 +1,4 @@
-package entities;
+package servicecomposition.entities;
 
 /**
  * Enumeration listing the Quality of Service features that can be expected from a composite service.

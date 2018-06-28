@@ -1,4 +1,4 @@
-package entities;
+package servicecomposition.entities;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,6 +61,15 @@ public class ConstraintAwarePlan
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Method for fetching all the service layers of this constraint-aware composition plan.
+	 * @return	List of service layers of this constraint-aware composition plan
+	 */
+	public List<List<ServiceNode>> getServiceLayers()
+	{
+		return serviceLayers;
 	}
 	
 	/**

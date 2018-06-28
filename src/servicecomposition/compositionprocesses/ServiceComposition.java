@@ -1,4 +1,4 @@
-package compositionprocesses;
+package servicecomposition.compositionprocesses;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,12 +6,12 @@ import java.util.Scanner;
 import java.util.Set;
 import constraint.Constraint;
 import constraint.Operator;
-import entities.CompositionPlan;
-import entities.CompositionRequest;
-import entities.ConstraintAwarePlan;
-import entities.QualityOfService;
-import entities.SearchGraph;
-import entities.SearchNode;
+import servicecomposition.entities.CompositionPlan;
+import servicecomposition.entities.CompositionRequest;
+import servicecomposition.entities.ConstraintAwarePlan;
+import servicecomposition.entities.QualityOfService;
+import servicecomposition.entities.SearchGraph;
+import servicecomposition.entities.SearchNode;
 import service.Service;
 import service.ServiceParser;
 import service.ServiceXMLParser;
@@ -119,13 +119,13 @@ public class ServiceComposition
 			constraintStr = constraintStr.trim();
 			if (constraintStr.length() > 0)
 			{
-				String[] constraintElements = constraintStr.split("\\s+");
+				String[] constraintElements = constraintStr.split("\\|");
 				
 				//Each constraint must have 3 elements: type, operator and literal value
 				if (constraintElements.length == 3)
 				{
 					//Operator must be from the enumeration listing the accepted operators
-					Operator operator = getOperator(constraintElements[1]);
+					Operator operator = getOperator(constraintElements[1].trim());
 					if (operator == null)
 					{
 						System.out.println("Invalid operator for requested constraint: " + constraintStr);
@@ -134,7 +134,7 @@ public class ServiceComposition
 					else
 					{
 						//Creating a constraint object if all validations are passed 
-						Constraint constraint = new Constraint("CompositeService", constraintElements[2], constraintElements[0], operator);
+						Constraint constraint = new Constraint("CompositeService", constraintElements[2].trim(), constraintElements[0].trim(), operator);
 						constraints.add(constraint);
 					}
 				}

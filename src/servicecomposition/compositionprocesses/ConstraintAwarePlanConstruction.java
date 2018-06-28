@@ -1,11 +1,11 @@
-package compositionprocesses;
+package servicecomposition.compositionprocesses;
 
 import java.util.ArrayList;
 import java.util.List;
-import entities.CompositionPlan;
-import entities.ConstraintAwarePlan;
-import entities.SearchNode;
-import entities.ServiceNode;
+import servicecomposition.entities.CompositionPlan;
+import servicecomposition.entities.ConstraintAwarePlan;
+import servicecomposition.entities.SearchNode;
+import servicecomposition.entities.ServiceNode;
 
 /**
  * Class for constructing constraint-aware plans from simple composition plans.
