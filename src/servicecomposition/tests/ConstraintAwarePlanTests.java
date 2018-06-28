@@ -17,9 +17,12 @@ import servicecomposition.entities.ConstraintAwarePlan;
 import servicecomposition.entities.SearchGraph;
 import servicecomposition.entities.SearchNode;
 import servicecomposition.entities.ServiceNode;
+import service.BasicService;
+import service.ConstrainedService;
 import service.Service;
-import service.ServiceParser;
-import service.ServiceXMLParser;
+import service.parser.BasicServiceParser;
+import service.parser.ConstrainedServiceXMLParser;
+import service.parser.ServiceFileParserDecorator;
 
 /**
  * Class for testing construction of and constraint adjustments in constraint-aware service composition plans.
@@ -76,15 +79,15 @@ public class ConstraintAwarePlanTests
 	public void emptyLayerRemoval()
 	{
 		//Creating service nodes
-		ServiceNode serviceNode1 = new ServiceNode(new Service("sname1", null, null, null, null), 2);
-		ServiceNode serviceNode2 = new ServiceNode(new Service("sname2", null, null, null, null), 4);
-		ServiceNode serviceNode3 = new ServiceNode(new Service("sname3", null, null, null, null), 4);
-		ServiceNode serviceNode4 = new ServiceNode(new Service("sname4", null, null, null, null), 7);
-		ServiceNode serviceNode5 = new ServiceNode(new Service("sname5", null, null, null, null), 7);
-		ServiceNode serviceNode6 = new ServiceNode(new Service("sname6", null, null, null, null), 7);
-		ServiceNode serviceNode7 = new ServiceNode(new Service("sname7", null, null, null, null), 8);
-		ServiceNode serviceNode8 = new ServiceNode(new Service("sname8", null, null, null, null), 10);
-		ServiceNode serviceNode9 = new ServiceNode(new Service("sname9", null, null, null, null), 10);
+		ServiceNode serviceNode1 = new ServiceNode(new ConstrainedService(new BasicService("sname1", null, null), null, null), 2);
+		ServiceNode serviceNode2 = new ServiceNode(new ConstrainedService(new BasicService("sname2", null, null), null, null), 4);
+		ServiceNode serviceNode3 = new ServiceNode(new ConstrainedService(new BasicService("sname3", null, null), null, null), 4);
+		ServiceNode serviceNode4 = new ServiceNode(new ConstrainedService(new BasicService("sname4", null, null), null, null), 7);
+		ServiceNode serviceNode5 = new ServiceNode(new ConstrainedService(new BasicService("sname5", null, null), null, null), 7);
+		ServiceNode serviceNode6 = new ServiceNode(new ConstrainedService(new BasicService("sname6", null, null), null, null), 7);
+		ServiceNode serviceNode7 = new ServiceNode(new ConstrainedService(new BasicService("sname7", null, null), null, null), 8);
+		ServiceNode serviceNode8 = new ServiceNode(new ConstrainedService(new BasicService("sname8", null, null), null, null), 10);
+		ServiceNode serviceNode9 = new ServiceNode(new ConstrainedService(new BasicService("sname9", null, null), null, null), 10);
 		
 		//Assigning predecessors and successors to the service nodes
 		serviceNode1.addSuccessor(serviceNode2);
@@ -376,8 +379,9 @@ public class ConstraintAwarePlanTests
 		compositionReq.setOutputs(compReqOutputs);
 		
 		//Reading the service repository
-		ServiceParser serviceParser = new ServiceXMLParser();
-		ArrayList<Service> serviceRepo = serviceParser.parse(repoXMLFileName);
+		ServiceFileParserDecorator serviceParser = new ConstrainedServiceXMLParser(new BasicServiceParser());
+		serviceParser.setLocation(repoXMLFileName);
+		ArrayList<Service> serviceRepo = serviceParser.parse();
 		
 		//Using forward expansion to generate a search graph
 		SearchGraph resultingGraph = ForwardExpansion.forwardExpansion(compositionReq, serviceRepo);

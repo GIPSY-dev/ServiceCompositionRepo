@@ -11,8 +11,9 @@ import servicecomposition.entities.CompositionRequest;
 import servicecomposition.entities.SearchGraph;
 import servicecomposition.entities.SearchNode;
 import service.Service;
-import service.ServiceParser;
-import service.ServiceXMLParser;
+import service.parser.BasicServiceParser;
+import service.parser.ConstrainedServiceXMLParser;
+import service.parser.ServiceFileParserDecorator;
 
 /**
  * Class for testing the forward expansion process in various scenarios.
@@ -32,8 +33,9 @@ public class ForwardExpansionTests
 		compositionReq.setInputs(Arrays.asList("int : inputXX", "char : inputYY"));
 		compositionReq.setOutputs(Arrays.asList("int : output42", "string : output71"));
 		
-		ServiceParser serviceParser = new ServiceXMLParser();
-		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
+		ServiceFileParserDecorator serviceParser = new ConstrainedServiceXMLParser(new BasicServiceParser());
+		serviceParser.setLocation("testinput/Test_Services_Set_1.xml");
+		ArrayList<Service> serviceRepo = serviceParser.parse();
 		
 		SearchGraph resultingGraph = ForwardExpansion.forwardExpansion(compositionReq, serviceRepo);
 		
@@ -50,8 +52,9 @@ public class ForwardExpansionTests
 		compositionReq.setInputs(Arrays.asList("int : input11", "boolean : input21", "int : input22", "string : input31", "boolean : input32"));
 		compositionReq.setOutputs(Arrays.asList("char : output32", "string : output71"));
 		
-		ServiceParser serviceParser = new ServiceXMLParser();
-		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
+		ServiceFileParserDecorator serviceParser = new ConstrainedServiceXMLParser(new BasicServiceParser());
+		serviceParser.setLocation("testinput/Test_Services_Set_1.xml");
+		ArrayList<Service> serviceRepo = serviceParser.parse();
 		
 		SearchGraph resultingGraph = ForwardExpansion.forwardExpansion(compositionReq, serviceRepo);
 		
@@ -91,8 +94,9 @@ public class ForwardExpansionTests
 												"string : output71"));
 		compositionReq.setOutputs(Arrays.asList("int : output42", "string : output71"));
 		
-		ServiceParser serviceParser = new ServiceXMLParser();
-		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
+		ServiceFileParserDecorator serviceParser = new ConstrainedServiceXMLParser(new BasicServiceParser());
+		serviceParser.setLocation("testinput/Test_Services_Set_1.xml");
+		ArrayList<Service> serviceRepo = serviceParser.parse();
 		
 		SearchGraph resultingGraph = ForwardExpansion.forwardExpansion(compositionReq, serviceRepo);
 		
@@ -110,8 +114,9 @@ public class ForwardExpansionTests
 		compositionReq.setInputs(Arrays.asList("int : input11", "char : input12", "boolean : input21", "int : input22", "string : input31", "boolean : input32"));
 		compositionReq.setOutputs(Arrays.asList("char : output32", "string : output71"));
 		
-		ServiceParser serviceParser = new ServiceXMLParser();
-		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
+		ServiceFileParserDecorator serviceParser = new ConstrainedServiceXMLParser(new BasicServiceParser());
+		serviceParser.setLocation("testinput/Test_Services_Set_1.xml");
+		ArrayList<Service> serviceRepo = serviceParser.parse();
 		
 		SearchGraph resultingGraph = ForwardExpansion.forwardExpansion(compositionReq, serviceRepo);
 		
@@ -145,8 +150,9 @@ public class ForwardExpansionTests
 		compositionReq.setInputs(Arrays.asList("boolean : input21", "int : input22"));
 		compositionReq.setOutputs(Arrays.asList("char : output21", "float : output22"));
 		
-		ServiceParser serviceParser = new ServiceXMLParser();
-		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
+		ServiceFileParserDecorator serviceParser = new ConstrainedServiceXMLParser(new BasicServiceParser());
+		serviceParser.setLocation("testinput/Test_Services_Set_1.xml");
+		ArrayList<Service> serviceRepo = serviceParser.parse();
 		
 		SearchGraph resultingGraph = ForwardExpansion.forwardExpansion(compositionReq, serviceRepo);
 		
@@ -163,8 +169,9 @@ public class ForwardExpansionTests
 		compositionReq.setInputs(Arrays.asList("int : input11", "char : input12", "boolean : input21", "int : input22", "string : input31", "boolean : input32"));
 		compositionReq.setOutputs(Arrays.asList("string : outputXX", "boolean : outputYY"));
 		
-		ServiceParser serviceParser = new ServiceXMLParser();
-		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
+		ServiceFileParserDecorator serviceParser = new ConstrainedServiceXMLParser(new BasicServiceParser());
+		serviceParser.setLocation("testinput/Test_Services_Set_1.xml");
+		ArrayList<Service> serviceRepo = serviceParser.parse();
 		
 		SearchGraph resultingGraph = ForwardExpansion.forwardExpansion(compositionReq, serviceRepo);
 		
@@ -181,8 +188,9 @@ public class ForwardExpansionTests
 		compositionReq.setInputs(Arrays.asList("int : input11", "boolean : input21", "int : input22", "string : input42", "char : input61"));
 		compositionReq.setOutputs(Arrays.asList("int : output42", "char : output61"));
 		
-		ServiceParser serviceParser = new ServiceXMLParser();
-		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
+		ServiceFileParserDecorator serviceParser = new ConstrainedServiceXMLParser(new BasicServiceParser());
+		serviceParser.setLocation("testinput/Test_Services_Set_1.xml");
+		ArrayList<Service> serviceRepo = serviceParser.parse();
 		
 		SearchGraph resultingGraph = ForwardExpansion.forwardExpansion(compositionReq, serviceRepo);
 		
@@ -221,8 +229,9 @@ public class ForwardExpansionTests
 												"char : input61"));
 		compositionReq.setOutputs(Arrays.asList("int : output42", "char : output61"));
 		
-		ServiceParser serviceParser = new ServiceXMLParser();
-		ArrayList<Service> serviceRepo = serviceParser.parse("testinput/Test_Services_Set_1.xml");
+		ServiceFileParserDecorator serviceParser = new ConstrainedServiceXMLParser(new BasicServiceParser());
+		serviceParser.setLocation("testinput/Test_Services_Set_1.xml");
+		ArrayList<Service> serviceRepo = serviceParser.parse();
 		
 		SearchGraph resultingGraph = ForwardExpansion.forwardExpansion(compositionReq, serviceRepo);
 		
