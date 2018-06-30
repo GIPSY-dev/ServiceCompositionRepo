@@ -12,7 +12,7 @@ import servicecomposition.entities.ConstraintAwarePlan;
 import servicecomposition.readers.FileReqConfigReader;
 import servicecomposition.readers.RequestConfiguration;
 import servicecomposition.readers.XMLFileReqConfigReader;
-import translation.translationprocesses.LucidTranslationDriver;
+import translation.drivers.LucidTranslationDriver;
 import utilities.ReadWriteUtil;
 
 public class LucidCodeGenTests 
