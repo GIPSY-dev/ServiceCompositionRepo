@@ -1,10 +1,16 @@
-package translation.utilities;
+package utilities;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 /**
  * Utility class for reading from and writing to different sources/destinations.
@@ -86,5 +92,42 @@ public class ReadWriteUtil
 				outputStream.close();
 			}
 		}
+	}
+	
+	/**
+	 * Method for creating an XML document for an XML file.
+	 * @param	xmlFileName		Complete name and location of the XML file
+	 * @return	XML document for the XML file
+	 */
+	public static Document getXmlDocument(String xmlFileName)
+	{
+		File xmlFile = new File(xmlFileName);
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = null;
+		try 
+		{
+			dBuilder = dbFactory.newDocumentBuilder();
+		} 
+		catch (ParserConfigurationException pce) 
+		{
+			System.out.println("Exception while parsing XML file: " + pce.getMessage());
+		}
+		
+		Document doc = null;
+		try 
+		{
+			doc = dBuilder.parse(xmlFile);
+		}
+		catch (SAXException se) 
+		{
+			System.out.println("Exception while parsing XML file: " + se.getMessage());
+		} 
+		catch (IOException ioe) 
+		{
+			System.out.println("Exception while parsing XML file: " + ioe.getMessage());
+		}
+		
+		doc.getDocumentElement().normalize();
+		return doc;
 	}
 }

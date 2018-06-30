@@ -9,9 +9,9 @@ import org.junit.Test;
 import servicecomposition.compositionprocesses.ServiceComposition;
 import servicecomposition.entities.CompositionRequest;
 import servicecomposition.entities.ConstraintAwarePlan;
-import servicecomposition.readers.FileConfigReader;
+import servicecomposition.readers.FileReqConfigReader;
 import servicecomposition.readers.RequestConfiguration;
-import servicecomposition.readers.XMLFileConfigReader;
+import servicecomposition.readers.XMLFileReqConfigReader;
 
 /**
  * Class for testing the complete process of constraint-aware service composition.
@@ -25,7 +25,7 @@ public class ServiceCompositionTests
 	@Test
 	public void serviceComposition()
 	{
-		FileConfigReader configReader = new XMLFileConfigReader();
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
 		configReader.setConfigFileName("testinput/serviceComposition/Request_Configuration.xml");
 		RequestConfiguration reqConfig = configReader.readReqConfig();
 		
@@ -93,7 +93,7 @@ public class ServiceCompositionTests
 	@Test
 	public void serviceCompositionAbort()
 	{
-		FileConfigReader configReader = new XMLFileConfigReader();
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
 		configReader.setConfigFileName("testinput/serviceCompositionAbort/Request_Configuration.xml");
 		RequestConfiguration reqConfig = configReader.readReqConfig();
 		
@@ -114,7 +114,7 @@ public class ServiceCompositionTests
 	@Test
 	public void compReqComponentCreation()
 	{
-		FileConfigReader configReader = new XMLFileConfigReader();
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
 		configReader.setConfigFileName("testinput/compReqComponentCreation/Request_Configuration.xml");
 		RequestConfiguration reqConfig = configReader.readReqConfig();
 		
@@ -137,7 +137,7 @@ public class ServiceCompositionTests
 	@Test
 	public void compReqCnstrOpFormatValidation()
 	{
-		FileConfigReader configReader = new XMLFileConfigReader();
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
 		configReader.setConfigFileName("testinput/compReqCnstrOpFormatValidation/Request_Configuration.xml");
 		RequestConfiguration reqConfig = configReader.readReqConfig();
 		
@@ -154,7 +154,7 @@ public class ServiceCompositionTests
 	@Test
 	public void noRequestedInput()
 	{
-		FileConfigReader configReader = new XMLFileConfigReader();
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
 		configReader.setConfigFileName("testinput/noRequestedInput/Request_Configuration.xml");
 		RequestConfiguration reqConfig = configReader.readReqConfig();
 		
@@ -171,7 +171,7 @@ public class ServiceCompositionTests
 	@Test
 	public void noRequestedOutput()
 	{
-		FileConfigReader configReader = new XMLFileConfigReader();
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
 		configReader.setConfigFileName("testinput/noRequestedOutput/Request_Configuration.xml");
 		RequestConfiguration reqConfig = configReader.readReqConfig();
 		
@@ -188,7 +188,7 @@ public class ServiceCompositionTests
 	@Test
 	public void invalidQOS()
 	{
-		FileConfigReader configReader = new XMLFileConfigReader();
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
 		configReader.setConfigFileName("testinput/invalidQOS/Request_Configuration.xml");
 		RequestConfiguration reqConfig = configReader.readReqConfig();
 		
@@ -205,7 +205,7 @@ public class ServiceCompositionTests
 	@Test
 	public void invalidConstraintType()
 	{
-		FileConfigReader configReader = new XMLFileConfigReader();
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
 		configReader.setConfigFileName("testinput/invalidConstraintType/Request_Configuration.xml");
 		RequestConfiguration reqConfig = configReader.readReqConfig();
 		
@@ -222,7 +222,7 @@ public class ServiceCompositionTests
 	@Test
 	public void emptySvcRepository()
 	{
-		FileConfigReader configReader = new XMLFileConfigReader();
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
 		configReader.setConfigFileName("testinput/emptySvcRepository/Request_Configuration.xml");
 		RequestConfiguration reqConfig = configReader.readReqConfig();
 		
@@ -237,7 +237,7 @@ public class ServiceCompositionTests
 	@Test
 	public void unsolvableProblem()
 	{
-		FileConfigReader configReader = new XMLFileConfigReader();
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
 		configReader.setConfigFileName("testinput/unsolvableProblem/Request_Configuration.xml");
 		RequestConfiguration reqConfig = configReader.readReqConfig();
 		
@@ -253,7 +253,7 @@ public class ServiceCompositionTests
 	@Test
 	public void noSvcCompositionReqd()
 	{
-		FileConfigReader configReader = new XMLFileConfigReader();
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
 		configReader.setConfigFileName("testinput/noSvcCompositionReqd/Request_Configuration.xml");
 		RequestConfiguration reqConfig = configReader.readReqConfig();
 		

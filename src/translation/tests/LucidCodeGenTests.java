@@ -9,11 +9,11 @@ import org.junit.Test;
 import servicecomposition.compositionprocesses.ServiceComposition;
 import servicecomposition.entities.CompositionRequest;
 import servicecomposition.entities.ConstraintAwarePlan;
-import servicecomposition.readers.FileConfigReader;
+import servicecomposition.readers.FileReqConfigReader;
 import servicecomposition.readers.RequestConfiguration;
-import servicecomposition.readers.XMLFileConfigReader;
+import servicecomposition.readers.XMLFileReqConfigReader;
 import translation.translationprocesses.LucidTranslationDriver;
-import translation.utilities.ReadWriteUtil;
+import utilities.ReadWriteUtil;
 
 public class LucidCodeGenTests 
 {
@@ -23,7 +23,7 @@ public class LucidCodeGenTests
 		String actualLucidFileName = "testinput/translationCLI/testobjlucidprogram.ipl";
 		String expectedLucidFileName = "testinput/translationCLI/expectedtestobjlucidprogram.ipl";
 		
-		FileConfigReader configReader = new XMLFileConfigReader();
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
 		configReader.setConfigFileName("testinput/translationCLI/Request_Configuration.xml");
 		RequestConfiguration reqConfig = configReader.readReqConfig();
 		
@@ -43,7 +43,7 @@ public class LucidCodeGenTests
 		String actualLucidFileName = "testinput/complexPlanTranslation/testobjlucidprogram.ipl";
 		String expectedLucidFileName = "testinput/complexPlanTranslation/expectedtestobjlucidprogram.ipl";
 		
-		FileConfigReader configReader = new XMLFileConfigReader();
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
 		configReader.setConfigFileName("testinput/complexPlanTranslation/Request_Configuration.xml");
 		RequestConfiguration reqConfig = configReader.readReqConfig();
 		

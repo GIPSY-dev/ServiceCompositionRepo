@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 import servicecomposition.entities.CompositionRequest;
 import servicecomposition.entities.ConstraintAwarePlan;
-import translation.utilities.ReadWriteUtil;
+import utilities.ReadWriteUtil;
 
 public class LucidTranslationDriver 
 {

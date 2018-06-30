@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Scanner;
 import servicecomposition.compositionprocesses.ServiceComposition;
 import servicecomposition.entities.ConstraintAwarePlan;
-import servicecomposition.readers.ConsoleConfigReader;
-import servicecomposition.readers.FileConfigReader;
+import servicecomposition.readers.ConsoleReqConfigReader;
+import servicecomposition.readers.FileReqConfigReader;
 import servicecomposition.readers.RequestConfigReader;
 import servicecomposition.readers.RequestConfiguration;
-import servicecomposition.readers.XMLFileConfigReader;
+import servicecomposition.readers.XMLFileReqConfigReader;
 
 /**
  * Driver class for service composition process.
@@ -59,13 +59,13 @@ public class ServiceCompositionDriver
 		RequestConfiguration reqConfig = null;
 		switch(inputMode)
 		{
-			case 1	: 	RequestConfigReader consoleConfigReader = new ConsoleConfigReader();
+			case 1	: 	RequestConfigReader consoleConfigReader = new ConsoleReqConfigReader();
 						reqConfig = consoleConfigReader.readReqConfig();
 						break;
 						
 			case 2	:	System.out.println("Please enter the XML configuration file name and location.");
 						input = scan.nextLine();				
-						FileConfigReader xmlConfigReader = new XMLFileConfigReader();
+						FileReqConfigReader xmlConfigReader = new XMLFileReqConfigReader();
 						xmlConfigReader.setConfigFileName(input);
 						reqConfig = xmlConfigReader.readReqConfig();
 						break;
