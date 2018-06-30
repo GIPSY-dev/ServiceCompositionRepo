@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<requestconfig>
+    <inputs value="char : input271"/>
+	<outputs value="string : output311"/>
+	<qos value=""/>
+	<constraints value=""/>
+	<repofilename value="testinput/translationCLI/Test_Services_Set_3.xml"/>
+</requestconfig>

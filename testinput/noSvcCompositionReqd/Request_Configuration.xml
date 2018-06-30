@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<requestconfig>
+    <inputs value="string : DeliveryAddress, string : ProductName"/>
+	<outputs value="string : ProductNumber"/>
+	<qos value="COST"/>
+	<constraints value="COST | &lt; | 100, string : DeliveryAddress | = | Canada"/>
+	<repofilename value="testinput/Test_Services_Set_3.xml"/>
+</requestconfig>

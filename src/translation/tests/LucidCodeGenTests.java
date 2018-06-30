@@ -9,6 +9,9 @@ import org.junit.Test;
 import servicecomposition.compositionprocesses.ServiceComposition;
 import servicecomposition.entities.CompositionRequest;
 import servicecomposition.entities.ConstraintAwarePlan;
+import servicecomposition.readers.FileConfigReader;
+import servicecomposition.readers.RequestConfiguration;
+import servicecomposition.readers.XMLFileConfigReader;
 import translation.translationprocesses.LucidTranslationDriver;
 import translation.utilities.ReadWriteUtil;
 
@@ -19,13 +22,13 @@ public class LucidCodeGenTests
 	{
 		String actualLucidFileName = "testinput/translationCLI/testobjlucidprogram.ipl";
 		String expectedLucidFileName = "testinput/translationCLI/expectedtestobjlucidprogram.ipl";
-		String repoFileName = "testinput/translationCLI/Test_Services_Set_3.xml";
-		String inputString = "char : input271";
-		String outputString = "string : output311";
-		String qosString = "";
-		String constraintString = "";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
-		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.buildServiceCompositions(compRequest, repoFileName);
+		
+		FileConfigReader configReader = new XMLFileConfigReader();
+		configReader.setConfigFileName("testinput/translationCLI/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(reqConfig);
+		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.buildServiceCompositions(compRequest, reqConfig.getRepoFileName());
 		
 		LucidTranslationDriver.driveTranslation(cnstrAwrPlans.get(0), compRequest, actualLucidFileName);
 		
@@ -39,13 +42,13 @@ public class LucidCodeGenTests
 	{
 		String actualLucidFileName = "testinput/complexPlanTranslation/testobjlucidprogram.ipl";
 		String expectedLucidFileName = "testinput/complexPlanTranslation/expectedtestobjlucidprogram.ipl";
-		String repoFileName = "testinput/complexPlanTranslation/Test_Services_Set_5.xml";
-		String inputString = "int : input11, int : input21, string : input31, int : input32, int : input41";
-		String outputString = "float : output15, int : output86, char : output91, boolean : output101, string : output111";
-		String qosString = "";
-		String constraintString = "";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
-		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.buildServiceCompositions(compRequest, repoFileName);
+		
+		FileConfigReader configReader = new XMLFileConfigReader();
+		configReader.setConfigFileName("testinput/complexPlanTranslation/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(reqConfig);
+		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.buildServiceCompositions(compRequest, reqConfig.getRepoFileName());
 		
 		List<String[]> compSvcInputs = new ArrayList<String[]>();
 		String[] inpDetails1 = {"input11", "int", "11"};

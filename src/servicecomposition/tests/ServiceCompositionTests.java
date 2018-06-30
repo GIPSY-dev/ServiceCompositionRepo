@@ -9,32 +9,28 @@ import org.junit.Test;
 import servicecomposition.compositionprocesses.ServiceComposition;
 import servicecomposition.entities.CompositionRequest;
 import servicecomposition.entities.ConstraintAwarePlan;
+import servicecomposition.readers.FileConfigReader;
+import servicecomposition.readers.RequestConfiguration;
+import servicecomposition.readers.XMLFileConfigReader;
 
 /**
  * Class for testing the complete process of constraint-aware service composition.
  * @author Jyotsana Gupta
  */
 public class ServiceCompositionTests 
-{
+{	
 	/**
-	 * Tests successful completion of service composition process, including user interaction.
-	 * For the following console input, this test should complete successfully:
-	 * Comma-separated list of inputs:
-	 * string : DeliveryAddress, string : ProductName
-	 * Comma-separated list of outputs:
-	 * string : ShipmentConfirm
-	 * Comma-separated list of QoS features:
-	 * COST, AVAILABILITY
-	 * Comma-separated list of constraints:
-	 * COST | < | 100, string : ShipmentConfirm | = | true, string : DeliveryAddress | = | Canada
-	 * Please enter the complete file path and name of the service repository XML file:
-	 * testinput/Test_Services_Set_3.xml
+	 * Tests successful completion of service composition process.
 	 */
 	@Test
 	public void serviceComposition()
 	{
+		FileConfigReader configReader = new XMLFileConfigReader();
+		configReader.setConfigFileName("testinput/serviceComposition/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
 		List<String> actualPlanDetails = new ArrayList<String>();
-		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition();
+		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition(reqConfig);
 		for (ConstraintAwarePlan cnstrAwrPlan : cnstrAwrPlans)
 		{
 			actualPlanDetails.add(cnstrAwrPlan.toString());
@@ -93,23 +89,15 @@ public class ServiceCompositionTests
 	
 	/**
 	 * Tests failure of service composition process if a valid composition request cannot be created.
-	 * For the following console input, this test should complete successfully 
-	 * and an error message should be printed on the console:
-	 * Comma-separated list of inputs:
-	 * 
-	 * Comma-separated list of outputs:
-	 * string : ShipmentConfirm
-	 * Comma-separated list of QoS features:
-	 * COST, AVAILABILITY
-	 * Comma-separated list of constraints:
-	 * COST | < | 100, string : ShipmentConfirm | = | true, string : DeliveryAddress | = | Canada
-	 * Please enter the complete file path and name of the service repository XML file:
-	 * testinput/Test_Services_Set_3.xml
 	 */
 	@Test
 	public void serviceCompositionAbort()
 	{
-		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition();
+		FileConfigReader configReader = new XMLFileConfigReader();
+		configReader.setConfigFileName("testinput/serviceCompositionAbort/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition(reqConfig);
 		assertNull(cnstrAwrPlans);
 	}
 	
@@ -126,11 +114,11 @@ public class ServiceCompositionTests
 	@Test
 	public void compReqComponentCreation()
 	{
-		String inputString = "string : Delivery Address, string : Product Name, string : Customer Name, float : Price";
-		String outputString = ", string : Shipment Confirmation  ,  string : Invoice , 	 ,  	";
-		String qosString = "    		";
-		String constraintString = "	 float : Price	 |  < |	100  , 		string : Invoice |		=| true , string : Delivery Address | = | Canada";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
+		FileConfigReader configReader = new XMLFileConfigReader();
+		configReader.setConfigFileName("testinput/compReqComponentCreation/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(reqConfig);
 		
 		String expectedCompReq = "Inputs: string : Delivery Address, string : Product Name, string : Customer Name, float : Price" 
 								+ "\nOutputs: string : Shipment Confirmation, string : Invoice" 
@@ -149,11 +137,11 @@ public class ServiceCompositionTests
 	@Test
 	public void compReqCnstrOpFormatValidation()
 	{
-		String inputString = "string : DeliveryAddress, string : ProductName, string : CustomerName, float : Price";
-		String outputString = "string : ShipmentConfirm, string : Invoice";
-		String qosString = "COST";
-		String constraintString = "COST | < | , string : Invoice | <> | false, string : DeliveryAddress | = | Quebec | City";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
+		FileConfigReader configReader = new XMLFileConfigReader();
+		configReader.setConfigFileName("testinput/compReqCnstrOpFormatValidation/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(reqConfig);
 		
 		assertNull(compRequest);
 	}
@@ -166,11 +154,11 @@ public class ServiceCompositionTests
 	@Test
 	public void noRequestedInput()
 	{
-		String inputString = ", , , ";
-		String outputString = "string : ShipmentConfirm, string : Invoice";
-		String qosString = "COST";
-		String constraintString = "COST | < | 100, string : Invoice | = | true";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
+		FileConfigReader configReader = new XMLFileConfigReader();
+		configReader.setConfigFileName("testinput/noRequestedInput/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(reqConfig);
 		
 		assertNull(compRequest);
 	}
@@ -183,11 +171,11 @@ public class ServiceCompositionTests
 	@Test
 	public void noRequestedOutput()
 	{
-		String inputString = "string : DeliveryAddress, string : ProductName, string : CustomerName, float : Price";
-		String outputString = "";
-		String qosString = "COST";
-		String constraintString = "COST | < | 100, string : DeliveryAddress | = | Quebec";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
+		FileConfigReader configReader = new XMLFileConfigReader();
+		configReader.setConfigFileName("testinput/noRequestedOutput/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(reqConfig);
 		
 		assertNull(compRequest);
 	}
@@ -200,11 +188,11 @@ public class ServiceCompositionTests
 	@Test
 	public void invalidQOS()
 	{
-		String inputString = "string : DeliveryAddress, string : ProductName, string : CustomerName, float : Price";
-		String outputString = "string : ShipmentConfirm, string : Invoice";
-		String qosString = "COST, THROUGHPUT, response_time";
-		String constraintString = "COST | < | 100, string : DeliveryAddress | = | Quebec, string : Invoice | = | true";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
+		FileConfigReader configReader = new XMLFileConfigReader();
+		configReader.setConfigFileName("testinput/invalidQOS/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(reqConfig);
 		
 		assertNull(compRequest);
 	}
@@ -217,11 +205,11 @@ public class ServiceCompositionTests
 	@Test
 	public void invalidConstraintType()
 	{
-		String inputString = "string : DeliveryAddress, string : ProductName, string : CustomerName, float : Price";
-		String outputString = "string : ShipmentConfirm, string : Invoice";
-		String qosString = "COST";
-		String constraintString = "AVAILABILITY | = | 60, string : DeliveryAddress | = | Quebec, string : Invoice | = | true";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
+		FileConfigReader configReader = new XMLFileConfigReader();
+		configReader.setConfigFileName("testinput/invalidConstraintType/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(reqConfig);
 		
 		assertNull(compRequest);
 	}
@@ -234,14 +222,11 @@ public class ServiceCompositionTests
 	@Test
 	public void emptySvcRepository()
 	{
-		String inputString = "string : DeliveryAddress, string : ProductName";
-		String outputString = "string : ShipmentConfirm";
-		String qosString = "COST";
-		String constraintString = "COST | < | 100, string : DeliveryAddress | = | Canada";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
-		String repoFileName = "testinput/Test_Services_Set_4.xml";
+		FileConfigReader configReader = new XMLFileConfigReader();
+		configReader.setConfigFileName("testinput/emptySvcRepository/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
 		
-		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.buildServiceCompositions(compRequest, repoFileName);
+		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition(reqConfig);
 		
 		assertNull(cnstrAwrPlans);
 	}
@@ -252,14 +237,11 @@ public class ServiceCompositionTests
 	@Test
 	public void unsolvableProblem()
 	{
-		String inputString = "string : DeliveryAddress, string : ProductName";
-		String outputString = "string : Invoice";
-		String qosString = "COST";
-		String constraintString = "COST | < | 100, string : DeliveryAddress | = | Canada";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
-		String repoFileName = "testinput/Test_Services_Set_3.xml";
+		FileConfigReader configReader = new XMLFileConfigReader();
+		configReader.setConfigFileName("testinput/unsolvableProblem/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
 		
-		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.buildServiceCompositions(compRequest, repoFileName);
+		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition(reqConfig);
 		
 		assertNull(cnstrAwrPlans);
 	}
@@ -271,14 +253,11 @@ public class ServiceCompositionTests
 	@Test
 	public void noSvcCompositionReqd()
 	{
-		String inputString = "string : DeliveryAddress, string : ProductName";
-		String outputString = "string : ProductNumber";
-		String qosString = "COST";
-		String constraintString = "COST | < | 100, string : DeliveryAddress | = | Canada";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
-		String repoFileName = "testinput/Test_Services_Set_3.xml";
+		FileConfigReader configReader = new XMLFileConfigReader();
+		configReader.setConfigFileName("testinput/noSvcCompositionReqd/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
 		
-		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.buildServiceCompositions(compRequest, repoFileName);
+		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition(reqConfig);
 		
 		assertNull(cnstrAwrPlans);
 	}

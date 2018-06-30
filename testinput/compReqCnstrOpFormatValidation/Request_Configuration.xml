@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<requestconfig>
+    <inputs value="string : DeliveryAddress, string : ProductName, string : CustomerName, float : Price"/>
+	<outputs value="string : ShipmentConfirm, string : Invoice"/>
+	<qos value="COST"/>
+	<constraints value="COST | &lt; | , string : Invoice | &lt;&gt; | false, string : DeliveryAddress | = | Quebec | City"/>
+	<repofilename value=""/>
+</requestconfig>

@@ -2,7 +2,6 @@ package servicecomposition.compositionprocesses;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
 import constraint.Constraint;
 import constraint.Operator;
@@ -12,6 +11,7 @@ import servicecomposition.entities.ConstraintAwarePlan;
 import servicecomposition.entities.QualityOfService;
 import servicecomposition.entities.SearchGraph;
 import servicecomposition.entities.SearchNode;
+import servicecomposition.readers.RequestConfiguration;
 import service.Service;
 import service.parser.BasicServiceParser;
 import service.parser.ConstrainedServiceXMLParser;
@@ -24,60 +24,40 @@ import service.parser.ServiceFileParserDecorator;
 public class ServiceComposition 
 {
 	/**
-	 * Method for gathering information about the composition request and service repository from the user 
-	 * and using it to trigger the construction of a valid composition request and constraint-aware 
-	 * service composition plans.
+	 * Method for triggering the construction of a valid composition request and constraint-aware
+	 * service composition plans based on the composition request and service repository configuration 
+	 * received as input.
+	 * @param	reqConfig	Object containing request and repository configuration
 	 * @return	List of constraint-aware service composition plans constructed for the composition request
 	 * 			Null, if the service composition process fails at any point
 	 */
-	public static List<ConstraintAwarePlan> driveServiceComposition()
+	public static List<ConstraintAwarePlan> driveServiceComposition(RequestConfiguration reqConfig)
 	{
-		//Fetching the components of a composition request from the user
-		Scanner userInput = new Scanner(System.in);
-		System.out.println("Please enter the details required to build a composition request:");
-		System.out.println("Comma-separated list of inputs:");
-		String inputString = userInput.nextLine();
-		System.out.println("Comma-separated list of outputs:");
-		String outputString = userInput.nextLine();
-		System.out.println("Comma-separated list of QoS features:");
-		String qosString = userInput.nextLine();
-		System.out.println("Comma-separated list of constraints:");
-		String constraintString = userInput.nextLine();
-		
-		//Creating a valid composition request based on user inputs
-		CompositionRequest compRequest = constructCompositionRequest(inputString, outputString, qosString, constraintString);
+		//Creating a valid composition request based on details fetched
+		CompositionRequest compRequest = constructCompositionRequest(reqConfig);
 		if (compRequest == null)
 		{
 			System.out.println("Aborting service composition process.");
-			userInput.close();
 			return null;
-		}
-		
-		//Fetching the service repository file location from the user
-		System.out.println("Please enter the complete file path and name of the service repository XML file: ");
-		String repoFileName = userInput.nextLine();
-		userInput.close();		
+		}	
 		
 		//Building constraint-aware composition plans for the given request and repository
-		return buildServiceCompositions(compRequest, repoFileName);
+		return buildServiceCompositions(compRequest, reqConfig.getRepoFileName());
 	}
 	
 	/**
 	 * Method for constructing a valid service composition request based on the user inputs.
-	 * @param 	inputString			Comma-separated list of requested inputs
-	 * @param 	outputString		Comma-separated list of requested outputs
-	 * @param 	qosString			Comma-separated list of requested QoS features
-	 * @param 	constraintString	Comma-separated list of requested constraints
+	 * @param 	reqConfig	Composition request details fetched from a source file or console
 	 * @return	A valid composition request, if it can be constructed
 	 * 			Null, otherwise
 	 */
-	public static CompositionRequest constructCompositionRequest(String inputString, String outputString, String qosString, String constraintString)
+	public static CompositionRequest constructCompositionRequest(RequestConfiguration reqConfig)
 	{
 		boolean isRequestValid = true;
 		
 		//Creating a list of requested inputs
 		List<String> inputs = new ArrayList<String>();
-		String[] inputStrings = inputString.split(",");
+		String[] inputStrings = reqConfig.getInputs().split(",");
 		for (String input : inputStrings)
 		{
 			input = input.trim();
@@ -89,7 +69,7 @@ public class ServiceComposition
 		
 		//Creating a list of requested outputs
 		List<String> outputs = new ArrayList<String>();
-		String[] outputStrings = outputString.split(",");
+		String[] outputStrings = reqConfig.getOutputs().split(",");
 		for (String output : outputStrings)
 		{
 			output = output.trim();
@@ -101,7 +81,7 @@ public class ServiceComposition
 		
 		//Creating a list of requested QoS features
 		List<String> qos = new ArrayList<String>();
-		String[] qosStrings = qosString.split(",");
+		String[] qosStrings = reqConfig.getQos().split(",");
 		for (String qosFeature : qosStrings)
 		{
 			qosFeature = qosFeature.trim();
@@ -114,7 +94,7 @@ public class ServiceComposition
 		
 		//Creating a list of requested constraints
 		List<Constraint> constraints = new ArrayList<Constraint>();
-		String[] constraintStrings = constraintString.split(",");
+		String[] constraintStrings = reqConfig.getConstraints().split(",");
 		for (String constraintStr : constraintStrings)
 		{
 			constraintStr = constraintStr.trim();
