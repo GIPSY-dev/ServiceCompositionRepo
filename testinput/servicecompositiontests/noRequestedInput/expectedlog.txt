@@ -1,0 +1,1 @@
+Invalid request. Composition request must have at least 1 input.

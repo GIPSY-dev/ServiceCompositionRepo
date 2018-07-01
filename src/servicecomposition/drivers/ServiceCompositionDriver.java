@@ -9,6 +9,8 @@ import servicecomposition.readers.FileReqConfigReader;
 import servicecomposition.readers.RequestConfigReader;
 import servicecomposition.readers.RequestConfiguration;
 import servicecomposition.readers.XMLFileReqConfigReader;
+import utilities.LogUtil;
+import utilities.ReadWriteUtil;
 
 /**
  * Driver class for service composition process.
@@ -73,11 +75,15 @@ public class ServiceCompositionDriver
 		scan.close();
 		
 		//Triggering the service composition process
+		String logFileName = "testoutput/servicecompositionruns/log.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(logFileName);
 		String planDetails = "";
-		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition(reqConfig);
+		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition(reqConfig, logger);
 		if (cnstrAwrPlans == null)
 		{
-			System.out.println("No composition plans could be generated for the given request.");
+			System.out.println("No composition plans could be generated for the given request. "
+								+ "Please check the log file " + logFileName + " for error details.");
 		}
 		else
 		{
@@ -87,10 +93,11 @@ public class ServiceCompositionDriver
 			}
 			planDetails = planDetails.trim();
 			
-			//TODO send dtls to file
+			String plansFileName = "testoutput/servicecompositionruns/plans.txt";
+			ReadWriteUtil.writeToTextFile(plansFileName, planDetails);
 			
 			System.out.println("The composition plans generated for the given request have been written to "
-								+ "filename");
+								+ plansFileName);
 		}	
 	}
 }

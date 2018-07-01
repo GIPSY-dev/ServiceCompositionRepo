@@ -4,5 +4,5 @@
 	<outputs value="string : ProductNumber"/>
 	<qos value="COST"/>
 	<constraints value="COST | &lt; | 100, string : DeliveryAddress | = | Canada"/>
-	<repofilename value="testinput/Test_Services_Set_3.xml"/>
+	<repofilename value="testinput/servicerepos/Test_Services_Set_3.xml"/>
 </requestconfig>

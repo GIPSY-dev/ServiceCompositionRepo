@@ -4,5 +4,5 @@
 	<outputs value="float : output15, int : output86, char : output91, boolean : output101, string : output111"/>
 	<qos value=""/>
 	<constraints value=""/>
-	<repofilename value="testinput/complexPlanTranslation/Test_Services_Set_5.xml"/>
+	<repofilename value="testinput/translationtests/complexPlanTranslation/Test_Services_Set_5.xml"/>
 </requestconfig>

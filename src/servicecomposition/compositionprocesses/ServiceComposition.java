@@ -12,6 +12,7 @@ import servicecomposition.entities.QualityOfService;
 import servicecomposition.entities.SearchGraph;
 import servicecomposition.entities.SearchNode;
 import servicecomposition.readers.RequestConfiguration;
+import utilities.LogUtil;
 import service.Service;
 import service.parser.BasicServiceParser;
 import service.parser.ConstrainedServiceXMLParser;
@@ -28,21 +29,22 @@ public class ServiceComposition
 	 * service composition plans based on the composition request and service repository configuration 
 	 * received as input.
 	 * @param	reqConfig	Object containing request and repository configuration
+	 * @param	logger		Logging utility object for logging error or status messages to a text file
 	 * @return	List of constraint-aware service composition plans constructed for the composition request
 	 * 			Null, if the service composition process fails at any point
 	 */
-	public static List<ConstraintAwarePlan> driveServiceComposition(RequestConfiguration reqConfig)
+	public static List<ConstraintAwarePlan> driveServiceComposition(RequestConfiguration reqConfig, LogUtil logger)
 	{
 		//Creating a valid composition request based on details fetched
-		CompositionRequest compRequest = constructCompositionRequest(reqConfig);
+		CompositionRequest compRequest = constructCompositionRequest(reqConfig, logger);
 		if (compRequest == null)
 		{
-			System.out.println("Aborting service composition process.");
+			logger.log("Aborting service composition process.\n");
 			return null;
 		}	
 		
 		//Building constraint-aware composition plans for the given request and repository
-		return buildServiceCompositions(compRequest, reqConfig.getRepoFileName());
+		return buildServiceCompositions(compRequest, reqConfig.getRepoFileName(), logger);
 	}
 	
 	/**
@@ -51,7 +53,7 @@ public class ServiceComposition
 	 * @return	A valid composition request, if it can be constructed
 	 * 			Null, otherwise
 	 */
-	public static CompositionRequest constructCompositionRequest(RequestConfiguration reqConfig)
+	public static CompositionRequest constructCompositionRequest(RequestConfiguration reqConfig, LogUtil logger)
 	{
 		boolean isRequestValid = true;
 		
@@ -109,7 +111,7 @@ public class ServiceComposition
 					Operator operator = getOperator(constraintElements[1].trim());
 					if (operator == null)
 					{
-						System.out.println("Invalid operator for requested constraint: " + constraintStr);
+						logger.log("Invalid operator for requested constraint: " + constraintStr + "\n");
 						isRequestValid = false;
 					}
 					else
@@ -121,7 +123,7 @@ public class ServiceComposition
 				}
 				else
 				{
-					System.out.println("Invalid format for requested constraint: " + constraintStr);
+					logger.log("Invalid format for requested constraint: " + constraintStr + "\n");
 					isRequestValid = false;
 				}
 			}
@@ -130,7 +132,7 @@ public class ServiceComposition
 		if (isRequestValid)
 		{
 			//Performing other validations on the composition request components 
-			isRequestValid = validateCompRequestComponents(inputs, outputs, qos, constraints);
+			isRequestValid = validateCompRequestComponents(inputs, outputs, qos, constraints, logger);
 			if (isRequestValid)
 			{
 				//Creating a composition request if all validations are passed
@@ -150,7 +152,7 @@ public class ServiceComposition
 	 * @return	List of constraint-aware service composition plans constructed for the composition request
 	 * 			Null, if the service composition process fails at any point
 	 */
-	public static List<ConstraintAwarePlan> buildServiceCompositions(CompositionRequest compRequest, String repoFileName)
+	public static List<ConstraintAwarePlan> buildServiceCompositions(CompositionRequest compRequest, String repoFileName, LogUtil logger)
 	{
 		//Reading the service repository
 		ServiceFileParserDecorator serviceParser = new ConstrainedServiceXMLParser(new BasicServiceParser());
@@ -158,7 +160,7 @@ public class ServiceComposition
 		ArrayList<Service> serviceRepo = serviceParser.parse();
 		if (serviceRepo.size() == 0)
 		{
-			System.out.println("Service repository is empty.\nAborting service composition process.");
+			logger.log("Service repository is empty.\nAborting service composition process.\n");
 			return null;
 		}
 				
@@ -200,9 +202,9 @@ public class ServiceComposition
 		//In case the service composition process fails at some point
 		if (compositionFailure)
 		{
-			System.out.println("The given composition problem is either unsolvable based on the existing "
-								+ "repository or can be solved by a single service from the repository."
-								+ "\nAborting service composition process.");
+			logger.log("The given composition problem is either unsolvable based on the existing "
+						+ "repository or can be solved by a single service from the repository."
+						+ "\nAborting service composition process.\n");
 		}
 		return null;
 	}
@@ -235,19 +237,19 @@ public class ServiceComposition
 	 * @return	true, if all the validations are passed
 	 * 			false, if any of the validations fail
 	 */
-	private static boolean validateCompRequestComponents(List<String> inputs, List<String> outputs, List<String> qos, List<Constraint> constraints)
+	private static boolean validateCompRequestComponents(List<String> inputs, List<String> outputs, List<String> qos, List<Constraint> constraints, LogUtil logger)
 	{
 		//Checking that there is at least 1 input requested
 		if (inputs.size() == 0)
 		{
-			System.out.println("Invalid request. Composition request must have at least 1 input.");
+			logger.log("Invalid request. Composition request must have at least 1 input.\n");
 			return false;
 		}
 		
 		//Checking that there is at least 1 output requested
 		if (outputs.size() == 0)
 		{
-			System.out.println("Invalid request. Composition request must have at least 1 output.");
+			logger.log("Invalid request. Composition request must have at least 1 output.\n");
 			return false;
 		}
 		
@@ -256,7 +258,7 @@ public class ServiceComposition
 		{
 			if (!QualityOfService.contains(qosValue))
 			{
-				System.out.println("Unidentified requested QoS feature: " + qosValue);
+				logger.log("Unidentified requested QoS feature: " + qosValue + "\n");
 				return false;
 			}
 		}
@@ -279,10 +281,10 @@ public class ServiceComposition
 		{
 			if (!requestParameters.contains(constraint.getType()))
 			{
-				System.out.println("Invalid type for requested constraint: " 
-									+ constraint.getType() + " " 
-									+ constraint.getOperator() + " "
-									+ constraint.getLiteralValue());
+				logger.log("Invalid type for requested constraint: " 
+							+ constraint.getType() + " " 
+							+ constraint.getOperator() + " "
+							+ constraint.getLiteralValue() + "\n");
 				return false;
 			}
 		}

@@ -40,7 +40,7 @@ public class ConstraintAwarePlanTests
 	{
 		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("int : input11", "float : input12", "string : input21", "boolean : input22"));
 		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("string : output51", "boolean : output52"));
-		String repoXMLFileName = "testinput/Test_Services_Set_2.xml";
+		String repoXMLFileName = "testinput/servicerepos/Test_Services_Set_2.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
 		int actualPlanCount = getActualPlanResults(compReqInputs, compReqOutputs, repoXMLFileName, actualPlanDetails);
@@ -148,7 +148,7 @@ public class ConstraintAwarePlanTests
 	{
 		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("string : StudentID"));
 		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("float : MarksPercentage"));
-		String repoXMLFileName = "testinput/Test_Services_Set_3.xml";
+		String repoXMLFileName = "testinput/servicerepos/Test_Services_Set_3.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
 		int actualPlanCount = getActualPlanResults(compReqInputs, compReqOutputs, repoXMLFileName, actualPlanDetails);
@@ -171,7 +171,7 @@ public class ConstraintAwarePlanTests
 	{
 		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("int : input111"));
 		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("string : output161"));
-		String repoXMLFileName = "testinput/Test_Services_Set_3.xml";
+		String repoXMLFileName = "testinput/servicerepos/Test_Services_Set_3.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
 		int actualPlanCount = getActualPlanResults(compReqInputs, compReqOutputs, repoXMLFileName, actualPlanDetails);
@@ -197,7 +197,7 @@ public class ConstraintAwarePlanTests
 	{
 		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("int : input111"));
 		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("char : output151"));
-		String repoXMLFileName = "testinput/Test_Services_Set_3.xml";
+		String repoXMLFileName = "testinput/servicerepos/Test_Services_Set_3.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
 		int actualPlanCount = getActualPlanResults(compReqInputs, compReqOutputs, repoXMLFileName, actualPlanDetails);
@@ -223,7 +223,7 @@ public class ConstraintAwarePlanTests
 	{
 		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("int : input111", "boolean : input171"));
 		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("string : output231", "int : output251", "float : output261"));
-		String repoXMLFileName = "testinput/Test_Services_Set_3.xml";
+		String repoXMLFileName = "testinput/servicerepos/Test_Services_Set_3.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
 		int actualPlanCount = getActualPlanResults(compReqInputs, compReqOutputs, repoXMLFileName, actualPlanDetails);
@@ -248,7 +248,7 @@ public class ConstraintAwarePlanTests
 	{
 		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("char : input271"));
 		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("string : output311"));
-		String repoXMLFileName = "testinput/Test_Services_Set_3.xml";
+		String repoXMLFileName = "testinput/servicerepos/Test_Services_Set_3.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
 		int actualPlanCount = getActualPlanResults(compReqInputs, compReqOutputs, repoXMLFileName, actualPlanDetails);
@@ -279,7 +279,7 @@ public class ConstraintAwarePlanTests
 	{
 		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("string : DeliveryAddress", "string : ProductName"));
 		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("string : ShipmentConfirm"));
-		String repoXMLFileName = "testinput/Test_Services_Set_3.xml";
+		String repoXMLFileName = "testinput/servicerepos/Test_Services_Set_3.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
 		int actualPlanCount = getActualPlanResults(compReqInputs, compReqOutputs, repoXMLFileName, actualPlanDetails);
@@ -347,7 +347,7 @@ public class ConstraintAwarePlanTests
 	{
 		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("int : input111", "boolean : input171"));
 		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("boolean : output241", "string : output231"));
-		String repoXMLFileName = "testinput/Test_Services_Set_3.xml";
+		String repoXMLFileName = "testinput/servicerepos/Test_Services_Set_3.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
 		int actualPlanCount = getActualPlanResults(compReqInputs, compReqOutputs, repoXMLFileName, actualPlanDetails);

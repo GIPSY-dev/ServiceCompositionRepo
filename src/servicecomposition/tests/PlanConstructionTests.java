@@ -41,7 +41,7 @@ public class PlanConstructionTests
 	{
 		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("int : input11", "char : input12", "boolean : input21", "int : input22", "string : input31", "string : input42", "char : input61", "float : output22"));
 		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("float : output11", "boolean : input32"));
-		String repoXMLFileName = "testinput/Test_Services_Set_1.xml";
+		String repoXMLFileName = "testinput/servicerepos/Test_Services_Set_1.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
 		int actualPlanCount = getActualPlanResults(compReqInputs, compReqOutputs, repoXMLFileName, actualPlanDetails);
@@ -63,7 +63,7 @@ public class PlanConstructionTests
 	{
 		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("int : input11", "string : input21"));
 		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("int : output131"));
-		String repoXMLFileName = "testinput/Test_Services_Set_2.xml";
+		String repoXMLFileName = "testinput/servicerepos/Test_Services_Set_2.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
 		int actualPlanCount = getActualPlanResults(compReqInputs, compReqOutputs, repoXMLFileName, actualPlanDetails);
@@ -84,7 +84,7 @@ public class PlanConstructionTests
 	{
 		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("int : input11", "float : input12", "string : input21", "boolean : input22"));
 		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("char : output41"));
-		String repoXMLFileName = "testinput/Test_Services_Set_2.xml";
+		String repoXMLFileName = "testinput/servicerepos/Test_Services_Set_2.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
 		int actualPlanCount = getActualPlanResults(compReqInputs, compReqOutputs, repoXMLFileName, actualPlanDetails);
@@ -107,7 +107,7 @@ public class PlanConstructionTests
 	{
 		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("int : input11", "float : input12", "string : input21", "boolean : input22"));
 		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("int : output71", "float : output81"));
-		String repoXMLFileName = "testinput/Test_Services_Set_2.xml";
+		String repoXMLFileName = "testinput/servicerepos/Test_Services_Set_2.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
 		int actualPlanCount = getActualPlanResults(compReqInputs, compReqOutputs, repoXMLFileName, actualPlanDetails);
@@ -132,7 +132,7 @@ public class PlanConstructionTests
 	{
 		List<String> compReqInputs = new ArrayList<String>(Arrays.asList("int : input11", "float : input12", "string : input21", "boolean : input22"));
 		List<String> compReqOutputs = new ArrayList<String>(Arrays.asList("string : output51", "boolean : output52"));
-		String repoXMLFileName = "testinput/Test_Services_Set_2.xml";
+		String repoXMLFileName = "testinput/servicerepos/Test_Services_Set_2.xml";
 		List<String> actualPlanDetails = new ArrayList<String>();
 		
 		int actualPlanCount = getActualPlanResults(compReqInputs, compReqOutputs, repoXMLFileName, actualPlanDetails);

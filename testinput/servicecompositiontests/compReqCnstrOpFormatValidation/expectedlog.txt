@@ -1,0 +1,3 @@
+Invalid format for requested constraint: COST | < |
+Invalid operator for requested constraint: string : Invoice | <> | false
+Invalid format for requested constraint: string : DeliveryAddress | = | Quebec | City

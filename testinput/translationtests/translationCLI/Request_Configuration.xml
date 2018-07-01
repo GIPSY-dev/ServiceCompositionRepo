@@ -4,5 +4,5 @@
 	<outputs value="string : output311"/>
 	<qos value=""/>
 	<constraints value=""/>
-	<repofilename value="testinput/translationCLI/Test_Services_Set_3.xml"/>
+	<repofilename value="testinput/translationtests/translationCLI/Test_Services_Set_3.xml"/>
 </requestconfig>

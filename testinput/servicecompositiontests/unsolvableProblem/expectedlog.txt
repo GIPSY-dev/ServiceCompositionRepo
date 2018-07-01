@@ -1,0 +1,2 @@
+The given composition problem is either unsolvable based on the existing repository or can be solved by a single service from the repository.
+Aborting service composition process.
