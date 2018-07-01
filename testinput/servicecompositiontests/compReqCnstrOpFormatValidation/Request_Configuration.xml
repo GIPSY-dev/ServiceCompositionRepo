@@ -5,4 +5,5 @@
 	<qos value="COST"/>
 	<constraints value="COST | &lt; | , string : Invoice | &lt;&gt; | false, string : DeliveryAddress | = | Quebec | City"/>
 	<repofilename value=""/>
+	<storecsflag value="N"/>
 </requestconfig>

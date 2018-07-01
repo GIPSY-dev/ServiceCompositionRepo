@@ -11,6 +11,7 @@ public class RequestConfiguration
 	private String qos;
 	private String constraints;
 	private String repoFileName;
+	private String storeCSFlag;
 	
 	/**
 	 * Parameterized constructor.
@@ -19,14 +20,16 @@ public class RequestConfiguration
 	 * @param 	qos				Comma-separated list of composition request QoS features
 	 * @param 	constraints		Comma-separated list of composition request constraints
 	 * @param 	repoFileName	Complete name and path of source service repository
+	 * @param	storeCSFlag		Flag (Y/N) to indicate whether composite services generated for the request should be stored back in the source repository 
 	 */
-	public RequestConfiguration(String inputs, String outputs, String qos, String constraints, String repoFileName)
+	public RequestConfiguration(String inputs, String outputs, String qos, String constraints, String repoFileName, String storeCSFlag)
 	{
 		this.inputs = inputs;
 		this.outputs = outputs;
 		this.qos = qos;
 		this.constraints = constraints;
 		this.repoFileName = repoFileName;
+		this.storeCSFlag = storeCSFlag;
 	}
 	
 	/**
@@ -72,5 +75,14 @@ public class RequestConfiguration
 	public String getRepoFileName()
 	{
 		return repoFileName;
+	}
+	
+	/**
+	 * Method for fetching the composite service storage flag from this configuration.
+	 * @return	Composite service storage flag
+	 */
+	public String getStoreCSFlag()
+	{
+		return storeCSFlag;
 	}
 }

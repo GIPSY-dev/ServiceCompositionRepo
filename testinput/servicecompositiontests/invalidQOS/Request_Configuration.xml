@@ -5,4 +5,5 @@
 	<qos value="COST, THROUGHPUT, response_time"/>
 	<constraints value="COST | &lt; | 100, string : DeliveryAddress | = | Quebec, string : Invoice | = | true"/>
 	<repofilename value=""/>
+	<storecsflag value="N"/>
 </requestconfig>

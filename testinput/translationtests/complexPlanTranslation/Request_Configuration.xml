@@ -5,4 +5,5 @@
 	<qos value=""/>
 	<constraints value=""/>
 	<repofilename value="testinput/translationtests/complexPlanTranslation/Test_Services_Set_5.xml"/>
+	<storecsflag value="N"/>
 </requestconfig>

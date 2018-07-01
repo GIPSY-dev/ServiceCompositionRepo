@@ -29,10 +29,14 @@ public class ConsoleReqConfigReader implements RequestConfigReader
 		//Fetching the service repository file location from the user
 		System.out.println("Please enter the complete file path and name of the service repository XML file: ");
 		String repoFileName = scanner.nextLine();
+		
+		//Fetching user choice for storing composite services generated in the repository
+		System.out.println("Please select (Y/N) whether any composite services generated for this request should be stored in the source repository:");
+		String storeCSFlag = scanner.nextLine();
 		scanner.close();
 		
 		//Creating a Request Configuration object with the details fetched
-		RequestConfiguration reqConfig = new RequestConfiguration(inputString, outputString, qosString, constraintString, repoFileName);
+		RequestConfiguration reqConfig = new RequestConfiguration(inputString, outputString, qosString, constraintString, repoFileName, storeCSFlag);
 		
 		return reqConfig;
 	}

@@ -5,4 +5,5 @@
 	<qos value="COST"/>
 	<constraints value="COST | &lt; | 100, string : Invoice | = | true"/>
 	<repofilename value=""/>
+	<storecsflag value="N"/>
 </requestconfig>

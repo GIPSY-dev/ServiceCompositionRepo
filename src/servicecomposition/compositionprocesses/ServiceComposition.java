@@ -13,7 +13,9 @@ import servicecomposition.entities.SearchGraph;
 import servicecomposition.entities.SearchNode;
 import servicecomposition.readers.RequestConfiguration;
 import utilities.LogUtil;
+import utilities.SvcRepoStorageUtil;
 import service.Service;
+import service.composite.layeredcompsvc.LayeredCompositeService;
 import service.parser.BasicServiceParser;
 import service.parser.ConstrainedServiceXMLParser;
 import service.parser.ServiceFileParserDecorator;
@@ -44,7 +46,23 @@ public class ServiceComposition
 		}	
 		
 		//Building constraint-aware composition plans for the given request and repository
-		return buildServiceCompositions(compRequest, reqConfig.getRepoFileName(), logger);
+		List<ConstraintAwarePlan> cnstrAwrPlans = buildServiceCompositions(compRequest, reqConfig.getRepoFileName(), logger);
+		
+		//Creating composite services for the composition plans generated 
+		//and storing them in the source repository if the user requests for it
+		if (reqConfig.getStoreCSFlag().equalsIgnoreCase("Y"))
+		{
+			ArrayList<Service> compSvcs = new ArrayList<Service>();
+			for (ConstraintAwarePlan cnstrAwrPlan : cnstrAwrPlans)
+			{
+				LayeredCompositeService layeredCS = SvcRepoStorageUtil.createCompositeService(compRequest, cnstrAwrPlan);
+				compSvcs.add(layeredCS);
+			}
+			
+			SvcRepoStorageUtil.writeCSToSvcRepo(compSvcs, reqConfig.getRepoFileName());
+		}
+		
+		return cnstrAwrPlans;
 	}
 	
 	/**

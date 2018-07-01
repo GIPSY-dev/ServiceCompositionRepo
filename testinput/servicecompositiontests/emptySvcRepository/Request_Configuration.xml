@@ -5,4 +5,5 @@
 	<qos value="COST"/>
 	<constraints value="COST | &lt; | 100, string : DeliveryAddress | = | Canada"/>
 	<repofilename value="testinput/servicerepos/Test_Services_Set_4.xml"/>
+	<storecsflag value="N"/>
 </requestconfig>

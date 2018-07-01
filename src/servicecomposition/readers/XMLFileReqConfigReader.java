@@ -26,9 +26,10 @@ public class XMLFileReqConfigReader extends FileReqConfigReader
 		String qosString = getTagValue("qos", doc);
 		String constraintString = getTagValue("constraints", doc);
 		String repoFileName = getTagValue("repofilename", doc);
+		String storeCSFlag = getTagValue("storecsflag", doc);
 		
 		//Creating a Request Configuration object with the details fetched
-		RequestConfiguration reqConfig = new RequestConfiguration(inputString, outputString, qosString, constraintString, repoFileName);
+		RequestConfiguration reqConfig = new RequestConfiguration(inputString, outputString, qosString, constraintString, repoFileName, storeCSFlag);
 		
 		return reqConfig;
 	}

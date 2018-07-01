@@ -1,5 +1,6 @@
 package servicecomposition.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import constraint.Constraint;
@@ -10,8 +11,9 @@ import service.Service;
  * Class for representing a service node of constraint-aware plans created from composition plans.
  * @author Jyotsana Gupta
  */
-public class ServiceNode 
+public class ServiceNode implements Serializable
 {
+	private static final long serialVersionUID = 4943551733182703685L;
 	private Service service;
 	private List<Constraint> constraints;
 	private List<ServiceNode> predecessors;
