@@ -8,6 +8,9 @@ import service.BasicService;
 import service.ConstrainedService;
 import service.Service;
 import service.composite.layeredcompsvc.LayeredCompositeService;
+import service.parser.BasicServiceParser;
+import service.parser.ServiceFileParserDecorator;
+import service.parser.ServiceSerializedParser;
 import service.writer.BasicServiceWriter;
 import service.writer.ServiceFileWriterDecorator;
 import service.writer.ServiceSerializedWriter;
@@ -49,14 +52,24 @@ public class SvcRepoStorageUtil
 	}
 	
 	/**
-	 * Method for storing a list of layered composite services into a repository of serialized service objects.
-	 * @param 	compSvcs		List of layered composite services to be stored 
+	 * Method for appending a list of layered composite services to a repository of serialized service objects.
+	 * @param 	compSvcs		List of layered composite services to be appended 
 	 * @param 	repoFileName	Complete name and path of the destination repository
 	 */
 	public static void writeCSToSvcRepo(ArrayList<Service> compSvcs, String repoFileName)
 	{
+		ServiceFileParserDecorator svcParser = new ServiceSerializedParser(new BasicServiceParser());
+		svcParser.setLocation(repoFileName);
+		ArrayList<Service> existingSvcs = svcParser.parse();
+		
+		if (existingSvcs == null)
+		{
+			existingSvcs = new ArrayList<Service>();
+		}
+		existingSvcs.addAll(compSvcs);
+		
 		ServiceFileWriterDecorator svcWriter = new ServiceSerializedWriter(new BasicServiceWriter());
 		svcWriter.setLocation(repoFileName);
-		svcWriter.write(compSvcs);
+		svcWriter.write(existingSvcs);
 	}
 }
