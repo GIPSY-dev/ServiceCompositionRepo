@@ -1,8 +1,6 @@
 package servicecomposition.readers;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import utilities.ReadWriteUtil;
 
 /**
@@ -21,35 +19,16 @@ public class XMLFileReqConfigReader extends FileReqConfigReader
 		Document doc = ReadWriteUtil.getXmlDocument(configFileName);
 
 		//Fetching composition request components and service repository file location from configuration file
-		String inputString = getTagValue("inputs", doc);
-		String outputString = getTagValue("outputs", doc);
-		String qosString = getTagValue("qos", doc);
-		String constraintString = getTagValue("constraints", doc);
-		String repoFileName = getTagValue("repofilename", doc);
-		String storeCSFlag = getTagValue("storecsflag", doc);
+		String inputString = ReadWriteUtil.getTagValue("inputs", doc);
+		String outputString = ReadWriteUtil.getTagValue("outputs", doc);
+		String qosString = ReadWriteUtil.getTagValue("qos", doc);
+		String constraintString = ReadWriteUtil.getTagValue("constraints", doc);
+		String repoFileName = ReadWriteUtil.getTagValue("repofilename", doc);
+		String storeCSFlag = ReadWriteUtil.getTagValue("storecsflag", doc);
 		
 		//Creating a Request Configuration object with the details fetched
 		RequestConfiguration reqConfig = new RequestConfiguration(inputString, outputString, qosString, constraintString, repoFileName, storeCSFlag);
 		
 		return reqConfig;
-	}
-	
-	/**
-	 * Method for fetching the value of the "value" attribute of an XML tag.
-	 * @param 	tagName		Name of the tag element
-	 * @param 	doc			Source XML document
-	 * @return	Value of the target attribute
-	 */
-	public static String getTagValue(String tagName, Document doc)
-	{
-		String tagValue = null;
-		Node targetNode = doc.getElementsByTagName(tagName).item(0);
-		if (targetNode.getNodeType() == Node.ELEMENT_NODE)
-		{
-			Element targetElement = (Element) targetNode;
-			tagValue = targetElement.getAttribute("value");
-		}
-		
-		return tagValue;
 	}
 }

@@ -10,6 +10,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
@@ -129,5 +131,24 @@ public class ReadWriteUtil
 		
 		doc.getDocumentElement().normalize();
 		return doc;
+	}
+	
+	/**
+	 * Method for fetching the value of the "value" attribute of an XML tag.
+	 * @param 	tagName		Name of the tag element
+	 * @param 	doc			Source XML document
+	 * @return	Value of the target attribute
+	 */
+	public static String getTagValue(String tagName, Document doc)
+	{
+		String tagValue = null;
+		Node targetNode = doc.getElementsByTagName(tagName).item(0);
+		if (targetNode.getNodeType() == Node.ELEMENT_NODE)
+		{
+			Element targetElement = (Element) targetNode;
+			tagValue = targetElement.getAttribute("value");
+		}
+		
+		return tagValue;
 	}
 }

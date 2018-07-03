@@ -7,24 +7,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import constraint.Constraint;
 import constraint.Operator;
-import servicecomposition.entities.CompositionRequest;
+import service.Service;
+import service.composite.layeredcompsvc.LayeredCompositeService;
 import servicecomposition.entities.ConstraintAwarePlan;
 import servicecomposition.entities.ServiceNode;
 
 public class ObjLucidCodeGenerator 
 {	
-	public static String generateObjLucidSegment(ConstraintAwarePlan cnstrAwrPlan, CompositionRequest compRequest, List<String[]> compSvcInputs)
+	public static String generateObjLucidSegment(Service compService, List<String[]> compSvcInputs)
 	{
 		List<String> compSvcDims = new ArrayList<String>();
 		
 		String lucidCode = "#OBJECTIVELUCID"
 							+ "\n\n" + "oCAWS_main @ [" + assignCompSvcInpContext(compSvcInputs) + "]"
 							+ "\n" + "where" 
-							+ "\n\t" + "dimension " + listCompSvcInpsOutps(compRequest, compSvcDims) + ";"
-							+ defineOCAWSMain(compRequest, cnstrAwrPlan, compSvcDims)
+							+ "\n\t" + "dimension " + listCompSvcInpsOutps(compService.getInput(), compService.getOutput(), compSvcDims) + ";"
+							+ defineOCAWSMain(compService.getOutput(), ((LayeredCompositeService)compService).getCompositionPlan(), compSvcDims)
 							+ "\n" + "end;";
 				
 		return lucidCode;
@@ -55,12 +55,12 @@ public class ObjLucidCodeGenerator
 		return lucidCode;
 	}
 	
-	private static String listCompSvcInpsOutps(CompositionRequest compRequest, List<String> compSvcDims)
+	private static String listCompSvcInpsOutps(List<String> csInputs, List<String> csOutputs, List<String> compSvcDims)
 	{
 		String lucidCode = ""; 
 		List<String> compSvcInpsOutps = new ArrayList<String>();
-		compSvcInpsOutps.addAll(compRequest.getInputs());
-		compSvcInpsOutps.addAll(compRequest.getOutputs());
+		compSvcInpsOutps.addAll(csInputs);
+		compSvcInpsOutps.addAll(csOutputs);
 		
 		for (String param : compSvcInpsOutps)
 		{
@@ -76,13 +76,13 @@ public class ObjLucidCodeGenerator
 		return lucidCode;
 	}
 	
-	private static String defineOCAWSMain(CompositionRequest compRequest, ConstraintAwarePlan cnstrAwrPlan, List<String> compSvcDims)
+	private static String defineOCAWSMain(List<String> csOutputs, ConstraintAwarePlan cnstrAwrPlan, List<String> compSvcDims)
 	{
 		String lucidCode = ""; 
 		
-		lucidCode += "\n\n\t" + "oCAWS_main = CAWSReqComp(" + listCompSvcOutpDims(compRequest) + ")"
+		lucidCode += "\n\n\t" + "oCAWS_main = CAWSReqComp(" + listCompSvcOutpDims(csOutputs) + ")"
 					+ "\n\t\t\t\t\t" + "wvr CAWSreq_cnstr"
-					+ "\n\t\t\t\t\t" + "@ [" + "\t" + assignCompSvcOutpContext(compRequest, cnstrAwrPlan) + " ]"
+					+ "\n\t\t\t\t\t" + "@ [" + "\t" + assignCompSvcOutpContext(csOutputs, cnstrAwrPlan) + " ]"
 					+ "\n\t\t\t\t\t" + "where"
 					+ "\n\t\t\t\t\t\t" + "CAWSreq_cnstr = true;"
 					+ listAtomicSvcDefs(cnstrAwrPlan, compSvcDims)
@@ -91,11 +91,11 @@ public class ObjLucidCodeGenerator
 		return lucidCode;
 	}
 	
-	private static String listCompSvcOutpDims(CompositionRequest compRequest)
+	private static String listCompSvcOutpDims(List<String> csOutputs)
 	{
 		String lucidCode = ""; 
 		
-		for (String output : compRequest.getOutputs())
+		for (String output : csOutputs)
 		{
 			lucidCode += "#." + output.substring(output.indexOf(':') + 2) + ", ";
 		}
@@ -107,10 +107,10 @@ public class ObjLucidCodeGenerator
 		return lucidCode;
 	}
 	
-	private static String assignCompSvcOutpContext(CompositionRequest compRequest, ConstraintAwarePlan cnstrAwrPlan)
+	private static String assignCompSvcOutpContext(List<String> csOutputs, ConstraintAwarePlan cnstrAwrPlan)
 	{
 		String lucidCode = "";
-		Set<String> compReqOutputSet = new HashSet<String>(compRequest.getOutputs());
+		Set<String> compReqOutputSet = new HashSet<String>(csOutputs);
 		Map<String, String> compSvcOutpMapping = new HashMap<String, String>();
 	
 		for (List<ServiceNode> serviceLayer : cnstrAwrPlan.getServiceLayers())

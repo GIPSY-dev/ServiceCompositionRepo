@@ -1,8 +1,6 @@
 package utilities;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import constraint.Constraint;
 import service.BasicService;
 import service.ConstrainedService;
@@ -21,7 +19,7 @@ import servicecomposition.entities.ConstraintAwarePlan;
  * Utility class for creating composite services and storing them in service repository.
  * @author Jyotsana Gupta
  */
-public class SvcRepoStorageUtil 
+public class CompSvcStorageUtil 
 {
 	/**
 	 * Method for creating a composite service.
@@ -31,12 +29,8 @@ public class SvcRepoStorageUtil
 	 */
 	public static LayeredCompositeService createCompositeService(CompositionRequest compRequest, ConstraintAwarePlan cnstrAwrPlan)
 	{
-		//Getting current timestamp for naming the composite service uniquely
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
-		String timestamp = dateFormat.format(new Date()).toString();
-		
-		//Getting composite service elements from the composition request
-		String svcName = "CompSvc." + timestamp;
+		//Gathering composite service elements from the composition request
+		String svcName = "CompSvc_" + System.nanoTime();
 		ArrayList<String> svcInputs = (ArrayList<String>) compRequest.getInputs();
 		ArrayList<String> svcOutputs = (ArrayList<String>) compRequest.getOutputs();
 		ArrayList<Constraint> svcConstraints = null;		
@@ -56,7 +50,7 @@ public class SvcRepoStorageUtil
 	 * @param 	compSvcs		List of layered composite services to be appended 
 	 * @param 	repoFileName	Complete name and path of the destination repository
 	 */
-	public static void writeCSToSvcRepo(ArrayList<Service> compSvcs, String repoFileName)
+	public static void writeCSToSerialSvcRepo(ArrayList<Service> compSvcs, String repoFileName)
 	{
 		ServiceFileParserDecorator svcParser = new ServiceSerializedParser(new BasicServiceParser());
 		svcParser.setLocation(repoFileName);
@@ -71,5 +65,33 @@ public class SvcRepoStorageUtil
 		ServiceFileWriterDecorator svcWriter = new ServiceSerializedWriter(new BasicServiceWriter());
 		svcWriter.setLocation(repoFileName);
 		svcWriter.write(existingSvcs);
+	}
+	
+	/**
+	 * Method for parsing a serialized composite service source file to extract one composite service.
+	 * @param 	csSrcFileName	Complete name and path of the serialized composite service source file
+	 * @param 	logger			Logging utility object for logging error or status messages to a text file
+	 * @return	Composite service object, if it can be extracted
+	 * 			Null, otherwise
+	 */
+	public static Service readCSFromSerialFile(String csSrcFileName, LogUtil logger)
+	{
+		ServiceFileParserDecorator svcParser = new ServiceSerializedParser(new BasicServiceParser());
+		svcParser.setLocation(csSrcFileName);
+		ArrayList<Service> compSvcs = svcParser.parse();
+		
+		if ((compSvcs == null) || (compSvcs.size() == 0))
+		{
+			logger.log("No services exist in the serialized composite service source file.\n"
+						+ "Aborting translation process.\n");
+			return null;
+		}
+		else if (compSvcs.size() > 1)
+		{
+			logger.log("More than 1 service exists in the serialized composite service source file. "
+						+ "The first composite service will be translated.\n");
+		}
+		
+		return compSvcs.get(0);
 	}
 }

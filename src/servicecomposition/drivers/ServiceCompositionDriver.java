@@ -23,7 +23,7 @@ public class ServiceCompositionDriver
 	public static void main(String[] args)
 	{
 		//Fetching the mode of configuration input from the user
-		Scanner scan = new Scanner(System.in);
+		Scanner scanner = new Scanner(System.in);
 		String input = null;
 		int inputMode = 0;
 		do
@@ -31,12 +31,12 @@ public class ServiceCompositionDriver
 			System.out.println("Please select one of the following input modes. Press 'X' to exit.");
 			System.out.println("1. Console");
 			System.out.println("2. XML file");
-			input = scan.nextLine();
+			input = scanner.nextLine();
 			input = input.trim();
 			
 			if (input.equalsIgnoreCase("X"))
 			{
-				scan.close();
+				scanner.close();
 				return;
 			}
 			else
@@ -66,13 +66,13 @@ public class ServiceCompositionDriver
 						break;
 						
 			case 2	:	System.out.println("Please enter the XML configuration file name and location.");
-						input = scan.nextLine();				
+						input = scanner.nextLine();				
 						FileReqConfigReader xmlConfigReader = new XMLFileReqConfigReader();
 						xmlConfigReader.setConfigFileName(input);
 						reqConfig = xmlConfigReader.readReqConfig();
 						break;
 		}
-		scan.close();
+		scanner.close();
 		
 		//Triggering the service composition process
 		String logFileName = "testoutput/servicecompositionruns/log.txt";

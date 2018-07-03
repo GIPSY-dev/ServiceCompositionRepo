@@ -6,32 +6,42 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import servicecomposition.entities.CompositionRequest;
+import service.Service;
+import utilities.CompSvcStorageUtil;
+import utilities.LogUtil;
 import utilities.ReadWriteUtil;
 
 /**
- * Concrete reader for reading composite service input configuration from an XML file.
+ * Concrete reader for reading composite service configuration from an XML file.
  * @author Jyotsana Gupta
  */
-public class XMLFileCSInpConfigReader extends FileCSInpConfigReader
+public class XMLFileCSConfigReader extends FileCSConfigReader
 {
 	/**
-	 * Method for reading composite service input values from the user-specified XML file.
-	 * @param	compRequest		Composition request containing the list of inputs to be read 
-	 * @return	Input configuration object containing the input values read from the file
+	 * Method for reading composite service source file location and its input values from the user-specified XML file.
+	 * @param	logger		Logging utility object for logging error or status messages to a text file
+	 * @return	Composite service configuration object containing the information read from the file
 	 */
-	public CSInputConfiguration readCSInpConfig(CompositionRequest compRequest)
+	public CSConfiguration readCSConfig(LogUtil logger)
 	{
 		//Creating an XML document for the configuration file
 		Document doc = ReadWriteUtil.getXmlDocument(configFileName);
 
-		//Fetching composite service input details from configuration file
+		//Fetching composite service details from the configuration file
+		String csSrcFileName = ReadWriteUtil.getTagValue("cssrcfilename", doc);		
 		List<String[]> inputDetails = getInputDetails(doc);
 		
-		//Creating a composite service input configuration object with the details fetched
-		CSInputConfiguration csInpConfig = new CSInputConfiguration(inputDetails);
+		//Parsing the source file to get the composite service object
+		Service compService = CompSvcStorageUtil.readCSFromSerialFile(csSrcFileName, logger);
+		if (compService == null)
+		{
+			return null;
+		}
 		
-		return csInpConfig;
+		//Creating a composite service configuration object with the details fetched
+		CSConfiguration csConfig = new CSConfiguration(compService, inputDetails);
+		
+		return csConfig;
 	}
 	
 	/**
@@ -53,9 +63,9 @@ public class XMLFileCSInpConfigReader extends FileCSInpConfigReader
 			if (inpNode.getNodeType() == Node.ELEMENT_NODE)
 			{
 				Element inpElement = (Element) inpNode;
-				inpDtlRecord[0] = getTagValue("name", inpElement);
-				inpDtlRecord[1] = getTagValue("type", inpElement);
-				inpDtlRecord[2] = getTagValue("value", inpElement);
+				inpDtlRecord[0] = getElemTagValue("name", inpElement);
+				inpDtlRecord[1] = getElemTagValue("type", inpElement);
+				inpDtlRecord[2] = getElemTagValue("value", inpElement);
 				inputDetails.add(inpDtlRecord);
 			}
 		}
@@ -69,7 +79,7 @@ public class XMLFileCSInpConfigReader extends FileCSInpConfigReader
 	 * @param 	elem		Container XML element node
 	 * @return	Value of the target attribute
 	 */
-	private String getTagValue(String tagName, Element elem)
+	private String getElemTagValue(String tagName, Element elem)
 	{
 		String tagValue = null;
 		Node targetNode = elem.getElementsByTagName(tagName).item(0);

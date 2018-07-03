@@ -13,7 +13,7 @@ import servicecomposition.entities.SearchGraph;
 import servicecomposition.entities.SearchNode;
 import servicecomposition.readers.RequestConfiguration;
 import utilities.LogUtil;
-import utilities.SvcRepoStorageUtil;
+import utilities.CompSvcStorageUtil;
 import service.Service;
 import service.composite.layeredcompsvc.LayeredCompositeService;
 import service.parser.BasicServiceParser;
@@ -55,11 +55,11 @@ public class ServiceComposition
 			ArrayList<Service> compSvcs = new ArrayList<Service>();
 			for (ConstraintAwarePlan cnstrAwrPlan : cnstrAwrPlans)
 			{
-				LayeredCompositeService layeredCS = SvcRepoStorageUtil.createCompositeService(compRequest, cnstrAwrPlan);
+				LayeredCompositeService layeredCS = CompSvcStorageUtil.createCompositeService(compRequest, cnstrAwrPlan);
 				compSvcs.add(layeredCS);
 			}
 			
-			SvcRepoStorageUtil.writeCSToSvcRepo(compSvcs, reqConfig.getRepoFileName());
+			CompSvcStorageUtil.writeCSToSerialSvcRepo(compSvcs, reqConfig.getRepoFileName());
 		}
 		
 		return cnstrAwrPlans;

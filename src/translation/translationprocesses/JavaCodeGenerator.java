@@ -2,30 +2,30 @@ package translation.translationprocesses;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import servicecomposition.entities.CompositionRequest;
+import service.Service;
 import servicecomposition.entities.ConstraintAwarePlan;
 import servicecomposition.entities.ServiceNode;
+import service.composite.layeredcompsvc.LayeredCompositeService;
 
 public class JavaCodeGenerator 
 {
-	public static String generateJavaSegment(ConstraintAwarePlan cnstrAwrPlan, CompositionRequest compRequest)
+	public static String generateJavaSegment(Service compService)
 	{
 		String javaCode = "#JAVA"
-						+ defineCompSvcClass(compRequest)
-						+ defineAtmSvcClasses(cnstrAwrPlan);
+						+ defineCompSvcClass(compService.getOutput())
+						+ defineAtmSvcClasses(((LayeredCompositeService)compService).getCompositionPlan());
 		
 		return javaCode;
 	}
 	
-	private static String defineCompSvcClass(CompositionRequest compRequest)
+	private static String defineCompSvcClass(List<String> csOutputs)
 	{
 		String javaCode = "";
 		
 		javaCode += "\n\n" + "public class CAWSReqComp"
 					+ "\n" + "{"
-					+ listSvcDataMembers(compRequest.getOutputs())
-					+ generateCompSvcCtor(compRequest)
+					+ listSvcDataMembers(csOutputs)
+					+ generateCompSvcCtor(csOutputs)
 					+ "\n" + "}";
 		
 		return javaCode;
@@ -69,13 +69,13 @@ public class JavaCodeGenerator
 		return javaCode;
 	}
 	
-	private static String generateCompSvcCtor(CompositionRequest compRequest)
+	private static String generateCompSvcCtor(List<String> csOutputs)
 	{
 		String javaCode = "";
 		String ctorParamCode = "";
 		String dataMembInitCode = "";
 		
-		for (String output : compRequest.getOutputs())
+		for (String output : csOutputs)
 		{
 			String outpType = output.substring(0, output.indexOf(':') - 1);
 			String outpName = output.substring(output.indexOf(':') + 2);
