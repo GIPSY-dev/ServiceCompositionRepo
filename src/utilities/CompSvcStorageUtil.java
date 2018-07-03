@@ -27,7 +27,7 @@ public class CompSvcStorageUtil
 	 * @param 	cnstrAwrPlan	Constraint-aware plan created for the composition request
 	 * @return	Layered composite service created
 	 */
-	public static LayeredCompositeService createCompositeService(CompositionRequest compRequest, ConstraintAwarePlan cnstrAwrPlan)
+	public static Service createCompositeService(CompositionRequest compRequest, ConstraintAwarePlan cnstrAwrPlan)
 	{
 		//Gathering composite service elements from the composition request
 		String svcName = "CompSvc_" + System.nanoTime();
@@ -40,7 +40,7 @@ public class CompSvcStorageUtil
 		ConstrainedService cnstrdService = new ConstrainedService(new BasicService(svcName, svcInputs, svcOutputs), svcConstraints, svcEffects);
 		
 		//Creating composite service from the constrained service and composition plan
-		LayeredCompositeService layeredCS = new LayeredCompositeService(cnstrdService, cnstrAwrPlan);
+		Service layeredCS = new LayeredCompositeService(cnstrdService, cnstrAwrPlan);
 		
 		return layeredCS;
 	}

@@ -6,6 +6,7 @@ import java.util.List;
 import constraint.Constraint;
 import service.ConstrainedService;
 import service.Service;
+import service.composite.layeredcompsvc.LayeredCompositeService;
 
 /**
  * Class for representing a service node of constraint-aware plans created from composition plans.
@@ -34,7 +35,16 @@ public class ServiceNode implements Serializable
 		predecessors = new ArrayList<ServiceNode>();
 		successors = new ArrayList<ServiceNode>();
 		
-		ConstrainedService constrainedService = (ConstrainedService) service;
+		ConstrainedService constrainedService = null;
+		if (service instanceof ConstrainedService)
+		{
+			constrainedService = (ConstrainedService)service;
+		}
+		else if (service instanceof LayeredCompositeService)
+		{
+			constrainedService = (ConstrainedService)service.getInnerService();
+		}
+		
 		if (constrainedService.getConstraints() != null)
 		{
 			constraints = constrainedService.getConstraints();

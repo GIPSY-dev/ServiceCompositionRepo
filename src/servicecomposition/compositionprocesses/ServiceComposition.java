@@ -15,10 +15,10 @@ import servicecomposition.readers.RequestConfiguration;
 import utilities.LogUtil;
 import utilities.CompSvcStorageUtil;
 import service.Service;
-import service.composite.layeredcompsvc.LayeredCompositeService;
 import service.parser.BasicServiceParser;
 import service.parser.ConstrainedServiceXMLParser;
 import service.parser.ServiceFileParserDecorator;
+import service.parser.ServiceSerializedParser;
 
 /**
  * Class for driving the service composition process.
@@ -55,7 +55,7 @@ public class ServiceComposition
 			ArrayList<Service> compSvcs = new ArrayList<Service>();
 			for (ConstraintAwarePlan cnstrAwrPlan : cnstrAwrPlans)
 			{
-				LayeredCompositeService layeredCS = CompSvcStorageUtil.createCompositeService(compRequest, cnstrAwrPlan);
+				Service layeredCS = CompSvcStorageUtil.createCompositeService(compRequest, cnstrAwrPlan);
 				compSvcs.add(layeredCS);
 			}
 			
@@ -173,10 +173,26 @@ public class ServiceComposition
 	public static List<ConstraintAwarePlan> buildServiceCompositions(CompositionRequest compRequest, String repoFileName, LogUtil logger)
 	{
 		//Reading the service repository
-		ServiceFileParserDecorator serviceParser = new ConstrainedServiceXMLParser(new BasicServiceParser());
+		ServiceFileParserDecorator serviceParser = null;
+		if (repoFileName.endsWith(".xml"))
+		{
+			serviceParser = new ConstrainedServiceXMLParser(new BasicServiceParser());
+			
+		}
+		else if (repoFileName.endsWith(".txt"))
+		{
+			serviceParser = new ServiceSerializedParser(new BasicServiceParser());
+		}
+		
+		if (serviceParser == null)
+		{
+			logger.log("Only XML or serialized Java object repositories can be parsed. \nAborting service composition process.\n");
+			return null;
+		}
+		
 		serviceParser.setLocation(repoFileName);
-		ArrayList<Service> serviceRepo = serviceParser.parse();
-		if (serviceRepo.size() == 0)
+		ArrayList<Service> serviceRepo = serviceParser.parse();		
+		if ((serviceRepo == null) || (serviceRepo.size() == 0))
 		{
 			logger.log("Service repository is empty.\nAborting service composition process.\n");
 			return null;

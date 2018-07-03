@@ -185,23 +185,15 @@
     </service>
 	<service name="W11">
         <inputs>
-            <instance name="int : input111"/>
+            <instance name="float : MarksPercentage"/>
         </inputs>
         <outputs>
-            <instance name="float : output111"/>
-			<instance name="char : output112"/>
+            <instance name="char : Grade"/>
         </outputs>
         <constraints>
-            <instance>
-                <servicename name="W11"/>
-                <literalvalue name="111"/>
-                <type name="int : input111"/>
-                <operator name="&lt;="/>
-            </instance>
         </constraints>
         <effects>
-            <instance name="float : output111"/>
-			<instance name="char : output112"/>
+            <instance name="char : Grade"/>
         </effects>
     </service>
 	<service name="W12">

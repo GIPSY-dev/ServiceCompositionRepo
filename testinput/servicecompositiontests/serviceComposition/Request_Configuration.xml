@@ -4,6 +4,6 @@
 	<outputs value="string : ShipmentConfirm"/>
 	<qos value="COST, AVAILABILITY"/>
 	<constraints value="COST | &lt; | 100, string : ShipmentConfirm | = | true, string : DeliveryAddress | = | Canada"/>
-	<repofilename value="testinput/servicecompositiontests/serviceComposition/Test_Services_Set_3.xml"/>
+	<repofilename value="testinput/servicerepos/Test_Services_Set_3.xml"/>
 	<storecsflag value="N"/>
 </requestconfig>
