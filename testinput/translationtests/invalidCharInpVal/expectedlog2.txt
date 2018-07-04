@@ -1,0 +1,1 @@
+Input charInput of type char must have a length of 1.

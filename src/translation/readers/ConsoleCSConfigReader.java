@@ -22,11 +22,14 @@ public class ConsoleCSConfigReader implements CSConfigReader
 	{
 		//Fetching the composite service source file location from the user
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Please enter the complete file path and name of the serialized composite service source file: ");
-		String csSrcFileName = scanner.nextLine();
+		System.out.println("Please enter the complete file path and name of the serialized composite service repository: ");
+		String csRepoFileName = scanner.nextLine();
+		String destFolderName = csRepoFileName.substring(0, (csRepoFileName.lastIndexOf("/") + 1));
+		System.out.println("Please enter the name of the composite service to be translated: ");
+		String csName = scanner.nextLine();
 		
 		//Parsing the source file to get the composite service object
-		Service compService = CompSvcStorageUtil.readCSFromSerialFile(csSrcFileName, logger);
+		Service compService = CompSvcStorageUtil.readCSFromSerialFile(csRepoFileName, csName, logger);
 		if (compService == null)
 		{
 			scanner.close();
@@ -54,7 +57,7 @@ public class ConsoleCSConfigReader implements CSConfigReader
 		scanner.close();
 		
 		//Creating a composite service configuration object with the details fetched
-		CSConfiguration csConfig = new CSConfiguration(compService, inputDetails);
+		CSConfiguration csConfig = new CSConfiguration(compService, inputDetails, destFolderName);
 		
 		return csConfig;
 	}

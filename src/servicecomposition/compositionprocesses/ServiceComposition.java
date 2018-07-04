@@ -21,7 +21,7 @@ import service.parser.ServiceFileParserDecorator;
 import service.parser.ServiceSerializedParser;
 
 /**
- * Class for driving the service composition process.
+ * Class for managing the service composition process.
  * @author Jyotsana Gupta
  */
 public class ServiceComposition 

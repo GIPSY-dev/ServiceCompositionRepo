@@ -1,0 +1,1 @@
+Input stringInput of type string must not be empty.

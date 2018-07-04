@@ -68,30 +68,35 @@ public class CompSvcStorageUtil
 	}
 	
 	/**
-	 * Method for parsing a serialized composite service source file to extract one composite service.
-	 * @param 	csSrcFileName	Complete name and path of the serialized composite service source file
+	 * Method for parsing a serialized composite service repository file to extract a composite service.
+	 * @param 	csRepoFileName	Complete name and path of the serialized composite service repository file
+	 * @param	csName			Name of the target composite service
 	 * @param 	logger			Logging utility object for logging error or status messages to a text file
 	 * @return	Composite service object, if it can be extracted
 	 * 			Null, otherwise
 	 */
-	public static Service readCSFromSerialFile(String csSrcFileName, LogUtil logger)
+	public static Service readCSFromSerialFile(String csRepoFileName, String csName, LogUtil logger)
 	{
 		ServiceFileParserDecorator svcParser = new ServiceSerializedParser(new BasicServiceParser());
-		svcParser.setLocation(csSrcFileName);
-		ArrayList<Service> compSvcs = svcParser.parse();
+		svcParser.setLocation(csRepoFileName);
+		ArrayList<Service> services = svcParser.parse();
 		
-		if ((compSvcs == null) || (compSvcs.size() == 0))
+		if ((services == null) || (services.size() == 0))
 		{
 			logger.log("No services exist in the serialized composite service source file.\n"
 						+ "Aborting translation process.\n");
-			return null;
 		}
-		else if (compSvcs.size() > 1)
+		else
 		{
-			logger.log("More than 1 service exists in the serialized composite service source file. "
-						+ "The first composite service will be translated.\n");
+			for (Service service : services)
+			{
+				if (service.getName().equals(csName))
+				{
+					return service;
+				}
+			}
 		}
 		
-		return compSvcs.get(0);
+		return null;
 	}
 }

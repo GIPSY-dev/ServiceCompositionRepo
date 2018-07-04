@@ -28,18 +28,20 @@ public class XMLFileCSConfigReader extends FileCSConfigReader
 		Document doc = ReadWriteUtil.getXmlDocument(configFileName);
 
 		//Fetching composite service details from the configuration file
-		String csSrcFileName = ReadWriteUtil.getTagValue("cssrcfilename", doc);		
+		String csRepoFileName = ReadWriteUtil.getTagValue("csrepofilename", doc);	
+		String destFolderName = csRepoFileName.substring(0, (csRepoFileName.lastIndexOf("/") + 1));
+		String csName = ReadWriteUtil.getTagValue("csname", doc);
 		List<String[]> inputDetails = getInputDetails(doc);
 		
 		//Parsing the source file to get the composite service object
-		Service compService = CompSvcStorageUtil.readCSFromSerialFile(csSrcFileName, logger);
+		Service compService = CompSvcStorageUtil.readCSFromSerialFile(csRepoFileName, csName, logger);
 		if (compService == null)
 		{
 			return null;
 		}
 		
 		//Creating a composite service configuration object with the details fetched
-		CSConfiguration csConfig = new CSConfiguration(compService, inputDetails);
+		CSConfiguration csConfig = new CSConfiguration(compService, inputDetails, destFolderName);
 		
 		return csConfig;
 	}

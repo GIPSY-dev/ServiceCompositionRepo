@@ -1,17 +1,13 @@
 package translation.drivers;
 
-import java.util.List;
 import java.util.Scanner;
-import service.Service;
 import translation.readers.CSConfigReader;
 import translation.readers.CSConfiguration;
 import translation.readers.ConsoleCSConfigReader;
 import translation.readers.FileCSConfigReader;
 import translation.readers.XMLFileCSConfigReader;
-import translation.translationprocesses.JavaCodeGenerator;
-import translation.translationprocesses.ObjLucidCodeGenerator;
+import translation.translationprocesses.CompositeServiceTranslation;
 import utilities.LogUtil;
-import utilities.ReadWriteUtil;
 
 /**
  * Driver class for composite service translation process.
@@ -89,104 +85,16 @@ public class LucidTranslationDriver
 		}
 		
 		//Triggering the translation process
-		boolean inpValid = validateInpValues(compSvcConfig.getInputDetails(), logger);
-		if (inpValid)
-		{
-			String csLucidFileName = compPlanToObjLucid(compSvcConfig);
-			System.out.println("Lucid translation of the given composite service has been written to "
-								+ csLucidFileName);
-		}
-		else
+		String csLucidFileName = CompositeServiceTranslation.driveServiceTranslation(compSvcConfig, logger);
+		if (csLucidFileName == null)
 		{
 			System.out.println("Given composite service cannot be translated into Lucid. "
 								+ "Please check the log file " + logFileName + " for error details.");
 		}
-	}
-	
-	/**
-	 * Method for validating composite service input values provided by the user.
-	 * @param 	inputDetails	Input details received from the user
-	 * @param	logger			Logging utility object for logging error or status messages to a text file
-	 * @return	true, if all validation checks pass
-	 * 			false, otherwise
-	 */
-	public static boolean validateInpValues(List<String[]> inputDetails, LogUtil logger)
-	{
-		for (String[] input : inputDetails)
+		else
 		{
-			if (input[1].equalsIgnoreCase("char"))
-			{
-				if (input[2].length() != 1)
-				{
-					logger.log("Input " + input[0] + " of type char must have a length of 1.\n");
-					return false;
-				}
-			}
-			else if (input[1].equalsIgnoreCase("int"))
-			{
-				try
-				{
-					Integer.parseInt(input[2].trim());
-				}
-				catch(NumberFormatException nfe)
-				{
-					logger.log("Invalid value for input " + input[0] + " of type int.\n");
-					return false;
-				}
-			}
-			else if (input[1].equalsIgnoreCase("float"))
-			{
-				try
-				{
-					Float.parseFloat(input[2].trim());
-				}
-				catch(NumberFormatException nfe)
-				{
-					logger.log("Invalid value for input " + input[0] + " of type float.\n");
-					return false;
-				}
-			}
-			else if (input[1].equalsIgnoreCase("boolean"))
-			{
-				if (!(input[2].trim().equals("true") || input[2].trim().equals("false")))
-				{
-					logger.log("Invalid value for input " + input[0] + " of type boolean.\n");
-					return false;
-				}
-			}
-			else if (input[1].equalsIgnoreCase("String"))
-			{
-				if (input[2].isEmpty())
-				{
-					logger.log("Input " + input[0] + " of type string must not be empty.\n");
-					return false;
-				}
-			}
+			System.out.println("Lucid translation of the given composite service has been written to "
+								+ csLucidFileName);
 		}
-		
-		return true;
-	}
-	
-	/**
-	 * Method for sequentially triggering the phases involved in generation of a Lucid program for a composite service.
-	 * @param 	compSvcConfig	Composite service configuration received from the user
-	 * @return	Complete name and path of the file containing the target Lucid program
-	 */
-	public static String compPlanToObjLucid(CSConfiguration compSvcConfig)
-	{
-		//Getting details required for translation from the given configuration
-		Service compService = compSvcConfig.getCompositeService();
-		List<String[]> compSvcInputs = compSvcConfig.getInputDetails();		
-		
-		//Triggering the Lucid code generation
-		String javaSegment = JavaCodeGenerator.generateJavaSegment(compService);
-		String objLucidSegment = ObjLucidCodeGenerator.generateObjLucidSegment(compService, compSvcInputs);
-		String lucidProgram = javaSegment + "\n\n\n" + objLucidSegment;
-		
-		//Writing Lucid code to a file
-		String csLucidFileName = "CSLucid_" + System.nanoTime() + ".ipl";
-		ReadWriteUtil.writeToTextFile(csLucidFileName, lucidProgram);
-				
-		return csLucidFileName;
 	}
 }

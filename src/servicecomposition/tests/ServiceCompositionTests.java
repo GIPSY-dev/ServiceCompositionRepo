@@ -481,9 +481,6 @@ public class ServiceCompositionTests
 		expectedPlanDetails.add("Layer 0: {} [] " + compSvcName + " {W11}"
 								+ "\nLayer 1: {" + compSvcName + "} [] W11 {}");
 		
-		System.out.println(cnstrAwrPlans.size());
-		System.out.println(cnstrAwrPlans.get(0));
-		
 		File actualLogFile = new File(actualLogFileName);
 		boolean logGenerated = (!(actualLogFile.length() == 0));
 		

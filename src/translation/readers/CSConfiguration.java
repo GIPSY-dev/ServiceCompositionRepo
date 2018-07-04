@@ -11,17 +11,20 @@ public class CSConfiguration
 {
 	private Service compositeService;
 	private List<String[]> inputDetails;
+	private String destinationFolder;
 	
 	/**
 	 * Parameterized constructor.
 	 * @param	compositeService	Composite service object
 	 * @param 	inputDetails		List of records with details of each input of the given composite service.
 	 * 								Each record consists of the input name, type and value.
+	 * @param	destinationFolder	Complete name and path of the folder where the Lucid translation file will be placed
 	 */
-	public CSConfiguration(Service compositeService, List<String[]> inputDetails)
+	public CSConfiguration(Service compositeService, List<String[]> inputDetails, String destinationFolder)
 	{
 		this.compositeService = compositeService;
 		this.inputDetails = inputDetails;
+		this.destinationFolder = destinationFolder;
 	}
 	
 	/**
@@ -40,5 +43,14 @@ public class CSConfiguration
 	public List<String[]> getInputDetails()
 	{
 		return inputDetails;
+	}
+	
+	/**
+	 * Method for fetching the destination folder name and path from this configuration.
+	 * @return	Destination folder name and path
+	 */
+	public String getDestinationFolder()
+	{
+		return destinationFolder;
 	}
 }

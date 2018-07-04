@@ -3,70 +3,93 @@ package translation.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
+import service.Service;
+import service.parser.BasicServiceParser;
+import service.parser.ConstrainedServiceXMLParser;
+import service.parser.ServiceFileParserDecorator;
+import service.parser.ServiceSerializedParser;
+import service.writer.BasicServiceWriter;
+import service.writer.ServiceFileWriterDecorator;
+import service.writer.ServiceSerializedWriter;
 import servicecomposition.compositionprocesses.ServiceComposition;
-import servicecomposition.entities.CompositionRequest;
-import servicecomposition.entities.ConstraintAwarePlan;
 import servicecomposition.readers.FileReqConfigReader;
 import servicecomposition.readers.RequestConfiguration;
 import servicecomposition.readers.XMLFileReqConfigReader;
-import translation.drivers.LucidTranslationDriver;
+import translation.readers.CSConfiguration;
+import translation.readers.FileCSConfigReader;
+import translation.readers.XMLFileCSConfigReader;
+import translation.translationprocesses.CompositeServiceTranslation;
+import utilities.LogUtil;
 import utilities.ReadWriteUtil;
 
 public class LucidCodeGenTests 
 {
+	/**
+	 * Tests that a composite service can be searched for by its name in a service repository of serialized 
+	 * Java objects, parsed into a composite service object and translated into a Lucid program.
+	 */
 	@Test
-	public void translationCLI()
+	public void csTranslation()
 	{
-		String actualLucidFileName = "testinput/translationtests/translationCLI/testobjlucidprogram.ipl";
-		String expectedLucidFileName = "testinput/translationtests/translationCLI/expectedtestobjlucidprogram.ipl";
+		/*
+		 * The commented part below needs to be executed only once. Its main purpose is to create a service
+		 * repository of serialized Java objects, store a composite service into it and get the name of the
+		 * composite service. All this is required for the translation process. 
+		 */
+		//createSerialCSRepo("testinput/translationtests/csTranslation/");
 		
-		FileReqConfigReader configReader = new XMLFileReqConfigReader();
-		configReader.setConfigFileName("testinput/translationtests/translationCLI/Request_Configuration.xml");
-		RequestConfiguration reqConfig = configReader.readReqConfig();
+		String actualLogFileName = "testinput/translationtests/csTranslation/log.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);		
+				
+		FileCSConfigReader csConfigReader = new XMLFileCSConfigReader();
+		csConfigReader.setConfigFileName("testinput/translationtests/csTranslation/CS_Configuration.xml");
+		CSConfiguration csConfig = csConfigReader.readCSConfig(logger);
 		
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(reqConfig);
-		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.buildServiceCompositions(compRequest, reqConfig.getRepoFileName());
+		String actualLucidFileName = CompositeServiceTranslation.driveServiceTranslation(csConfig, logger);
+		String expectedLucidFileName = "testinput/translationtests/csTranslation/expectedlucidprogram.ipl";
 		
-		LucidTranslationDriver.driveTranslation(cnstrAwrPlans.get(0), compRequest, actualLucidFileName);
+		File actualLogFile = new File(actualLogFileName);
+		boolean logGenerated = (!(actualLogFile.length() == 0));
 		
 		String expectedProgram = ReadWriteUtil.readTextFile(expectedLucidFileName);
 		String actualProgram = ReadWriteUtil.readTextFile(actualLucidFileName);
 		assertEquals(expectedProgram, actualProgram);
+		assertFalse(logGenerated);
 	}
 	
 	@Test
 	public void complexPlanTranslation()
 	{
-		String actualLucidFileName = "testinput/translationtests/complexPlanTranslation/testobjlucidprogram.ipl";
-		String expectedLucidFileName = "testinput/translationtests/complexPlanTranslation/expectedtestobjlucidprogram.ipl";
+		/*
+		 * The commented part below needs to be executed only once. Its main purpose is to create a service
+		 * repository of serialized Java objects, store a composite service into it and get the name of the
+		 * composite service. All this is required for the translation process. 
+		 */
+		//createSerialCSRepo("testinput/translationtests/complexCSTranslation/");
 		
-		FileReqConfigReader configReader = new XMLFileReqConfigReader();
-		configReader.setConfigFileName("testinput/translationtests/complexPlanTranslation/Request_Configuration.xml");
-		RequestConfiguration reqConfig = configReader.readReqConfig();
+		String actualLogFileName = "testinput/translationtests/complexCSTranslation/log.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);		
+				
+		FileCSConfigReader csConfigReader = new XMLFileCSConfigReader();
+		csConfigReader.setConfigFileName("testinput/translationtests/complexCSTranslation/CS_Configuration.xml");
+		CSConfiguration csConfig = csConfigReader.readCSConfig(logger);
 		
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(reqConfig);
-		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.buildServiceCompositions(compRequest, reqConfig.getRepoFileName());
+		String actualLucidFileName = CompositeServiceTranslation.driveServiceTranslation(csConfig, logger);
+		String expectedLucidFileName = "testinput/translationtests/complexCSTranslation/expectedlucidprogram.ipl";
 		
-		List<String[]> compSvcInputs = new ArrayList<String[]>();
-		String[] inpDetails1 = {"input11", "int", "11"};
-		String[] inpDetails2 = {"input21", "int", "15"};
-		String[] inpDetails3 = {"input31", "string", "xyz12abc"};
-		String[] inpDetails4 = {"input32", "int", "45"};
-		String[] inpDetails5 = {"input41", "int", "79"};
-		compSvcInputs.add(inpDetails1);
-		compSvcInputs.add(inpDetails2);
-		compSvcInputs.add(inpDetails3);
-		compSvcInputs.add(inpDetails4);
-		compSvcInputs.add(inpDetails5);
-		
-		LucidTranslationDriver.compPlanToObjLucid(cnstrAwrPlans.get(0), compRequest, compSvcInputs, actualLucidFileName);
+		File actualLogFile = new File(actualLogFileName);
+		boolean logGenerated = (!(actualLogFile.length() == 0));
 		
 		String expectedProgram = ReadWriteUtil.readTextFile(expectedLucidFileName);
 		String actualProgram = ReadWriteUtil.readTextFile(actualLucidFileName);
 		assertEquals(expectedProgram, actualProgram);
+		assertFalse(logGenerated);
 	}
 	
 	@Test
@@ -84,8 +107,17 @@ public class LucidCodeGenTests
 		inputDetails.add(input4);
 		inputDetails.add(input5);
 		
-		boolean inpValid = LucidTranslationDriver.validateInpValues(inputDetails);
+		String actualLogFileName = "testinput/translationtests/log.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);	
+		
+		boolean inpValid = CompositeServiceTranslation.validateInpValues(inputDetails, logger);
+		
+		File actualLogFile = new File(actualLogFileName);
+		boolean logGenerated = (!(actualLogFile.length() == 0));
+		
 		assertTrue(inpValid);
+		assertFalse(logGenerated);
 	}
 	
 	@Test
@@ -98,10 +130,28 @@ public class LucidCodeGenTests
 		inputDetails1.add(input1);
 		inputDetails2.add(input2);
 		
-		boolean inpValid1 = LucidTranslationDriver.validateInpValues(inputDetails1);
-		boolean inpValid2 = LucidTranslationDriver.validateInpValues(inputDetails2);
+		String actualLogFileName1 = "testinput/translationtests/invalidCharInpVal/log1.txt";
+		String expectedLogFileName1 = "testinput/translationtests/invalidCharInpVal/expectedlog1.txt";
+		LogUtil logger1 = new LogUtil();
+		logger1.setLogFileName(actualLogFileName1);
+		
+		String actualLogFileName2 = "testinput/translationtests/invalidCharInpVal/log2.txt";
+		String expectedLogFileName2 = "testinput/translationtests/invalidCharInpVal/expectedlog2.txt";
+		LogUtil logger2 = new LogUtil();
+		logger2.setLogFileName(actualLogFileName2);
+		
+		boolean inpValid1 = CompositeServiceTranslation.validateInpValues(inputDetails1, logger1);
+		boolean inpValid2 = CompositeServiceTranslation.validateInpValues(inputDetails2, logger2);
+		
+		String actualLog1 = ReadWriteUtil.readTextFile(actualLogFileName1);
+		String expectedLog1 = ReadWriteUtil.readTextFile(expectedLogFileName1);
+		String actualLog2 = ReadWriteUtil.readTextFile(actualLogFileName2);
+		String expectedLog2 = ReadWriteUtil.readTextFile(expectedLogFileName2);
+		
 		assertFalse(inpValid1);
 		assertFalse(inpValid2);
+		assertEquals(expectedLog1, actualLog1);
+		assertEquals(expectedLog2, actualLog2);
 	}
 	
 	@Test
@@ -120,14 +170,48 @@ public class LucidCodeGenTests
 		inputDetails3.add(input3);
 		inputDetails4.add(input4);
 		
-		boolean inpValid1 = LucidTranslationDriver.validateInpValues(inputDetails1);
-		boolean inpValid2 = LucidTranslationDriver.validateInpValues(inputDetails2);
-		boolean inpValid3 = LucidTranslationDriver.validateInpValues(inputDetails3);
-		boolean inpValid4 = LucidTranslationDriver.validateInpValues(inputDetails4);
+		String actualLogFileName1 = "testinput/translationtests/invalidIntInpVal/log1.txt";
+		String expectedLogFileName1 = "testinput/translationtests/invalidIntInpVal/expectedlog1.txt";
+		LogUtil logger1 = new LogUtil();
+		logger1.setLogFileName(actualLogFileName1);
+		
+		String actualLogFileName2 = "testinput/translationtests/invalidIntInpVal/log2.txt";
+		String expectedLogFileName2 = "testinput/translationtests/invalidIntInpVal/expectedlog2.txt";
+		LogUtil logger2 = new LogUtil();
+		logger2.setLogFileName(actualLogFileName2);
+		
+		String actualLogFileName3 = "testinput/translationtests/invalidIntInpVal/log3.txt";
+		String expectedLogFileName3 = "testinput/translationtests/invalidIntInpVal/expectedlog3.txt";
+		LogUtil logger3 = new LogUtil();
+		logger3.setLogFileName(actualLogFileName3);
+		
+		String actualLogFileName4 = "testinput/translationtests/invalidIntInpVal/log4.txt";
+		String expectedLogFileName4 = "testinput/translationtests/invalidIntInpVal/expectedlog4.txt";
+		LogUtil logger4 = new LogUtil();
+		logger4.setLogFileName(actualLogFileName4);
+		
+		boolean inpValid1 = CompositeServiceTranslation.validateInpValues(inputDetails1, logger1);
+		boolean inpValid2 = CompositeServiceTranslation.validateInpValues(inputDetails2, logger2);
+		boolean inpValid3 = CompositeServiceTranslation.validateInpValues(inputDetails3, logger3);
+		boolean inpValid4 = CompositeServiceTranslation.validateInpValues(inputDetails4, logger4);
+		
+		String actualLog1 = ReadWriteUtil.readTextFile(actualLogFileName1);
+		String expectedLog1 = ReadWriteUtil.readTextFile(expectedLogFileName1);
+		String actualLog2 = ReadWriteUtil.readTextFile(actualLogFileName2);
+		String expectedLog2 = ReadWriteUtil.readTextFile(expectedLogFileName2);
+		String actualLog3 = ReadWriteUtil.readTextFile(actualLogFileName3);
+		String expectedLog3 = ReadWriteUtil.readTextFile(expectedLogFileName3);
+		String actualLog4 = ReadWriteUtil.readTextFile(actualLogFileName4);
+		String expectedLog4 = ReadWriteUtil.readTextFile(expectedLogFileName4);
+		
 		assertFalse(inpValid1);
 		assertFalse(inpValid2);
 		assertFalse(inpValid3);
 		assertFalse(inpValid4);
+		assertEquals(expectedLog1, actualLog1);
+		assertEquals(expectedLog2, actualLog2);
+		assertEquals(expectedLog3, actualLog3);
+		assertEquals(expectedLog4, actualLog4);		
 	}
 	
 	@Test
@@ -143,12 +227,38 @@ public class LucidCodeGenTests
 		inputDetails2.add(input2);
 		inputDetails3.add(input3);
 		
-		boolean inpValid1 = LucidTranslationDriver.validateInpValues(inputDetails1);
-		boolean inpValid2 = LucidTranslationDriver.validateInpValues(inputDetails2);
-		boolean inpValid3 = LucidTranslationDriver.validateInpValues(inputDetails3);
+		String actualLogFileName1 = "testinput/translationtests/invalidFloatInpVal/log1.txt";
+		String expectedLogFileName1 = "testinput/translationtests/invalidFloatInpVal/expectedlog1.txt";
+		LogUtil logger1 = new LogUtil();
+		logger1.setLogFileName(actualLogFileName1);
+		
+		String actualLogFileName2 = "testinput/translationtests/invalidFloatInpVal/log2.txt";
+		String expectedLogFileName2 = "testinput/translationtests/invalidFloatInpVal/expectedlog2.txt";
+		LogUtil logger2 = new LogUtil();
+		logger2.setLogFileName(actualLogFileName2);
+		
+		String actualLogFileName3 = "testinput/translationtests/invalidFloatInpVal/log3.txt";
+		String expectedLogFileName3 = "testinput/translationtests/invalidFloatInpVal/expectedlog3.txt";
+		LogUtil logger3 = new LogUtil();
+		logger3.setLogFileName(actualLogFileName3);
+		
+		boolean inpValid1 = CompositeServiceTranslation.validateInpValues(inputDetails1, logger1);
+		boolean inpValid2 = CompositeServiceTranslation.validateInpValues(inputDetails2, logger2);
+		boolean inpValid3 = CompositeServiceTranslation.validateInpValues(inputDetails3, logger3);
+		
+		String actualLog1 = ReadWriteUtil.readTextFile(actualLogFileName1);
+		String expectedLog1 = ReadWriteUtil.readTextFile(expectedLogFileName1);
+		String actualLog2 = ReadWriteUtil.readTextFile(actualLogFileName2);
+		String expectedLog2 = ReadWriteUtil.readTextFile(expectedLogFileName2);
+		String actualLog3 = ReadWriteUtil.readTextFile(actualLogFileName3);
+		String expectedLog3 = ReadWriteUtil.readTextFile(expectedLogFileName3);
+		
 		assertFalse(inpValid1);
 		assertFalse(inpValid2);
 		assertFalse(inpValid3);
+		assertEquals(expectedLog1, actualLog1);
+		assertEquals(expectedLog2, actualLog2);
+		assertEquals(expectedLog3, actualLog3);
 	}
 	
 	@Test
@@ -164,12 +274,38 @@ public class LucidCodeGenTests
 		inputDetails2.add(input2);
 		inputDetails3.add(input3);
 		
-		boolean inpValid1 = LucidTranslationDriver.validateInpValues(inputDetails1);
-		boolean inpValid2 = LucidTranslationDriver.validateInpValues(inputDetails2);
-		boolean inpValid3 = LucidTranslationDriver.validateInpValues(inputDetails3);
+		String actualLogFileName1 = "testinput/translationtests/invalidBooleanInpVal/log1.txt";
+		String expectedLogFileName1 = "testinput/translationtests/invalidBooleanInpVal/expectedlog1.txt";
+		LogUtil logger1 = new LogUtil();
+		logger1.setLogFileName(actualLogFileName1);
+		
+		String actualLogFileName2 = "testinput/translationtests/invalidBooleanInpVal/log2.txt";
+		String expectedLogFileName2 = "testinput/translationtests/invalidBooleanInpVal/expectedlog2.txt";
+		LogUtil logger2 = new LogUtil();
+		logger2.setLogFileName(actualLogFileName2);
+		
+		String actualLogFileName3 = "testinput/translationtests/invalidBooleanInpVal/log3.txt";
+		String expectedLogFileName3 = "testinput/translationtests/invalidBooleanInpVal/expectedlog3.txt";
+		LogUtil logger3 = new LogUtil();
+		logger3.setLogFileName(actualLogFileName3);
+		
+		boolean inpValid1 = CompositeServiceTranslation.validateInpValues(inputDetails1, logger1);
+		boolean inpValid2 = CompositeServiceTranslation.validateInpValues(inputDetails2, logger2);
+		boolean inpValid3 = CompositeServiceTranslation.validateInpValues(inputDetails3, logger3);
+		
+		String actualLog1 = ReadWriteUtil.readTextFile(actualLogFileName1);
+		String expectedLog1 = ReadWriteUtil.readTextFile(expectedLogFileName1);
+		String actualLog2 = ReadWriteUtil.readTextFile(actualLogFileName2);
+		String expectedLog2 = ReadWriteUtil.readTextFile(expectedLogFileName2);
+		String actualLog3 = ReadWriteUtil.readTextFile(actualLogFileName3);
+		String expectedLog3 = ReadWriteUtil.readTextFile(expectedLogFileName3);
+		
 		assertFalse(inpValid1);
 		assertFalse(inpValid2);
 		assertFalse(inpValid3);
+		assertEquals(expectedLog1, actualLog1);
+		assertEquals(expectedLog2, actualLog2);
+		assertEquals(expectedLog3, actualLog3);
 	}
 	
 	@Test
@@ -183,7 +319,65 @@ public class LucidCodeGenTests
 		inputDetails.add(input2);
 		inputDetails.add(input3);
 		
-		boolean inpValid1 = LucidTranslationDriver.validateInpValues(inputDetails);
-		assertFalse(inpValid1);
+		String actualLogFileName = "testinput/translationtests/invalidStringInpVal/log.txt";
+		String expectedLogFileName = "testinput/translationtests/invalidStringInpVal/expectedlog.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);
+		
+		boolean inpValid = CompositeServiceTranslation.validateInpValues(inputDetails, logger);
+		
+		String actualLog = ReadWriteUtil.readTextFile(actualLogFileName);
+		String expectedLog = ReadWriteUtil.readTextFile(expectedLogFileName);
+		
+		assertFalse(inpValid);
+		assertEquals(expectedLog, actualLog);
+	}
+	
+	/**
+	 * Method for creating a service repository of serialized Java objects, storing a composite service 
+	 * into it and getting the name of the composite service.
+	 * This method needs to be executed only once. 
+	 * Once the serialized repository is created for a test, this method should not be executed.
+	 * @param 	containerFolder		Complete name and path of the folder that will contain all the files related to this operation
+	 */
+	private void createSerialCSRepo(String containerFolder)
+	{
+		//Parsing an XML service repository containing no composite services
+		String xmlRepoFileName = containerFolder + "XML_Repository.xml";
+		ServiceFileParserDecorator xmlSvcParser = new ConstrainedServiceXMLParser(new BasicServiceParser());
+		xmlSvcParser.setLocation(xmlRepoFileName);
+		ArrayList<Service> services = xmlSvcParser.parse();
+		
+		//Translating the XML repository into a serialized Java object repository
+		String serialRepoFileName = containerFolder + "Serialized_Repository.txt";
+		ServiceFileWriterDecorator serialSvcWriter = new ServiceSerializedWriter(new BasicServiceWriter());
+		serialSvcWriter.setLocation(serialRepoFileName);
+		serialSvcWriter.write(services);
+				
+		//Creating a composite service based on the serialized repository and storing it back in the same repository
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
+		configReader.setConfigFileName(containerFolder + "Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		String actualLogFileName = containerFolder + "log.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);
+		
+		ServiceComposition.driveServiceComposition(reqConfig, logger);
+		
+		//Fetching the name of the composite service from the serialized repository
+		ServiceFileParserDecorator serialSvcParser = new ServiceSerializedParser(new BasicServiceParser());
+		serialSvcParser.setLocation(serialRepoFileName);
+		services = serialSvcParser.parse();
+		
+		String compSvcName = null;
+		for (Service service : services)
+		{
+			if (service.getName().startsWith("CompSvc_"))
+			{
+				compSvcName = service.getName();
+			}
+		}
+		System.out.println(compSvcName);
 	}
 }
