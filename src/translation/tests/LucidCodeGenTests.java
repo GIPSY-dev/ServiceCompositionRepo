@@ -63,7 +63,7 @@ public class LucidCodeGenTests
 	}
 	
 	@Test
-	public void complexPlanTranslation()
+	public void complexCSTranslation()
 	{
 		/*
 		 * The commented part below needs to be executed only once. Its main purpose is to create a service
