@@ -140,14 +140,14 @@ public class BackwardSearchTests
 		expectedServiceLists.add(new ArrayList<String>(Arrays.asList("sname1", "sname8")));
 		expectedServiceLists.add(new ArrayList<String>(Arrays.asList("sname3", "sname7", "sname8")));
 		expectedServiceLists.add(new ArrayList<String>(Arrays.asList("sname1", "sname2", "sname8")));		
-		expectedServiceLists.add(new ArrayList<String>(Arrays.asList("sname10", "sname3", "sname7", "sname8")));
 		expectedServiceLists.add(new ArrayList<String>(Arrays.asList("sname3", "sname6", "sname7", "sname8")));
+		expectedServiceLists.add(new ArrayList<String>(Arrays.asList("sname10", "sname3", "sname7", "sname8")));
+		expectedServiceLists.add(new ArrayList<String>(Arrays.asList("sname3", "sname4", "sname6", "sname7", "sname8")));
 		expectedServiceLists.add(new ArrayList<String>(Arrays.asList("sname10", "sname3", "sname6", "sname7", "sname8")));
 		expectedServiceLists.add(new ArrayList<String>(Arrays.asList("sname10", "sname3", "sname4", "sname7", "sname8")));
-		expectedServiceLists.add(new ArrayList<String>(Arrays.asList("sname3", "sname4", "sname6", "sname7", "sname8")));
+		expectedServiceLists.add(new ArrayList<String>(Arrays.asList("sname2", "sname3", "sname4", "sname6", "sname7", "sname8")));
 		expectedServiceLists.add(new ArrayList<String>(Arrays.asList("sname10", "sname3", "sname4", "sname6", "sname7", "sname8")));
 		expectedServiceLists.add(new ArrayList<String>(Arrays.asList("sname10", "sname2", "sname3", "sname4", "sname7", "sname8")));
-		expectedServiceLists.add(new ArrayList<String>(Arrays.asList("sname2", "sname3", "sname4", "sname6", "sname7", "sname8")));
 		expectedServiceLists.add(new ArrayList<String>(Arrays.asList("sname10", "sname2", "sname3", "sname4", "sname6", "sname7", "sname8")));
 		
 		assertEquals(expectedPlanSetCount, planSetCount);
