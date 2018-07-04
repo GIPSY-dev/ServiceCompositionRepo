@@ -1,0 +1,438 @@
+#JAVA
+
+public class CAWSReqComp
+{
+	private float output15;
+	private int output86;
+	private char output91;
+	private boolean output101;
+	private String output111;
+
+	public CAWSReqComp(float output15, int output86, char output91, boolean output101, String output111)
+	{
+		this.output15 = output15;
+		this.output86 = output86;
+		this.output91 = output91;
+		this.output101 = output101;
+		this.output111 = output111;
+	}
+}
+
+public class CAWSW2
+{
+	private int input21;
+	private boolean output21;
+
+	public CAWSW2(int input21)
+	{
+		this.input21 = input21;
+		output21 = false;
+	}
+
+	public void process()
+	{
+		output21 = true;
+	}
+}
+
+public CAWSW2 W2(int input21)
+{
+	CAWSW2 CAWS_W2 = new CAWSW2(input21);
+	CAWS_W2.process();
+	return CAWS_W2;
+}
+
+public class CAWSW3
+{
+	private String input31;
+	private int input32;
+	private String output31;
+	private int output32;
+
+	public CAWSW3(String input31, int input32)
+	{
+		this.input31 = input31;
+		this.input32 = input32;
+		output31 = " ";
+		output32 = 0;
+	}
+
+	public void process()
+	{
+		output31 = "test";
+		output32 = 10;
+	}
+}
+
+public CAWSW3 W3(String input31, int input32)
+{
+	CAWSW3 CAWS_W3 = new CAWSW3(input31, input32);
+	CAWS_W3.process();
+	return CAWS_W3;
+}
+
+public class CAWSW1
+{
+	private int input11;
+	private boolean output12;
+	private float output15;
+
+	public CAWSW1(int input11)
+	{
+		this.input11 = input11;
+		output12 = false;
+		output15 = 0.0;
+	}
+
+	public void process()
+	{
+		output12 = true;
+		output15 = 20.0;
+	}
+}
+
+public CAWSW1 W1(int input11)
+{
+	CAWSW1 CAWS_W1 = new CAWSW1(input11);
+	CAWS_W1.process();
+	return CAWS_W1;
+}
+
+public class CAWSW5
+{
+	private boolean output21;
+	private String output31;
+	private int output32;
+	private float output15;
+	private int output51;
+	private float output52;
+	private char output85;
+
+	public CAWSW5(boolean output21, String output31, int output32)
+	{
+		this.output21 = output21;
+		this.output31 = output31;
+		this.output32 = output32;
+		output15 = 0.0;
+		output51 = 0;
+		output52 = 0.0;
+		output85 = ' ';
+	}
+
+	public void process()
+	{
+		output15 = 20.0;
+		output51 = 10;
+		output52 = 20.0;
+		output85 = 'a';
+	}
+}
+
+public CAWSW5 W5(boolean output21, String output31, int output32)
+{
+	CAWSW5 CAWS_W5 = new CAWSW5(output21, output31, output32);
+	CAWS_W5.process();
+	return CAWS_W5;
+}
+
+public class CAWSW4
+{
+	private boolean output12;
+	private int input41;
+	private int output41;
+	private int output42;
+
+	public CAWSW4(boolean output12, int input41)
+	{
+		this.output12 = output12;
+		this.input41 = input41;
+		output41 = 0;
+		output42 = 0;
+	}
+
+	public void process()
+	{
+		output41 = 10;
+		output42 = 10;
+	}
+}
+
+public CAWSW4 W4(boolean output12, int input41)
+{
+	CAWSW4 CAWS_W4 = new CAWSW4(output12, input41);
+	CAWS_W4.process();
+	return CAWS_W4;
+}
+
+public class CAWSW7
+{
+	private int output51;
+	private int output71;
+	private int output72;
+
+	public CAWSW7(int output51)
+	{
+		this.output51 = output51;
+		output71 = 0;
+		output72 = 0;
+	}
+
+	public void process()
+	{
+		output71 = 10;
+		output72 = 10;
+	}
+}
+
+public CAWSW7 W7(int output51)
+{
+	CAWSW7 CAWS_W7 = new CAWSW7(output51);
+	CAWS_W7.process();
+	return CAWS_W7;
+}
+
+public class CAWSW8
+{
+	private float output52;
+	private char output85;
+	private int input11;
+	private int output86;
+
+	public CAWSW8(float output52)
+	{
+		this.output52 = output52;
+		output85 = ' ';
+		input11 = 0;
+		output86 = 0;
+	}
+
+	public void process()
+	{
+		output85 = 'a';
+		input11 = 10;
+		output86 = 10;
+	}
+}
+
+public CAWSW8 W8(float output52)
+{
+	CAWSW8 CAWS_W8 = new CAWSW8(output52);
+	CAWS_W8.process();
+	return CAWS_W8;
+}
+
+public class CAWSW6
+{
+	private int output41;
+	private char output61;
+	private int output86;
+
+	public CAWSW6(int output41)
+	{
+		this.output41 = output41;
+		output61 = ' ';
+		output86 = 0;
+	}
+
+	public void process()
+	{
+		output61 = 'a';
+		output86 = 10;
+	}
+}
+
+public CAWSW6 W6(int output41)
+{
+	CAWSW6 CAWS_W6 = new CAWSW6(output41);
+	CAWS_W6.process();
+	return CAWS_W6;
+}
+
+public class CAWSW9
+{
+	private int output42;
+	private char output61;
+	private char output91;
+
+	public CAWSW9(int output42, char output61)
+	{
+		this.output42 = output42;
+		this.output61 = output61;
+		output91 = ' ';
+	}
+
+	public void process()
+	{
+		output91 = 'a';
+	}
+}
+
+public CAWSW9 W9(int output42, char output61)
+{
+	CAWSW9 CAWS_W9 = new CAWSW9(output42, output61);
+	CAWS_W9.process();
+	return CAWS_W9;
+}
+
+public class CAWSW10
+{
+	private int output71;
+	private char output85;
+	private int input11;
+	private boolean output101;
+
+	public CAWSW10(int output71, char output85, int input11)
+	{
+		this.output71 = output71;
+		this.output85 = output85;
+		this.input11 = input11;
+		output101 = false;
+	}
+
+	public void process()
+	{
+		output101 = true;
+	}
+}
+
+public CAWSW10 W10(int output71, char output85, int input11)
+{
+	CAWSW10 CAWS_W10 = new CAWSW10(output71, output85, input11);
+	CAWS_W10.process();
+	return CAWS_W10;
+}
+
+public class CAWSW11
+{
+	private int output72;
+	private String output111;
+
+	public CAWSW11(int output72)
+	{
+		this.output72 = output72;
+		output111 = " ";
+	}
+
+	public void process()
+	{
+		output111 = "test";
+	}
+}
+
+public CAWSW11 W11(int output72)
+{
+	CAWSW11 CAWS_W11 = new CAWSW11(output72);
+	CAWS_W11.process();
+	return CAWS_W11;
+}
+
+
+#OBJECTIVELUCID
+
+oCAWS_main @ [input11:11, input21:15, input31:'xyz12abc', input32:45, input41:79]
+where
+	dimension input11, input21, input31, input32, input41, output15, output86, output91, output101, output111;
+
+	oCAWS_main = CAWSReqComp(#.output15, #.output86, #.output91, #.output101, #.output111)
+					wvr CAWSreq_cnstr
+					@ [	output101:CAWS_W10.output101, 
+						output91:CAWS_W9.output91, 
+						output111:CAWS_W11.output111, 
+						output15:CAWS_W5.output15, 
+						output86:CAWS_W6.output86 ]
+					where
+						CAWSreq_cnstr = true;
+
+						CAWS_W2 = W2(#.input21)
+									wvr c_W2
+									@ [input21:#.input21]
+									where
+										c_W2 = #.input21 < 20 and #.input41 <= 80;
+									end;
+
+						CAWS_W3 = W3(#.input31, #.input32)
+									wvr c_W3
+									@ [input31:#.input31, 
+										input32:#.input32]
+									where
+										c_W3 = #.input32 < 30 and #.input41 <= 80;
+									end;
+
+						CAWS_W1 = W1(#.input11)
+									wvr c_W1
+									@ [input11:#.input11]
+									where
+										c_W1 = #.input41 <= 80;
+									end;
+
+						CAWS_W5 = W5(#.output21, #.output31, #.output32)
+									wvr c_W5
+									@ [output31:CAWS_W3.output31, 
+										output32:CAWS_W3.output32, 
+										output21:CAWS_W2.output21]
+									where
+										dimension output31, output21, output32;
+										c_W5 = true;
+									end;
+
+						CAWS_W4 = W4(#.output12, #.input41)
+									wvr c_W4
+									@ [output12:CAWS_W1.output12, 
+										input41:#.input41]
+									where
+										dimension output12;
+										c_W4 = true;
+									end;
+
+						CAWS_W7 = W7(#.output51)
+									wvr c_W7
+									@ [output51:CAWS_W5.output51]
+									where
+										dimension output51;
+										c_W7 = #.output51 == 60;
+									end;
+
+						CAWS_W8 = W8(#.output52)
+									wvr c_W8
+									@ [output52:CAWS_W5.output52]
+									where
+										dimension output52;
+										c_W8 = #.output51 == 60;
+									end;
+
+						CAWS_W6 = W6(#.output41)
+									wvr c_W6
+									@ [output41:CAWS_W4.output41]
+									where
+										dimension output41;
+										c_W6 = #.output41 >= 70 and #.output42 > 50;
+									end;
+
+						CAWS_W9 = W9(#.output42, #.output61)
+									wvr c_W9
+									@ [output61:CAWS_W6.output61, 
+										output42:CAWS_W4.output42]
+									where
+										dimension output42, output61;
+										c_W9 = #.output42 > 50 and #.output41 >= 70;
+									end;
+
+						CAWS_W10 = W10(#.output71, #.output85, #.input11)
+									wvr c_W10
+									@ [output85:CAWS_W8.output85, 
+										output71:CAWS_W7.output71, 
+										input11:CAWS_W8.input11]
+									where
+										dimension output85, output71;
+										c_W10 = #.input11 < 10 and #.output71 > 40 and #.output51 == 60;
+									end;
+
+						CAWS_W11 = W11(#.output72)
+									wvr c_W11
+									@ [output72:CAWS_W7.output72]
+									where
+										dimension output72;
+										c_W11 = #.output71 > 40;
+									end;
+					end;
+end;

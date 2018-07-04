@@ -1,40 +1,57 @@
 package servicecomposition.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Test;
+import constraint.Constraint;
+import service.ConstrainedService;
+import service.Service;
+import service.composite.layeredcompsvc.LayeredCompositeService;
+import service.parser.BasicServiceParser;
+import service.parser.ConstrainedServiceXMLParser;
+import service.parser.ServiceFileParserDecorator;
+import service.parser.ServiceSerializedParser;
+import service.writer.BasicServiceWriter;
+import service.writer.ServiceFileWriterDecorator;
+import service.writer.ServiceSerializedWriter;
 import servicecomposition.compositionprocesses.ServiceComposition;
 import servicecomposition.entities.CompositionRequest;
 import servicecomposition.entities.ConstraintAwarePlan;
+import servicecomposition.readers.FileReqConfigReader;
+import servicecomposition.readers.RequestConfiguration;
+import servicecomposition.readers.XMLFileReqConfigReader;
+import utilities.CompSvcStorageUtil;
+import utilities.LogUtil;
+import utilities.ReadWriteUtil;
 
 /**
  * Class for testing the complete process of constraint-aware service composition.
  * @author Jyotsana Gupta
  */
 public class ServiceCompositionTests 
-{
+{	
 	/**
-	 * Tests successful completion of service composition process, including user interaction.
-	 * For the following console input, this test should complete successfully:
-	 * Comma-separated list of inputs:
-	 * string : DeliveryAddress, string : ProductName
-	 * Comma-separated list of outputs:
-	 * string : ShipmentConfirm
-	 * Comma-separated list of QoS features:
-	 * COST, AVAILABILITY
-	 * Comma-separated list of constraints:
-	 * COST | < | 100, string : ShipmentConfirm | = | true, string : DeliveryAddress | = | Canada
-	 * Please enter the complete file path and name of the service repository XML file:
-	 * testinput/Test_Services_Set_3.xml
+	 * Tests successful completion of service composition process.
 	 */
 	@Test
 	public void serviceComposition()
 	{
+		String actualLogFileName = "testinput/servicecompositiontests/serviceComposition/log.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);
+				
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
+		configReader.setConfigFileName("testinput/servicecompositiontests/serviceComposition/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
 		List<String> actualPlanDetails = new ArrayList<String>();
-		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition();
+		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition(reqConfig, logger);
 		for (ConstraintAwarePlan cnstrAwrPlan : cnstrAwrPlans)
 		{
 			actualPlanDetails.add(cnstrAwrPlan.toString());
@@ -88,28 +105,34 @@ public class ServiceCompositionTests
 								+ "\nLayer 1: {W1} [string : ProductAddress EQUALS Quebec] W2 {W4}" 
 								+ "\nLayer 2: {W1, W2} [string : ProductAddress EQUALS Quebec] W4 {}");
 				
+		File actualLogFile = new File(actualLogFileName);
+		boolean logGenerated = (!(actualLogFile.length() == 0));
+		
+		assertFalse(logGenerated);
 		assertEquals(actualPlanDetails, expectedPlanDetails);
 	}
 	
 	/**
 	 * Tests failure of service composition process if a valid composition request cannot be created.
-	 * For the following console input, this test should complete successfully 
-	 * and an error message should be printed on the console:
-	 * Comma-separated list of inputs:
-	 * 
-	 * Comma-separated list of outputs:
-	 * string : ShipmentConfirm
-	 * Comma-separated list of QoS features:
-	 * COST, AVAILABILITY
-	 * Comma-separated list of constraints:
-	 * COST | < | 100, string : ShipmentConfirm | = | true, string : DeliveryAddress | = | Canada
-	 * Please enter the complete file path and name of the service repository XML file:
-	 * testinput/Test_Services_Set_3.xml
 	 */
 	@Test
 	public void serviceCompositionAbort()
 	{
-		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition();
+		String actualLogFileName = "testinput/servicecompositiontests/serviceCompositionAbort/log.txt";
+		String expectedLogFileName = "testinput/servicecompositiontests/serviceCompositionAbort/expectedlog.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);
+		
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
+		configReader.setConfigFileName("testinput/servicecompositiontests/serviceCompositionAbort/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition(reqConfig, logger);
+		
+		String actualLog = ReadWriteUtil.readTextFile(actualLogFileName);
+		String expectedLog = ReadWriteUtil.readTextFile(expectedLogFileName);
+		
+		assertEquals(expectedLog, actualLog);
 		assertNull(cnstrAwrPlans);
 	}
 	
@@ -126,17 +149,25 @@ public class ServiceCompositionTests
 	@Test
 	public void compReqComponentCreation()
 	{
-		String inputString = "string : Delivery Address, string : Product Name, string : Customer Name, float : Price";
-		String outputString = ", string : Shipment Confirmation  ,  string : Invoice , 	 ,  	";
-		String qosString = "    		";
-		String constraintString = "	 float : Price	 |  < |	100  , 		string : Invoice |		=| true , string : Delivery Address | = | Canada";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
+		String actualLogFileName = "testinput/servicecompositiontests/compReqComponentCreation/log.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);
+		
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
+		configReader.setConfigFileName("testinput/servicecompositiontests/compReqComponentCreation/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(reqConfig, logger);
 		
 		String expectedCompReq = "Inputs: string : Delivery Address, string : Product Name, string : Customer Name, float : Price" 
 								+ "\nOutputs: string : Shipment Confirmation, string : Invoice" 
 								+ "\nQoS: " 
 								+ "\nConstraints: (CompositeService) float : Price LESS_THAN 100, (CompositeService) string : Invoice EQUALS true, (CompositeService) string : Delivery Address EQUALS Canada";
 		
+		File actualLogFile = new File(actualLogFileName);
+		boolean logGenerated = (!(actualLogFile.length() == 0));
+		
+		assertFalse(logGenerated);	
 		assertEquals(expectedCompReq, compRequest.toString());
 	}
 	
@@ -149,12 +180,21 @@ public class ServiceCompositionTests
 	@Test
 	public void compReqCnstrOpFormatValidation()
 	{
-		String inputString = "string : DeliveryAddress, string : ProductName, string : CustomerName, float : Price";
-		String outputString = "string : ShipmentConfirm, string : Invoice";
-		String qosString = "COST";
-		String constraintString = "COST | < | , string : Invoice | <> | false, string : DeliveryAddress | = | Quebec | City";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
+		String actualLogFileName = "testinput/servicecompositiontests/compReqCnstrOpFormatValidation/log.txt";
+		String expectedLogFileName = "testinput/servicecompositiontests/compReqCnstrOpFormatValidation/expectedlog.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);
 		
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
+		configReader.setConfigFileName("testinput/servicecompositiontests/compReqCnstrOpFormatValidation/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(reqConfig, logger);
+		
+		String actualLog = ReadWriteUtil.readTextFile(actualLogFileName);
+		String expectedLog = ReadWriteUtil.readTextFile(expectedLogFileName);
+		
+		assertEquals(expectedLog, actualLog);
 		assertNull(compRequest);
 	}
 	
@@ -166,12 +206,21 @@ public class ServiceCompositionTests
 	@Test
 	public void noRequestedInput()
 	{
-		String inputString = ", , , ";
-		String outputString = "string : ShipmentConfirm, string : Invoice";
-		String qosString = "COST";
-		String constraintString = "COST | < | 100, string : Invoice | = | true";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
+		String actualLogFileName = "testinput/servicecompositiontests/noRequestedInput/log.txt";
+		String expectedLogFileName = "testinput/servicecompositiontests/noRequestedInput/expectedlog.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);
 		
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
+		configReader.setConfigFileName("testinput/servicecompositiontests/noRequestedInput/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(reqConfig, logger);
+		
+		String actualLog = ReadWriteUtil.readTextFile(actualLogFileName);
+		String expectedLog = ReadWriteUtil.readTextFile(expectedLogFileName);
+		
+		assertEquals(expectedLog, actualLog);
 		assertNull(compRequest);
 	}
 	
@@ -183,12 +232,21 @@ public class ServiceCompositionTests
 	@Test
 	public void noRequestedOutput()
 	{
-		String inputString = "string : DeliveryAddress, string : ProductName, string : CustomerName, float : Price";
-		String outputString = "";
-		String qosString = "COST";
-		String constraintString = "COST | < | 100, string : DeliveryAddress | = | Quebec";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
+		String actualLogFileName = "testinput/servicecompositiontests/noRequestedOutput/log.txt";
+		String expectedLogFileName = "testinput/servicecompositiontests/noRequestedOutput/expectedlog.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);
 		
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
+		configReader.setConfigFileName("testinput/servicecompositiontests/noRequestedOutput/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(reqConfig, logger);
+		
+		String actualLog = ReadWriteUtil.readTextFile(actualLogFileName);
+		String expectedLog = ReadWriteUtil.readTextFile(expectedLogFileName);
+		
+		assertEquals(expectedLog, actualLog);
 		assertNull(compRequest);
 	}
 	
@@ -200,12 +258,21 @@ public class ServiceCompositionTests
 	@Test
 	public void invalidQOS()
 	{
-		String inputString = "string : DeliveryAddress, string : ProductName, string : CustomerName, float : Price";
-		String outputString = "string : ShipmentConfirm, string : Invoice";
-		String qosString = "COST, THROUGHPUT, response_time";
-		String constraintString = "COST | < | 100, string : DeliveryAddress | = | Quebec, string : Invoice | = | true";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
+		String actualLogFileName = "testinput/servicecompositiontests/invalidQOS/log.txt";
+		String expectedLogFileName = "testinput/servicecompositiontests/invalidQOS/expectedlog.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);
 		
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
+		configReader.setConfigFileName("testinput/servicecompositiontests/invalidQOS/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(reqConfig, logger);
+		
+		String actualLog = ReadWriteUtil.readTextFile(actualLogFileName);
+		String expectedLog = ReadWriteUtil.readTextFile(expectedLogFileName);
+		
+		assertEquals(expectedLog, actualLog);
 		assertNull(compRequest);
 	}
 	
@@ -217,12 +284,21 @@ public class ServiceCompositionTests
 	@Test
 	public void invalidConstraintType()
 	{
-		String inputString = "string : DeliveryAddress, string : ProductName, string : CustomerName, float : Price";
-		String outputString = "string : ShipmentConfirm, string : Invoice";
-		String qosString = "COST";
-		String constraintString = "AVAILABILITY | = | 60, string : DeliveryAddress | = | Quebec, string : Invoice | = | true";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
+		String actualLogFileName = "testinput/servicecompositiontests/invalidConstraintType/log.txt";
+		String expectedLogFileName = "testinput/servicecompositiontests/invalidConstraintType/expectedlog.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);
 		
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
+		configReader.setConfigFileName("testinput/servicecompositiontests/invalidConstraintType/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(reqConfig, logger);
+		
+		String actualLog = ReadWriteUtil.readTextFile(actualLogFileName);
+		String expectedLog = ReadWriteUtil.readTextFile(expectedLogFileName);
+		
+		assertEquals(expectedLog, actualLog);
 		assertNull(compRequest);
 	}
 	
@@ -234,15 +310,21 @@ public class ServiceCompositionTests
 	@Test
 	public void emptySvcRepository()
 	{
-		String inputString = "string : DeliveryAddress, string : ProductName";
-		String outputString = "string : ShipmentConfirm";
-		String qosString = "COST";
-		String constraintString = "COST | < | 100, string : DeliveryAddress | = | Canada";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
-		String repoFileName = "testinput/Test_Services_Set_4.xml";
+		String actualLogFileName = "testinput/servicecompositiontests/emptySvcRepository/log.txt";
+		String expectedLogFileName = "testinput/servicecompositiontests/emptySvcRepository/expectedlog.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);
 		
-		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.buildServiceCompositions(compRequest, repoFileName);
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
+		configReader.setConfigFileName("testinput/servicecompositiontests/emptySvcRepository/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
 		
+		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition(reqConfig, logger);
+		
+		String actualLog = ReadWriteUtil.readTextFile(actualLogFileName);
+		String expectedLog = ReadWriteUtil.readTextFile(expectedLogFileName);
+		
+		assertEquals(expectedLog, actualLog);
 		assertNull(cnstrAwrPlans);
 	}
 	
@@ -252,15 +334,21 @@ public class ServiceCompositionTests
 	@Test
 	public void unsolvableProblem()
 	{
-		String inputString = "string : DeliveryAddress, string : ProductName";
-		String outputString = "string : Invoice";
-		String qosString = "COST";
-		String constraintString = "COST | < | 100, string : DeliveryAddress | = | Canada";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
-		String repoFileName = "testinput/Test_Services_Set_3.xml";
+		String actualLogFileName = "testinput/servicecompositiontests/unsolvableProblem/log.txt";
+		String expectedLogFileName = "testinput/servicecompositiontests/unsolvableProblem/expectedlog.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);
 		
-		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.buildServiceCompositions(compRequest, repoFileName);
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
+		configReader.setConfigFileName("testinput/servicecompositiontests/unsolvableProblem/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
 		
+		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition(reqConfig, logger);
+		
+		String actualLog = ReadWriteUtil.readTextFile(actualLogFileName);
+		String expectedLog = ReadWriteUtil.readTextFile(expectedLogFileName);
+		
+		assertEquals(expectedLog, actualLog);
 		assertNull(cnstrAwrPlans);
 	}
 	
@@ -271,15 +359,132 @@ public class ServiceCompositionTests
 	@Test
 	public void noSvcCompositionReqd()
 	{
-		String inputString = "string : DeliveryAddress, string : ProductName";
-		String outputString = "string : ProductNumber";
-		String qosString = "COST";
-		String constraintString = "COST | < | 100, string : DeliveryAddress | = | Canada";
-		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(inputString, outputString, qosString, constraintString);
-		String repoFileName = "testinput/Test_Services_Set_3.xml";
+		String actualLogFileName = "testinput/servicecompositiontests/noSvcCompositionReqd/log.txt";
+		String expectedLogFileName = "testinput/servicecompositiontests/noSvcCompositionReqd/expectedlog.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);
 		
-		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.buildServiceCompositions(compRequest, repoFileName);
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
+		configReader.setConfigFileName("testinput/servicecompositiontests/noSvcCompositionReqd/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
 		
+		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition(reqConfig, logger);
+		
+		String actualLog = ReadWriteUtil.readTextFile(actualLogFileName);
+		String expectedLog = ReadWriteUtil.readTextFile(expectedLogFileName);
+		
+		assertEquals(expectedLog, actualLog);
 		assertNull(cnstrAwrPlans);
+	}
+	
+	/**
+	 * Tests correct creation of a composite service object based on a composition request and its resultant constraint-aware plan.
+	 */
+	@Test
+	public void compositeServiceCreation()
+	{
+		String actualLogFileName = "testinput/servicecompositiontests/compositeServiceCreation/log.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);
+		
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
+		configReader.setConfigFileName("testinput/servicecompositiontests/compositeServiceCreation/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		CompositionRequest compRequest = ServiceComposition.constructCompositionRequest(reqConfig, logger);
+		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition(reqConfig, logger);
+		
+		Service layeredCS = CompSvcStorageUtil.createCompositeService(compRequest, cnstrAwrPlans.get(0));
+		
+		boolean correctCSName = layeredCS.getName().startsWith("CompSvc_");
+		List<String> csInputs = layeredCS.getInput();
+		List<String> csOutputs = layeredCS.getOutput();
+		List<String> csEffects = ((ConstrainedService)layeredCS.getInnerService()).getEffects();
+		List<Constraint> csConstraints = ((ConstrainedService)layeredCS.getInnerService()).getConstraints();
+		ConstraintAwarePlan csCompPlan = ((LayeredCompositeService)layeredCS).getCompositionPlan();
+		
+		String actualPlanDetails = csCompPlan.toString();
+		String expectedPlanDetails = "Layer 0: {} [] W8 {W9}"
+										+ "\nLayer 1: {W8} [] W9 {W10}"
+										+ "\nLayer 2: {W9} [] W10 {}";
+		
+		File actualLogFile = new File(actualLogFileName);
+		boolean logGenerated = (!(actualLogFile.length() == 0));
+		
+		assertTrue(correctCSName);
+		assertEquals(csInputs, compRequest.getInputs());
+		assertEquals(csOutputs, compRequest.getOutputs());
+		assertEquals(csEffects, compRequest.getOutputs());
+		assertNull(csConstraints);
+		assertEquals(actualPlanDetails, expectedPlanDetails);
+		assertFalse(logGenerated);
+	}
+	
+	/**
+	 * Tests that a composite service created for a composition request can be stored in an existing
+	 * repository and used as an atomic service for future configurations.
+	 */
+	@Test
+	public void useCSForComposition()
+	{
+		//Parsing an XML service repository containing no composite services
+		String xmlRepoFileName = "testinput/servicecompositiontests/useCSForComposition/XML_Repository.xml";
+		ServiceFileParserDecorator xmlSvcParser = new ConstrainedServiceXMLParser(new BasicServiceParser());
+		xmlSvcParser.setLocation(xmlRepoFileName);
+		ArrayList<Service> services = xmlSvcParser.parse();
+		
+		//Translating the XML repository into a serialized Java object repository
+		String serialRepoFileName = "testinput/servicecompositiontests/useCSForComposition/Serialized_Repository.txt";
+		ServiceFileWriterDecorator serialSvcWriter = new ServiceSerializedWriter(new BasicServiceWriter());
+		serialSvcWriter.setLocation(serialRepoFileName);
+		serialSvcWriter.write(services);
+				
+		//Creating a composite service based on the serialized repository and storing it back in the same repository
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
+		configReader.setConfigFileName("testinput/servicecompositiontests/useCSForComposition/Req_Config_Percent.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		String actualLogFileName = "testinput/servicecompositiontests/useCSForComposition/log.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);
+		
+		ServiceComposition.driveServiceComposition(reqConfig, logger);
+		
+		//Fetching the name of the composite service from the serialized repository
+		ServiceFileParserDecorator serialSvcParser = new ServiceSerializedParser(new BasicServiceParser());
+		serialSvcParser.setLocation(serialRepoFileName);
+		services = serialSvcParser.parse();
+		
+		String compSvcName = null;
+		for (Service service : services)
+		{
+			if (service.getName().startsWith("CompSvc_"))
+			{
+				compSvcName = service.getName();
+			}
+		}
+				
+		//Creating another composite service that uses the earlier composite service as a component
+		configReader = new XMLFileReqConfigReader();
+		configReader.setConfigFileName("testinput/servicecompositiontests/useCSForComposition/Req_Config_Grade.xml");
+		reqConfig = configReader.readReqConfig();
+		
+		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition(reqConfig, logger);
+		List<String> actualPlanDetails = new ArrayList<String>();
+		for (ConstraintAwarePlan cnstrAwrPlan : cnstrAwrPlans)
+		{
+			actualPlanDetails.add(cnstrAwrPlan.toString());
+		}
+		Collections.sort(actualPlanDetails);
+		
+		List<String> expectedPlanDetails = new ArrayList<String>();
+		expectedPlanDetails.add("Layer 0: {} [] " + compSvcName + " {W11}"
+								+ "\nLayer 1: {" + compSvcName + "} [] W11 {}");
+		
+		File actualLogFile = new File(actualLogFileName);
+		boolean logGenerated = (!(actualLogFile.length() == 0));
+		
+		assertFalse(logGenerated);
+		assertEquals(actualPlanDetails, expectedPlanDetails);
 	}
 }

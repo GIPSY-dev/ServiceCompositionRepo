@@ -1,5 +1,6 @@
 package servicecomposition.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -13,8 +14,9 @@ import service.ConstrainedService;
  * Class for representing a constraint-aware service composition plan.
  * @author Jyotsana Gupta
  */
-public class ConstraintAwarePlan 
+public class ConstraintAwarePlan implements Serializable
 {
+	private static final long serialVersionUID = 1802299450235374301L;
 	private List<List<ServiceNode>> serviceLayers;
 	
 	/**
@@ -139,7 +141,7 @@ public class ConstraintAwarePlan
 				ServiceNode currServiceNode = currLayer.get(j);
 				ConstrainedService currConstrService = (ConstrainedService) currServiceNode.getService();
 				List<Constraint> adjConstraints = currConstrService.getConstraints();
-				int adjCnstrCount = adjConstraints.size();
+				int adjCnstrCount = (adjConstraints == null) ? 0 : adjConstraints.size();
 				for (int k = 0; k < adjCnstrCount; k++)
 				{
 					boolean constraintAdjusted = false;

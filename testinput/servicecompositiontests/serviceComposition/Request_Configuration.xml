@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<requestconfig>
+    <inputs value="string : DeliveryAddress, string : ProductName"/>
+	<outputs value="string : ShipmentConfirm"/>
+	<qos value="COST, AVAILABILITY"/>
+	<constraints value="COST | &lt; | 100, string : ShipmentConfirm | = | true, string : DeliveryAddress | = | Canada"/>
+	<repofilename value="testinput/servicerepos/Test_Services_Set_3.xml"/>
+	<storecsflag value="N"/>
+</requestconfig>

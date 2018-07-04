@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<requestconfig>
+    <inputs value="string : Delivery Address, string : Product Name, string : Customer Name, float : Price"/>
+	<outputs value=", string : Shipment Confirmation  ,  string : Invoice , 	 ,  	"/>
+	<qos value="    		"/>
+	<constraints value="	 float : Price	 |  &lt; |	100  , 		string : Invoice |		=| true , string : Delivery Address | = | Canada"/>
+	<repofilename value=""/>
+	<storecsflag value="N"/>
+</requestconfig>

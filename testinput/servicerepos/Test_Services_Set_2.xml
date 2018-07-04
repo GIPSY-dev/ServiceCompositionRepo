@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<services>
+    <service name="sname1">
+        <inputs>
+            <instance name="int : input11"/>
+        </inputs>
+        <outputs>
+            <instance name="float : input12"/>
+			<instance name="char : output11"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname1"/>
+                <literalvalue name="11"/>
+                <type name="int : input11"/>
+                <operator name="&lt;="/>
+            </instance>
+            <instance>
+                <servicename name="sname1"/>
+                <literalvalue name="5"/>
+                <type name="int : input11"/>
+                <operator name="&gt;="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="float : input12"/>
+			<instance name="char : output11"/>
+        </effects>
+    </service>
+    <service name="sname2">
+        <inputs>
+            <instance name="string : input21"/>
+        </inputs>
+        <outputs>
+            <instance name="boolean : input22"/>
+			<instance name="int : output21"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname2"/>
+                <literalvalue name="lit21"/>
+                <type name="string : input21"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="boolean : input22"/>
+			<instance name="int : output21"/>
+        </effects>
+    </service>
+	<service name="sname3">
+        <inputs>
+            <instance name="int : input11"/>
+            <instance name="float : input12"/>
+        </inputs>
+        <outputs>
+            <instance name="float : output31"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname3"/>
+                <literalvalue name="31"/>
+                <type name="int : input11"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="sname3"/>
+                <literalvalue name="32.2"/>
+                <type name="float : input12"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="float : output31"/>
+        </effects>
+    </service>
+	<service name="sname4">
+        <inputs>
+            <instance name="string : input21"/>
+            <instance name="boolean : input22"/>
+        </inputs>
+        <outputs>
+            <instance name="char : output41"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname4"/>
+                <literalvalue name="lit41"/>
+                <type name="string : input21"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="sname4"/>
+                <literalvalue name="false"/>
+                <type name="boolean : input22"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="char : output41"/>
+        </effects>
+    </service>
+	<service name="sname5">
+        <inputs>
+            <instance name="float : output31"/>
+        </inputs>
+        <outputs>
+            <instance name="string : output51"/>
+            <instance name="boolean : output52"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname5"/>
+                <literalvalue name="51.1"/>
+                <type name="float : output31"/>
+                <operator name="&gt;"/>
+            </instance>
+            <instance>
+                <servicename name="sname5"/>
+                <literalvalue name="52.2"/>
+                <type name="float : output31"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="string : output51"/>
+            <instance name="boolean : output52"/>
+        </effects>
+    </service>
+	<service name="sname6">
+        <inputs>
+            <instance name="char : output41"/>
+        </inputs>
+        <outputs>
+            <instance name="string : output51"/>
+            <instance name="boolean : output52"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname6"/>
+                <literalvalue name="x"/>
+                <type name="char : output41"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="string : output51"/>
+            <instance name="boolean : output52"/>
+        </effects>
+    </service>
+	<service name="sname7">
+        <inputs>
+            <instance name="float : output31"/>
+        </inputs>
+        <outputs>
+            <instance name="int : output71"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname7"/>
+                <literalvalue name="71.0"/>
+                <type name="float : output31"/>
+                <operator name="&gt;="/>
+            </instance>
+            <instance>
+                <servicename name="sname7"/>
+                <literalvalue name="72.0"/>
+                <type name="float : output31"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="int : output71"/>
+        </effects>
+    </service>
+	<service name="sname8">
+        <inputs>
+            <instance name="char : output41"/>
+        </inputs>
+        <outputs>
+            <instance name="float : output81"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname8"/>
+                <literalvalue name="y"/>
+                <type name="char : output41"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="float : output81"/>
+        </effects>
+    </service>
+	<service name="sname9">
+        <inputs>
+            <instance name="char : output11"/>
+            <instance name="int : output21"/>
+        </inputs>
+        <outputs>
+            <instance name="char : output91"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname9"/>
+                <literalvalue name="z"/>
+                <type name="char : output11"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="sname9"/>
+                <literalvalue name="92"/>
+                <type name="int : output21"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="char : output91"/>
+        </effects>
+    </service>
+	<service name="sname10">
+        <inputs>
+            <instance name="int : output21"/>
+        </inputs>
+        <outputs>
+            <instance name="string : output101"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname10"/>
+                <literalvalue name="101"/>
+                <type name="int : output21"/>
+                <operator name="&gt;"/>
+            </instance>
+            <instance>
+                <servicename name="sname10"/>
+                <literalvalue name="102"/>
+                <type name="int : output21"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="string : output101"/>
+        </effects>
+    </service>
+	<service name="sname11">
+        <inputs>
+            <instance name="char : output91"/>
+            <instance name="string : output101"/>
+        </inputs>
+        <outputs>
+            <instance name="char : output111"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname11"/>
+                <literalvalue name="w"/>
+                <type name="char : output91"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="sname11"/>
+                <literalvalue name="lit112"/>
+                <type name="string : output101"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="char : output111"/>
+        </effects>
+    </service>
+	<service name="sname12">
+        <inputs>
+            <instance name="string : output101"/>
+        </inputs>
+        <outputs>
+            <instance name="boolean : output121"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname12"/>
+                <literalvalue name="lit121"/>
+                <type name="string : output101"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="boolean : output121"/>
+        </effects>
+    </service>
+	<service name="sname13">
+        <inputs>
+            <instance name="char : output111"/>
+            <instance name="boolean : output121"/>
+        </inputs>
+        <outputs>
+            <instance name="int : output131"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="sname13"/>
+                <literalvalue name="u"/>
+                <type name="char : output111"/>
+                <operator name="="/>
+            </instance>
+            <instance>
+                <servicename name="sname13"/>
+                <literalvalue name="true"/>
+                <type name="boolean : output121"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="int : output131"/>
+        </effects>
+    </service>
+</services>

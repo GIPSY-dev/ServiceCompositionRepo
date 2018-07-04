@@ -170,7 +170,7 @@ public class BackwardSearchTests
 		
 		//Reading the service repository
 		ServiceFileParserDecorator serviceParser = new ConstrainedServiceXMLParser(new BasicServiceParser());
-		serviceParser.setLocation("testinput/Test_Services_Set_1.xml");
+		serviceParser.setLocation("testinput/servicerepos/Test_Services_Set_1.xml");
 		ArrayList<Service> serviceRepo = serviceParser.parse();
 		
 		//Using forward expansion to generate a search graph

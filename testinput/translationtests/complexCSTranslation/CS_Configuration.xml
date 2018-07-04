@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<csconfig>
+	<csrepofilename value="testinput/translationtests/complexCSTranslation/Serialized_Repository.txt"/>
+	<csname value="CompSvc_471441762907907"/>
+	<input>
+		<name value="input11"/>
+		<type value="int"/>
+		<value value="11"/>
+	</input>
+	<input>
+		<name value="input21"/>
+		<type value="int"/>
+		<value value="15"/>
+	</input>
+	<input>
+		<name value="input31"/>
+		<type value="string"/>
+		<value value="xyz12abc"/>
+	</input>
+	<input>
+		<name value="input32"/>
+		<type value="int"/>
+		<value value="45"/>
+	</input>
+	<input>
+		<name value="input41"/>
+		<type value="int"/>
+		<value value="79"/>
+	</input>
+</csconfig>

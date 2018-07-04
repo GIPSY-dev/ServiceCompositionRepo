@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<requestconfig>
+    <inputs value="string : StudentID"/>
+	<outputs value="float : MarksPercentage"/>
+	<qos value=""/>
+	<constraints value=""/>
+	<repofilename value="testinput/servicecompositiontests/useCSForComposition/Serialized_Repository.txt"/>
+	<storecsflag value="Y"/>
+</requestconfig>
