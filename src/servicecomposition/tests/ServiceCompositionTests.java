@@ -7,7 +7,10 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.junit.Test;
 import constraint.Constraint;
 import service.ConstrainedService;
@@ -23,6 +26,7 @@ import service.writer.ServiceSerializedWriter;
 import servicecomposition.compositionprocesses.ServiceComposition;
 import servicecomposition.entities.CompositionRequest;
 import servicecomposition.entities.ConstraintAwarePlan;
+import servicecomposition.entities.ServiceNode;
 import servicecomposition.readers.FileReqConfigReader;
 import servicecomposition.readers.RequestConfiguration;
 import servicecomposition.readers.XMLFileReqConfigReader;
@@ -383,6 +387,7 @@ public class ServiceCompositionTests
 	@Test
 	public void compositeServiceCreation()
 	{
+		//Creating a composite service based on the given configuration
 		String actualLogFileName = "testinput/servicecompositiontests/compositeServiceCreation/log.txt";
 		LogUtil logger = new LogUtil();
 		logger.setLogFileName(actualLogFileName);
@@ -396,6 +401,7 @@ public class ServiceCompositionTests
 		
 		Service layeredCS = CompSvcStorageUtil.createCompositeService(compRequest, cnstrAwrPlans.get(0));
 		
+		//Fetching actual composite service details
 		boolean correctCSName = layeredCS.getName().startsWith("CompSvc_");
 		List<String> csInputs = layeredCS.getInput();
 		List<String> csOutputs = layeredCS.getOutput();
@@ -403,10 +409,25 @@ public class ServiceCompositionTests
 		List<Constraint> csConstraints = ((ConstrainedService)layeredCS.getInnerService()).getConstraints();
 		ConstraintAwarePlan csCompPlan = ((LayeredCompositeService)layeredCS).getCompositionPlan();
 		
+		//Preparing expected composite service details
+		Set<Constraint> compSvcCnstrSet = new HashSet<Constraint>();
+		Set<String> compSvcEffectSet = new HashSet<String>();
+		for (List<ServiceNode> serviceLayer : cnstrAwrPlans.get(0).getServiceLayers())
+		{
+			for (ServiceNode serviceNode : serviceLayer)
+			{
+				compSvcCnstrSet.addAll(serviceNode.getConstraints());
+				compSvcEffectSet.addAll(((ConstrainedService)serviceNode.getService()).getEffects());
+			}
+		}
+		ArrayList<Constraint> expectedCSConstraints = new ArrayList<Constraint>(compSvcCnstrSet);	
+		ArrayList<String> expectedCSEffects = new ArrayList<String>(compSvcEffectSet);
+		
+		//Preparing actual and expected composition plan details for the composite service created
 		String actualPlanDetails = csCompPlan.toString();
 		String expectedPlanDetails = "Layer 0: {} [] W8 {W9}"
-										+ "\nLayer 1: {W8} [] W9 {W10}"
-										+ "\nLayer 2: {W9} [] W10 {}";
+										+ "\nLayer 1: {W8} [int : NumberOfCourses GREATER_THAN 1] W9 {W10}"
+										+ "\nLayer 2: {W9} [float : AverageMarks LESS_THAN_OR_EQUAL_TO 100] W10 {}";
 		
 		File actualLogFile = new File(actualLogFileName);
 		boolean logGenerated = (!(actualLogFile.length() == 0));
@@ -414,8 +435,8 @@ public class ServiceCompositionTests
 		assertTrue(correctCSName);
 		assertEquals(csInputs, compRequest.getInputs());
 		assertEquals(csOutputs, compRequest.getOutputs());
-		assertEquals(csEffects, compRequest.getOutputs());
-		assertNull(csConstraints);
+		assertEquals(csEffects, expectedCSEffects);
+		assertEquals(csConstraints, expectedCSConstraints);
 		assertEquals(actualPlanDetails, expectedPlanDetails);
 		assertFalse(logGenerated);
 	}

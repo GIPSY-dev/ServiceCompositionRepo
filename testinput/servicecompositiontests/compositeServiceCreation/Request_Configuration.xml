@@ -4,6 +4,6 @@
 	<outputs value="float : MarksPercentage"/>
 	<qos value=""/>
 	<constraints value=""/>
-	<repofilename value="testinput/servicerepos/Test_Services_Set_3.xml"/>
+	<repofilename value="testinput/servicecompositiontests/compositeServiceCreation/Services_Repo.xml"/>
 	<storecsflag value="N"/>
 </requestconfig>

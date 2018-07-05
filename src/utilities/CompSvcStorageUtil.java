@@ -1,6 +1,10 @@
 package utilities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import constraint.Constraint;
 import service.BasicService;
 import service.ConstrainedService;
@@ -14,6 +18,7 @@ import service.writer.ServiceFileWriterDecorator;
 import service.writer.ServiceSerializedWriter;
 import servicecomposition.entities.CompositionRequest;
 import servicecomposition.entities.ConstraintAwarePlan;
+import servicecomposition.entities.ServiceNode;
 
 /**
  * Utility class for creating composite services and storing them in service repository.
@@ -33,8 +38,19 @@ public class CompSvcStorageUtil
 		String svcName = "CompSvc_" + System.nanoTime();
 		ArrayList<String> svcInputs = (ArrayList<String>) compRequest.getInputs();
 		ArrayList<String> svcOutputs = (ArrayList<String>) compRequest.getOutputs();
-		ArrayList<Constraint> svcConstraints = null;		
-		ArrayList<String> svcEffects = (ArrayList<String>) compRequest.getOutputs();
+		
+		Set<Constraint> compSvcCnstrSet = new HashSet<Constraint>();
+		Set<String> compSvcEffectSet = new HashSet<String>();
+		for (List<ServiceNode> serviceLayer : cnstrAwrPlan.getServiceLayers())
+		{
+			for (ServiceNode serviceNode : serviceLayer)
+			{
+				compSvcCnstrSet.addAll(serviceNode.getConstraints());
+				compSvcEffectSet.addAll(((ConstrainedService)serviceNode.getService()).getEffects());
+			}
+		}
+		ArrayList<Constraint> svcConstraints = new ArrayList<Constraint>(compSvcCnstrSet);	
+		ArrayList<String> svcEffects = new ArrayList<String>(compSvcEffectSet);
 		
 		//Creating constrained service without the composition plan
 		ConstrainedService cnstrdService = new ConstrainedService(new BasicService(svcName, svcInputs, svcOutputs), svcConstraints, svcEffects);
