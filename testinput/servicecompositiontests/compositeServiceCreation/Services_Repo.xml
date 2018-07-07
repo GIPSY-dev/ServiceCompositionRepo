@@ -186,7 +186,7 @@
         <constraints>
 			<instance>
                 <servicename name="W10"/>
-                <literalvalue name="100"/>
+                <literalvalue name="100.0"/>
                 <type name="float : AverageMarks"/>
                 <operator name="&lt;="/>
             </instance>

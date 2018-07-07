@@ -28,13 +28,13 @@ public class XMLFileCSConfigReader extends FileCSConfigReader
 		Document doc = ReadWriteUtil.getXmlDocument(configFileName);
 
 		//Fetching composite service details from the configuration file
-		String csRepoFileName = ReadWriteUtil.getTagValue("csrepofilename", doc);	
+		String csRepoFileName = ReadWriteUtil.getXMLTagValue("csrepofilename", "value", doc, null);	
 		String destFolderName = csRepoFileName.substring(0, (csRepoFileName.lastIndexOf("/") + 1));
-		String csName = ReadWriteUtil.getTagValue("csname", doc);
+		String csName = ReadWriteUtil.getXMLTagValue("csname", "value", doc, null);
 		List<String[]> inputDetails = getInputDetails(doc);
 		
 		//Parsing the source file to get the composite service object
-		Service compService = CompSvcStorageUtil.readCSFromSerialFile(csRepoFileName, csName, logger);
+		Service compService = CompSvcStorageUtil.readCSFromSerialSvcRepo(csRepoFileName, csName, logger);
 		if (compService == null)
 		{
 			return null;
@@ -65,32 +65,13 @@ public class XMLFileCSConfigReader extends FileCSConfigReader
 			if (inpNode.getNodeType() == Node.ELEMENT_NODE)
 			{
 				Element inpElement = (Element) inpNode;
-				inpDtlRecord[0] = getElemTagValue("name", inpElement);
-				inpDtlRecord[1] = getElemTagValue("type", inpElement);
-				inpDtlRecord[2] = getElemTagValue("value", inpElement);
+				inpDtlRecord[0] = ReadWriteUtil.getXMLTagValue("name", "value", null, inpElement);
+				inpDtlRecord[1] = ReadWriteUtil.getXMLTagValue("type", "value", null, inpElement);
+				inpDtlRecord[2] = ReadWriteUtil.getXMLTagValue("value", "value", null, inpElement);
 				inputDetails.add(inpDtlRecord);
 			}
 		}
 		
 		return inputDetails;
-	}
-	
-	/**
-	 * Method for fetching the value of the "value" attribute of an XML tag.
-	 * @param 	tagName		Name of the tag element
-	 * @param 	elem		Container XML element node
-	 * @return	Value of the target attribute
-	 */
-	private String getElemTagValue(String tagName, Element elem)
-	{
-		String tagValue = null;
-		Node targetNode = elem.getElementsByTagName(tagName).item(0);
-		if (targetNode.getNodeType() == Node.ELEMENT_NODE)
-		{
-			Element targetElement = (Element) targetNode;
-			tagValue = targetElement.getAttribute("value");
-		}
-		
-		return tagValue;
 	}
 }

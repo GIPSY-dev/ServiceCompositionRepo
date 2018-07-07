@@ -427,7 +427,7 @@ public class ServiceCompositionTests
 		String actualPlanDetails = csCompPlan.toString();
 		String expectedPlanDetails = "Layer 0: {} [] W8 {W9}"
 										+ "\nLayer 1: {W8} [int : NumberOfCourses GREATER_THAN 1] W9 {W10}"
-										+ "\nLayer 2: {W9} [float : AverageMarks LESS_THAN_OR_EQUAL_TO 100] W10 {}";
+										+ "\nLayer 2: {W9} [float : AverageMarks LESS_THAN_OR_EQUAL_TO 100.0] W10 {}";
 		
 		File actualLogFile = new File(actualLogFileName);
 		boolean logGenerated = (!(actualLogFile.length() == 0));

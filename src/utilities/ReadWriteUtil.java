@@ -134,19 +134,31 @@ public class ReadWriteUtil
 	}
 	
 	/**
-	 * Method for fetching the value of the "value" attribute of an XML tag.
-	 * @param 	tagName		Name of the tag element
-	 * @param 	doc			Source XML document
+	 * Method for fetching the value of the attribute of an XML tag.
+	 * @param 	tagName			Name of the tag element
+	 * @param	attributeName	Name of the target attribute
+	 * @param 	doc				Container XML document. This should be null if sub-element of another element needs to be parsed.
+	 * @param 	elem			Container XML element. This should be null if sub-element of a document needs to be parsed.
 	 * @return	Value of the target attribute
 	 */
-	public static String getTagValue(String tagName, Document doc)
+	public static String getXMLTagValue(String tagName, String attributeName, Document doc, Element elem)
 	{
 		String tagValue = null;
-		Node targetNode = doc.getElementsByTagName(tagName).item(0);
+		
+		Node targetNode = null;
+		if (doc != null)
+		{
+			targetNode = doc.getElementsByTagName(tagName).item(0);
+		}
+		else if (elem != null)
+		{
+			targetNode = elem.getElementsByTagName(tagName).item(0);
+		}
+		
 		if (targetNode.getNodeType() == Node.ELEMENT_NODE)
 		{
 			Element targetElement = (Element) targetNode;
-			tagValue = targetElement.getAttribute("value");
+			tagValue = targetElement.getAttribute(attributeName);
 		}
 		
 		return tagValue;

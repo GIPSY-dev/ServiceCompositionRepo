@@ -23,7 +23,7 @@ public class ServiceNode implements Serializable
 	
 	/**
 	 * Parameterized constructor.
-	 * It assigns service, layer index and constraints to this service node. 
+	 * It initializes this service node's service and layer index with the input provided and its constraints with the input service's constraints. 
 	 * Blank lists are created for predecessors and successors.
 	 * @param 	service		Individual service that this node represents
 	 * @param 	layerIndex	Index of the service layer in the constraint-aware plan that contains this node
@@ -53,6 +53,23 @@ public class ServiceNode implements Serializable
 		{
 			constraints = new ArrayList<Constraint>();
 		}
+	}
+	
+	/**
+	 * Parameterized constructor.
+	 * It initializes this service node's service, layer index and constraints with the input provided. 
+	 * Blank lists are created for predecessors and successors.
+	 * @param 	service			Individual service that this node represents
+	 * @param 	constraints		List of constraints attached to this service node
+	 * @param 	layerIndex		Index of the service layer in the constraint-aware plan that contains this node
+	 */
+	public ServiceNode(Service service, List<Constraint> constraints, int layerIndex)
+	{
+		this.service = service;
+		this.constraints = constraints;
+		this.layerIndex = layerIndex;
+		predecessors = new ArrayList<ServiceNode>();
+		successors = new ArrayList<ServiceNode>();
 	}
 	
 	/**

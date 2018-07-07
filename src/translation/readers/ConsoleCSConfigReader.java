@@ -29,7 +29,7 @@ public class ConsoleCSConfigReader implements CSConfigReader
 		String csName = scanner.nextLine();
 		
 		//Parsing the source file to get the composite service object
-		Service compService = CompSvcStorageUtil.readCSFromSerialFile(csRepoFileName, csName, logger);
+		Service compService = CompSvcStorageUtil.readCSFromSerialSvcRepo(csRepoFileName, csName, logger);
 		if (compService == null)
 		{
 			scanner.close();
