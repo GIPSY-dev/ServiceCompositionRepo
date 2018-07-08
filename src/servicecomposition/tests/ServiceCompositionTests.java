@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.junit.Test;
 import constraint.Constraint;
 import service.ConstrainedService;
@@ -30,7 +29,7 @@ import servicecomposition.entities.ServiceNode;
 import servicecomposition.readers.FileReqConfigReader;
 import servicecomposition.readers.RequestConfiguration;
 import servicecomposition.readers.XMLFileReqConfigReader;
-import utilities.CompSvcStorageUtil;
+import servicecomposition.utilities.CompSvcStorageUtil;
 import utilities.LogUtil;
 import utilities.ReadWriteUtil;
 

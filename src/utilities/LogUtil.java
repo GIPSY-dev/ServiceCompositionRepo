@@ -1,5 +1,9 @@
 package utilities;
 
+/**
+ * Utility class for recording error and status messages in a log file.
+ * @author Jyotsana Gupta
+ */
 public class LogUtil 
 {
 	private String logFileName;
@@ -14,8 +18,8 @@ public class LogUtil
 	}
 	
 	/**
-	 * 
-	 * @param message
+	 * Method for writing a text message to the log file associated with this logger.
+	 * @param 	message		Text message to be written
 	 */
 	public void log(String message)
 	{

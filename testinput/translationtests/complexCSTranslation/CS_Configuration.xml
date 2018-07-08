@@ -2,6 +2,7 @@
 <csconfig>
 	<csrepofilename value="testinput/translationtests/complexCSTranslation/Serialized_Repository.txt"/>
 	<csname value="CompSvc_471441762907907"/>
+	<targetlang value="Lucid"/>
 	<input>
 		<name value="input11"/>
 		<type value="int"/>

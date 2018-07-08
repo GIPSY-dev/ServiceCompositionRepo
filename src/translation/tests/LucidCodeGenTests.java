@@ -19,10 +19,10 @@ import servicecomposition.compositionprocesses.ServiceComposition;
 import servicecomposition.readers.FileReqConfigReader;
 import servicecomposition.readers.RequestConfiguration;
 import servicecomposition.readers.XMLFileReqConfigReader;
-import translation.readers.CSConfiguration;
-import translation.readers.FileCSConfigReader;
-import translation.readers.XMLFileCSConfigReader;
-import translation.translationprocesses.CompositeServiceTranslation;
+import translation.readers.csconfigreaders.CSConfiguration;
+import translation.readers.csconfigreaders.FileCSConfigReader;
+import translation.readers.csconfigreaders.XMLFileCSConfigReader;
+import translation.translationprocesses.LucidCSTranslator;
 import utilities.LogUtil;
 import utilities.ReadWriteUtil;
 
@@ -50,7 +50,7 @@ public class LucidCodeGenTests
 		csConfigReader.setConfigFileName("testinput/translationtests/csTranslation/CS_Configuration.xml");
 		CSConfiguration csConfig = csConfigReader.readCSConfig(logger);
 		
-		String actualLucidFileName = CompositeServiceTranslation.driveServiceTranslation(csConfig, logger);
+		String actualLucidFileName = LucidCSTranslator.driveServiceTranslation(csConfig, logger);
 		String expectedLucidFileName = "testinput/translationtests/csTranslation/expectedlucidprogram.ipl";
 		
 		File actualLogFile = new File(actualLogFileName);
@@ -80,7 +80,7 @@ public class LucidCodeGenTests
 		csConfigReader.setConfigFileName("testinput/translationtests/complexCSTranslation/CS_Configuration.xml");
 		CSConfiguration csConfig = csConfigReader.readCSConfig(logger);
 		
-		String actualLucidFileName = CompositeServiceTranslation.driveServiceTranslation(csConfig, logger);
+		String actualLucidFileName = LucidCSTranslator.driveServiceTranslation(csConfig, logger);
 		String expectedLucidFileName = "testinput/translationtests/complexCSTranslation/expectedlucidprogram.ipl";
 		
 		File actualLogFile = new File(actualLogFileName);
@@ -111,7 +111,7 @@ public class LucidCodeGenTests
 		LogUtil logger = new LogUtil();
 		logger.setLogFileName(actualLogFileName);	
 		
-		boolean inpValid = CompositeServiceTranslation.validateInpValues(inputDetails, logger);
+		boolean inpValid = LucidCSTranslator.validateInpValues(inputDetails, logger);
 		
 		File actualLogFile = new File(actualLogFileName);
 		boolean logGenerated = (!(actualLogFile.length() == 0));
@@ -140,8 +140,8 @@ public class LucidCodeGenTests
 		LogUtil logger2 = new LogUtil();
 		logger2.setLogFileName(actualLogFileName2);
 		
-		boolean inpValid1 = CompositeServiceTranslation.validateInpValues(inputDetails1, logger1);
-		boolean inpValid2 = CompositeServiceTranslation.validateInpValues(inputDetails2, logger2);
+		boolean inpValid1 = LucidCSTranslator.validateInpValues(inputDetails1, logger1);
+		boolean inpValid2 = LucidCSTranslator.validateInpValues(inputDetails2, logger2);
 		
 		String actualLog1 = ReadWriteUtil.readTextFile(actualLogFileName1);
 		String expectedLog1 = ReadWriteUtil.readTextFile(expectedLogFileName1);
@@ -190,10 +190,10 @@ public class LucidCodeGenTests
 		LogUtil logger4 = new LogUtil();
 		logger4.setLogFileName(actualLogFileName4);
 		
-		boolean inpValid1 = CompositeServiceTranslation.validateInpValues(inputDetails1, logger1);
-		boolean inpValid2 = CompositeServiceTranslation.validateInpValues(inputDetails2, logger2);
-		boolean inpValid3 = CompositeServiceTranslation.validateInpValues(inputDetails3, logger3);
-		boolean inpValid4 = CompositeServiceTranslation.validateInpValues(inputDetails4, logger4);
+		boolean inpValid1 = LucidCSTranslator.validateInpValues(inputDetails1, logger1);
+		boolean inpValid2 = LucidCSTranslator.validateInpValues(inputDetails2, logger2);
+		boolean inpValid3 = LucidCSTranslator.validateInpValues(inputDetails3, logger3);
+		boolean inpValid4 = LucidCSTranslator.validateInpValues(inputDetails4, logger4);
 		
 		String actualLog1 = ReadWriteUtil.readTextFile(actualLogFileName1);
 		String expectedLog1 = ReadWriteUtil.readTextFile(expectedLogFileName1);
@@ -242,9 +242,9 @@ public class LucidCodeGenTests
 		LogUtil logger3 = new LogUtil();
 		logger3.setLogFileName(actualLogFileName3);
 		
-		boolean inpValid1 = CompositeServiceTranslation.validateInpValues(inputDetails1, logger1);
-		boolean inpValid2 = CompositeServiceTranslation.validateInpValues(inputDetails2, logger2);
-		boolean inpValid3 = CompositeServiceTranslation.validateInpValues(inputDetails3, logger3);
+		boolean inpValid1 = LucidCSTranslator.validateInpValues(inputDetails1, logger1);
+		boolean inpValid2 = LucidCSTranslator.validateInpValues(inputDetails2, logger2);
+		boolean inpValid3 = LucidCSTranslator.validateInpValues(inputDetails3, logger3);
 		
 		String actualLog1 = ReadWriteUtil.readTextFile(actualLogFileName1);
 		String expectedLog1 = ReadWriteUtil.readTextFile(expectedLogFileName1);
@@ -289,9 +289,9 @@ public class LucidCodeGenTests
 		LogUtil logger3 = new LogUtil();
 		logger3.setLogFileName(actualLogFileName3);
 		
-		boolean inpValid1 = CompositeServiceTranslation.validateInpValues(inputDetails1, logger1);
-		boolean inpValid2 = CompositeServiceTranslation.validateInpValues(inputDetails2, logger2);
-		boolean inpValid3 = CompositeServiceTranslation.validateInpValues(inputDetails3, logger3);
+		boolean inpValid1 = LucidCSTranslator.validateInpValues(inputDetails1, logger1);
+		boolean inpValid2 = LucidCSTranslator.validateInpValues(inputDetails2, logger2);
+		boolean inpValid3 = LucidCSTranslator.validateInpValues(inputDetails3, logger3);
 		
 		String actualLog1 = ReadWriteUtil.readTextFile(actualLogFileName1);
 		String expectedLog1 = ReadWriteUtil.readTextFile(expectedLogFileName1);
@@ -324,7 +324,7 @@ public class LucidCodeGenTests
 		LogUtil logger = new LogUtil();
 		logger.setLogFileName(actualLogFileName);
 		
-		boolean inpValid = CompositeServiceTranslation.validateInpValues(inputDetails, logger);
+		boolean inpValid = LucidCSTranslator.validateInpValues(inputDetails, logger);
 		
 		String actualLog = ReadWriteUtil.readTextFile(actualLogFileName);
 		String expectedLog = ReadWriteUtil.readTextFile(expectedLogFileName);

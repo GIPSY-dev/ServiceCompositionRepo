@@ -1,4 +1,4 @@
-package translation.readers;
+package translation.readers.csconfigreaders;
 
 /**
  * Abstract reader for reading composite service configuration from a file stored on disk.
@@ -10,7 +10,7 @@ public abstract class FileCSConfigReader implements CSConfigReader
 	protected String configFileName;
 	
 	/**
-	 * Method for assigning complete name and path of the source CS configuration file.
+	 * Method for assigning complete name and path of the source composite service configuration file.
 	 * @param 	configFileName	Complete name and path of configuration file
 	 */
 	public void setConfigFileName(String configFileName)

@@ -14,6 +14,10 @@ import service.composite.layeredcompsvc.LayeredCompositeService;
 import servicecomposition.entities.ConstraintAwarePlan;
 import servicecomposition.entities.ServiceNode;
 
+/**
+ * Class for generating the Lucid segment of the Objective Lucid program translation of a layered composite service.
+ * @author Jyotsana Gupta
+ */
 public class ObjLucidCodeGenerator 
 {	
 	public static String generateObjLucidSegment(Service compService, List<String[]> compSvcInputs)

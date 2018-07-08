@@ -145,6 +145,7 @@ public class ReadWriteUtil
 	{
 		String tagValue = null;
 		
+		//Fetching the XML node whose attribute value needs to be fetched
 		Node targetNode = null;
 		if (doc != null)
 		{
@@ -155,6 +156,7 @@ public class ReadWriteUtil
 			targetNode = elem.getElementsByTagName(tagName).item(0);
 		}
 		
+		//Fetching the attribute value
 		if (targetNode.getNodeType() == Node.ELEMENT_NODE)
 		{
 			Element targetElement = (Element) targetNode;

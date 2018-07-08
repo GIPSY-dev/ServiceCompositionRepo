@@ -7,6 +7,10 @@ import servicecomposition.entities.ConstraintAwarePlan;
 import servicecomposition.entities.ServiceNode;
 import service.composite.layeredcompsvc.LayeredCompositeService;
 
+/**
+ * Class for generating the Java segment of the Objective Lucid program translation of a layered composite service.
+ * @author Jyotsana Gupta
+ */
 public class JavaCodeGenerator 
 {
 	public static String generateJavaSegment(Service compService)

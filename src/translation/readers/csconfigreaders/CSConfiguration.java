@@ -1,16 +1,18 @@
-package translation.readers;
+package translation.readers.csconfigreaders;
 
 import java.util.List;
 import service.Service;
 
 /**
- * Class for storing composite service input values received from the user.
+ * Class for storing details of translation of a composite service to a formal language received from the user.
+ * It contains the composite service details and input values, target language and destination folder location.
  * @author Jyotsana Gupta
  */
 public class CSConfiguration 
 {
 	private Service compositeService;
 	private List<String[]> inputDetails;
+	private String targetLanguage;
 	private String destinationFolder;
 	
 	/**
@@ -18,12 +20,14 @@ public class CSConfiguration
 	 * @param	compositeService	Composite service object
 	 * @param 	inputDetails		List of records with details of each input of the given composite service.
 	 * 								Each record consists of the input name, type and value.
-	 * @param	destinationFolder	Complete name and path of the folder where the Lucid translation file will be placed
+	 * @param	targetLanguage		Language to which the composite service needs to be translated
+	 * @param	destinationFolder	Complete name and path of the folder where the translation file will be placed
 	 */
-	public CSConfiguration(Service compositeService, List<String[]> inputDetails, String destinationFolder)
+	public CSConfiguration(Service compositeService, List<String[]> inputDetails, String targetLanguage, String destinationFolder)
 	{
 		this.compositeService = compositeService;
 		this.inputDetails = inputDetails;
+		this.targetLanguage = targetLanguage;
 		this.destinationFolder = destinationFolder;
 	}
 	
@@ -43,6 +47,15 @@ public class CSConfiguration
 	public List<String[]> getInputDetails()
 	{
 		return inputDetails;
+	}
+	
+	/**
+	 * Method for fetching the target language name from this configuration.
+	 * @return	Target language name
+	 */
+	public String getTargetLanguage()
+	{
+		return targetLanguage;
 	}
 	
 	/**

@@ -1,21 +1,24 @@
 package translation.drivers;
 
 import java.util.Scanner;
-import translation.readers.CSConfigReader;
-import translation.readers.CSConfiguration;
-import translation.readers.ConsoleCSConfigReader;
-import translation.readers.FileCSConfigReader;
-import translation.readers.XMLFileCSConfigReader;
-import translation.translationprocesses.CompositeServiceTranslation;
+
+import translation.readers.csconfigreaders.CSConfigReader;
+import translation.readers.csconfigreaders.CSConfiguration;
+import translation.readers.csconfigreaders.ConsoleCSConfigReader;
+import translation.readers.csconfigreaders.FileCSConfigReader;
+import translation.readers.csconfigreaders.XMLFileCSConfigReader;
+import translation.translationprocesses.CompositeServiceTranslator;
+import translation.translationprocesses.LucidCSTranslator;
+import translation.translationprocesses.XMLCSTranslator;
 import utilities.LogUtil;
 
 /**
- * Driver class for composite service translation process.
- * It fetches composition service configuration from the user based on their selected mode of interaction,
+ * Driver class for composite service to formal language translation process.
+ * It fetches composite service configuration from the user based on their selected mode of interaction,
  * triggers the service translation process and displays the result of the process on the console.
  * @author Jyotsana Gupta
  */
-public class LucidTranslationDriver 
+public class CSTranslationDriver 
 {
 	public static void main(String[] args)
 	{
@@ -79,22 +82,37 @@ public class LucidTranslationDriver
 		//Aborting in case of issues creating a composite service configuration
 		if (compSvcConfig == null)
 		{
-			System.out.println("Given configuration cannot be translated into a Lucid program. "
+			System.out.println("Given composite service configuration is invalid for translation. "
 								+ "Please check the log file " + logFileName + " for error details.");
 			return;
 		}
 		
 		//Triggering the translation process
-		String csLucidFileName = CompositeServiceTranslation.driveServiceTranslation(compSvcConfig, logger);
-		if (csLucidFileName == null)
+		CompositeServiceTranslator csTranslator = null;
+		if (compSvcConfig.getTargetLanguage().equalsIgnoreCase("Lucid"))
 		{
-			System.out.println("Given composite service cannot be translated into Lucid. "
+			csTranslator = new LucidCSTranslator();
+		}
+		else if (compSvcConfig.getTargetLanguage().equalsIgnoreCase("XML"))
+		{
+			csTranslator = new XMLCSTranslator();
+		}
+		else
+		{
+			System.out.println("Given target language is invalid. \nAborting translation.");
+			return;
+		}
+		
+		String csTranslationFileName = csTranslator.generateFormalLangCode(compSvcConfig, logger);
+		if (csTranslationFileName == null)
+		{
+			System.out.println("Given composite service cannot be translated into the target language. "
 								+ "Please check the log file " + logFileName + " for error details.");
 		}
 		else
 		{
-			System.out.println("Lucid translation of the given composite service has been written to "
-								+ csLucidFileName);
+			System.out.println("Translation of the given composite service has been written to "
+								+ csTranslationFileName);
 		}
 	}
 }

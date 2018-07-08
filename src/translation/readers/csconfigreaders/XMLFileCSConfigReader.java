@@ -1,4 +1,4 @@
-package translation.readers;
+package translation.readers.csconfigreaders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import service.Service;
-import utilities.CompSvcStorageUtil;
+import translation.readers.csreaders.CompositeServiceReader;
+import translation.readers.csreaders.SerializedCSReader;
+import translation.readers.csreaders.XMLCSReader;
 import utilities.LogUtil;
 import utilities.ReadWriteUtil;
 
@@ -18,7 +20,7 @@ import utilities.ReadWriteUtil;
 public class XMLFileCSConfigReader extends FileCSConfigReader
 {
 	/**
-	 * Method for reading composite service source file location and its input values from the user-specified XML file.
+	 * Method for reading composite service translation details from the user-specified XML file.
 	 * @param	logger		Logging utility object for logging error or status messages to a text file
 	 * @return	Composite service configuration object containing the information read from the file
 	 */
@@ -31,25 +33,37 @@ public class XMLFileCSConfigReader extends FileCSConfigReader
 		String csRepoFileName = ReadWriteUtil.getXMLTagValue("csrepofilename", "value", doc, null);	
 		String destFolderName = csRepoFileName.substring(0, (csRepoFileName.lastIndexOf("/") + 1));
 		String csName = ReadWriteUtil.getXMLTagValue("csname", "value", doc, null);
+		String targetLanguage = ReadWriteUtil.getXMLTagValue("targetlang", "value", doc, null);
 		List<String[]> inputDetails = getInputDetails(doc);
 		
 		//Parsing the source file to get the composite service object
-		Service compService = CompSvcStorageUtil.readCSFromSerialSvcRepo(csRepoFileName, csName, logger);
-		if (compService == null)
+		Service compService = null;
+		if (csRepoFileName.endsWith(".txt"))
 		{
+			CompositeServiceReader csReader = new SerializedCSReader();
+			compService = csReader.readCompositeService(csRepoFileName, csName, logger);
+		}
+		else if (csRepoFileName.endsWith(".xml"))
+		{
+			CompositeServiceReader csReader = new XMLCSReader();
+			compService = csReader.readCompositeService(csRepoFileName, csName, logger);
+		}
+		else
+		{
+			logger.log("Invalid repository file name extension in the given composite service configuration.\n");
 			return null;
 		}
 		
 		//Creating a composite service configuration object with the details fetched
-		CSConfiguration csConfig = new CSConfiguration(compService, inputDetails, destFolderName);
+		CSConfiguration csConfig = new CSConfiguration(compService, inputDetails, targetLanguage, destFolderName);
 		
 		return csConfig;
 	}
 	
 	/**
-	 * Method for parsing the configuration XML document to extract CS input details.
-	 * @param 	doc		XML document for the CS input configuration file
-	 * @return	List of all CS input details extracted from the XML document
+	 * Method for parsing the configuration XML document to extract composite service input details.
+	 * @param 	doc		XML document for the composite service input configuration file
+	 * @return	List of all composite service input details extracted from the XML document
 	 */
 	public List<String[]> getInputDetails(Document doc)
 	{		
