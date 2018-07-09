@@ -1,4 +1,4 @@
-package translation.translationprocesses;
+package translation.translators;
 
 import java.util.ArrayList;
 import java.util.HashMap;

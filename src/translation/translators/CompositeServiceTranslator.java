@@ -1,4 +1,4 @@
-package translation.translationprocesses;
+package translation.translators;
 
 import translation.readers.csconfigreaders.CSConfiguration;
 import utilities.LogUtil;

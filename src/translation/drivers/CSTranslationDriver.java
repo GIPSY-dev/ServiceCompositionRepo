@@ -7,9 +7,9 @@ import translation.readers.csconfigreaders.CSConfiguration;
 import translation.readers.csconfigreaders.ConsoleCSConfigReader;
 import translation.readers.csconfigreaders.FileCSConfigReader;
 import translation.readers.csconfigreaders.XMLFileCSConfigReader;
-import translation.translationprocesses.CompositeServiceTranslator;
-import translation.translationprocesses.LucidCSTranslator;
-import translation.translationprocesses.XMLCSTranslator;
+import translation.translators.CompositeServiceTranslator;
+import translation.translators.LucidCSTranslator;
+import translation.translators.XMLCSTranslator;
 import utilities.LogUtil;
 
 /**

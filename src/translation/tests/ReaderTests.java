@@ -18,8 +18,8 @@ import translation.readers.csconfigreaders.XMLFileCSConfigReader;
 import translation.readers.csreaders.CompositeServiceReader;
 import translation.readers.csreaders.SerializedCSReader;
 import translation.readers.csreaders.XMLCSReader;
-import translation.translationprocesses.CompositeServiceTranslator;
-import translation.translationprocesses.LucidCSTranslator;
+import translation.translators.CompositeServiceTranslator;
+import translation.translators.LucidCSTranslator;
 import utilities.LogUtil;
 import utilities.ReadWriteUtil;
 
