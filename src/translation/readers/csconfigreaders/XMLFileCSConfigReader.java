@@ -50,7 +50,14 @@ public class XMLFileCSConfigReader extends FileCSConfigReader
 		}
 		else
 		{
-			logger.log("Invalid repository file name extension in the given composite service configuration.\n");
+			logger.log("Invalid repository file type in the given composite service configuration. "
+						+ "Only serialized Java object file or XML file can be parsed.\n");
+			return null;
+		}
+		
+		//If composite service parsing fails
+		if (compService == null)
+		{
 			return null;
 		}
 		

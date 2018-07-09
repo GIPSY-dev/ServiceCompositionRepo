@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<csconfig>
+	<csrepofilename value="testinput/translationtests/readertests/invalidInput/XML_Repository.xml"/>
+	<csname value="CompSvc_123"/>
+	<targetlang value="Lucid"/>
+	<input>
+		<name value="StudentID"/>
+		<type value="string"/>
+		<value value=""/>
+	</input>
+</csconfig>

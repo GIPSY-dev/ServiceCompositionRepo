@@ -46,7 +46,15 @@ public class ConsoleCSConfigReader implements CSConfigReader
 		}
 		else
 		{
-			logger.log("Invalid repository file name extension in the given composite service configuration.\n");
+			logger.log("Invalid repository file type in the given composite service configuration. "
+						+ "Only serialized Java object file or XML file can be parsed.\n");
+			scanner.close();
+			return null;
+		}
+		
+		//If composite service parsing fails
+		if (compService == null)
+		{
 			scanner.close();
 			return null;
 		}

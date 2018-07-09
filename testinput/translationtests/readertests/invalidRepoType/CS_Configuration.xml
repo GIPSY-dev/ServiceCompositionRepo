@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <csconfig>
-	<csrepofilename value="testinput/translationtests/csTranslation/Serialized_Repository.txt"/>
-	<csname value="CompSvc_883413469834650"/>
+	<csrepofilename value="testinput/translationtests/readertests/invalidRepoType/JSON_Repository.json"/>
+	<csname value="CompSvc_465489904483034"/>
 	<targetlang value="Lucid"/>
 	<input>
 		<name value="input271"/>

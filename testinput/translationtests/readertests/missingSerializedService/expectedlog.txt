@@ -1,0 +1,2 @@
+The given serialized composite service repository does not contain the target service.
+Aborting translation process.
