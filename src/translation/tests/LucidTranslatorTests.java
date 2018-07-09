@@ -25,33 +25,37 @@ import translation.translators.LucidCSTranslator;
 import utilities.LogUtil;
 import utilities.ReadWriteUtil;
 
-public class LucidCodeGenTests 
+/**
+ * Class for testing the layered composite service to Objective Lucid translator.
+ * @author Jyotsana Gupta
+ */
+public class LucidTranslatorTests 
 {
 	/**
 	 * Tests that a composite service can be searched for by its name in a service repository of serialized 
-	 * Java objects, parsed into a composite service object and translated into a Lucid program.
+	 * Java objects, parsed into a composite service object and translated into an Objective Lucid program.
 	 */
 	@Test
-	public void csTranslation()
+	public void simpleCSTranslation()
 	{
 		/*
 		 * The commented part below needs to be executed only once. Its main purpose is to create a service
 		 * repository of serialized Java objects, store a composite service into it and get the name of the
 		 * composite service. All this is required for the translation process. 
 		 */
-		//createSerialCSRepo("testinput/translationtests/csTranslation/");
+		//createSerialCSRepo("testinput/translationtests/lucidtranslatortests/simpleCSTranslation/");
 		
-		String actualLogFileName = "testinput/translationtests/csTranslation/log.txt";
+		String actualLogFileName = "testinput/translationtests/lucidtranslatortests/simpleCSTranslation/log.txt";
 		LogUtil logger = new LogUtil();
 		logger.setLogFileName(actualLogFileName);		
 				
 		FileCSConfigReader csConfigReader = new XMLFileCSConfigReader();
-		csConfigReader.setConfigFileName("testinput/translationtests/csTranslation/CS_Configuration.xml");
+		csConfigReader.setConfigFileName("testinput/translationtests/lucidtranslatortests/simpleCSTranslation/CS_Configuration.xml");
 		CSConfiguration csConfig = csConfigReader.readCSConfig(logger);
 		
 		CompositeServiceTranslator csTranslator = new LucidCSTranslator();
 		String actualLucidFileName = csTranslator.generateFormalLangCode(csConfig, logger);
-		String expectedLucidFileName = "testinput/translationtests/csTranslation/expectedlucidprogram.ipl";
+		String expectedLucidFileName = "testinput/translationtests/lucidtranslatortests/simpleCSTranslation/expectedlucidprogram.ipl";
 		
 		File actualLogFile = new File(actualLogFileName);
 		boolean logGenerated = (!(actualLogFile.length() == 0));
@@ -62,6 +66,9 @@ public class LucidCodeGenTests
 		assertFalse(logGenerated);
 	}
 	
+	/**
+	 * Tests correct translation of a complex layered composite service into Objective Lucid.
+	 */
 	@Test
 	public void complexCSTranslation()
 	{
@@ -70,19 +77,46 @@ public class LucidCodeGenTests
 		 * repository of serialized Java objects, store a composite service into it and get the name of the
 		 * composite service. All this is required for the translation process. 
 		 */
-		//createSerialCSRepo("testinput/translationtests/complexCSTranslation/");
+		//createSerialCSRepo("testinput/translationtests/lucidtranslatortests/complexCSTranslation/");
 		
-		String actualLogFileName = "testinput/translationtests/complexCSTranslation/log.txt";
+		String actualLogFileName = "testinput/translationtests/lucidtranslatortests/complexCSTranslation/log.txt";
 		LogUtil logger = new LogUtil();
 		logger.setLogFileName(actualLogFileName);		
 				
 		FileCSConfigReader csConfigReader = new XMLFileCSConfigReader();
-		csConfigReader.setConfigFileName("testinput/translationtests/complexCSTranslation/CS_Configuration.xml");
+		csConfigReader.setConfigFileName("testinput/translationtests/lucidtranslatortests/complexCSTranslation/CS_Configuration.xml");
 		CSConfiguration csConfig = csConfigReader.readCSConfig(logger);
 		
 		CompositeServiceTranslator csTranslator = new LucidCSTranslator();
 		String actualLucidFileName = csTranslator.generateFormalLangCode(csConfig, logger);
-		String expectedLucidFileName = "testinput/translationtests/complexCSTranslation/expectedlucidprogram.ipl";
+		String expectedLucidFileName = "testinput/translationtests/lucidtranslatortests/complexCSTranslation/expectedlucidprogram.ipl";
+		
+		File actualLogFile = new File(actualLogFileName);
+		boolean logGenerated = (!(actualLogFile.length() == 0));
+		
+		String expectedProgram = ReadWriteUtil.readTextFile(expectedLucidFileName);
+		String actualProgram = ReadWriteUtil.readTextFile(actualLucidFileName);
+		assertEquals(expectedProgram, actualProgram);
+		assertFalse(logGenerated);
+	}
+	
+	/**
+	 * Tests correct translation of a layered composite service read from an XML file into Objective Lucid.
+	 */
+	@Test
+	public void xmlToLucidTranslation()
+	{
+		String actualLogFileName = "testinput/translationtests/lucidtranslatortests/xmlToLucidTranslation/log.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);		
+				
+		FileCSConfigReader csConfigReader = new XMLFileCSConfigReader();
+		csConfigReader.setConfigFileName("testinput/translationtests/lucidtranslatortests/xmlToLucidTranslation/CS_Configuration.xml");
+		CSConfiguration csConfig = csConfigReader.readCSConfig(logger);
+		
+		CompositeServiceTranslator csTranslator = new LucidCSTranslator();
+		String actualLucidFileName = csTranslator.generateFormalLangCode(csConfig, logger);
+		String expectedLucidFileName = "testinput/translationtests/lucidtranslatortests/xmlToLucidTranslation/expectedlucidprogram.ipl";
 		
 		File actualLogFile = new File(actualLogFileName);
 		boolean logGenerated = (!(actualLogFile.length() == 0));

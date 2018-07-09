@@ -4,6 +4,6 @@
 	<outputs value="float : output15, int : output86, char : output91, boolean : output101, string : output111"/>
 	<qos value=""/>
 	<constraints value=""/>
-	<repofilename value="testinput/translationtests/complexCSTranslation/Serialized_Repository.txt"/>
+	<repofilename value="testinput/translationtests/lucidtranslatortests/complexCSTranslation/Serialized_Repository.txt"/>
 	<storecsflag value="Y"/>
 </requestconfig>

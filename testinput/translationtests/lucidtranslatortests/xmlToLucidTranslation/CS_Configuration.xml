@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<csconfig>
+	<csrepofilename value="testinput/translationtests/lucidtranslatortests/xmlToLucidTranslation/XML_Repository.xml"/>
+	<csname value="GetPercentage"/>
+	<targetlang value="Lucid"/>
+	<input>
+		<name value="StudentID"/>
+		<type value="string"/>
+		<value value="abc123"/>
+	</input>
+</csconfig>
