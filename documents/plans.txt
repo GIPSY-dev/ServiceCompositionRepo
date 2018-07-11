@@ -1,0 +1,19 @@
+Plan 1:
+Layer 0: {} [string : DeliveryAddress EQUALS Canada] W1 {W5, W6, W7}
+Layer 1: {W1} [string : ProductAddress EQUALS Canada] W5 {W7}, {W1} [string : ProductAddress EQUALS Canada] W6 {W7}
+Layer 2: {W1, W5, W6} [string : ProductAddress EQUALS Canada] W7 {}
+
+Plan 2:
+Layer 0: {} [string : DeliveryAddress EQUALS Canada] W1 {W2, W5, W6, W7}
+Layer 1: {W1} [string : ProductAddress EQUALS Canada] W2 {W7}, {W1} [string : ProductAddress EQUALS Canada] W5 {W7}, {W1} [string : ProductAddress EQUALS Canada] W6 {W7}
+Layer 2: {W1, W2, W5, W6} [string : ProductAddress EQUALS Canada] W7 {}
+
+Plan 3:
+Layer 0: {} [string : DeliveryAddress EQUALS Canada] W1 {W2, W6, W7}
+Layer 1: {W1} [string : ProductAddress EQUALS Canada] W2 {W7}, {W1} [string : ProductAddress EQUALS Canada] W6 {W7}
+Layer 2: {W1, W2, W6} [string : ProductAddress EQUALS Canada] W7 {}
+
+Plan 4:
+Layer 0: {} [string : DeliveryAddress EQUALS Canada, string : DeliveryAddress EQUALS Montreal] W1 {W2, W3, W5, W6, W7}
+Layer 1: {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W2 {W3, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W5 {W3, W7}, {W1} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W6 {W7}
+Layer 2: {W1, W2, W5, W6} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W7 {}, {W1, W2, W5} [string : ProductAddress EQUALS Canada, string : ProductAddress EQUALS Montreal] W3 {}
