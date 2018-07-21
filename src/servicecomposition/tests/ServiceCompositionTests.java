@@ -419,6 +419,7 @@ public class ServiceCompositionTests
 				compSvcEffectSet.addAll(((ConstrainedService)serviceNode.getService()).getEffects());
 			}
 		}
+		compSvcCnstrSet.addAll(compRequest.getConstraints());
 		ArrayList<Constraint> expectedCSConstraints = new ArrayList<Constraint>(compSvcCnstrSet);	
 		ArrayList<String> expectedCSEffects = new ArrayList<String>(compSvcEffectSet);
 		

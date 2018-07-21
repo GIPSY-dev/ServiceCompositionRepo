@@ -34,7 +34,7 @@ public class XMLCSReader implements CompositeServiceReader
 	public Service readCompositeService(String csRepoFileName, String csName, LogUtil logger)
 	{
 		//Extracting the target service from the given repository
-		Service service = readCSFromXMLFile(csRepoFileName, csName, logger);
+		Service service = readCSFromXMLFile(csRepoFileName, csName);
 		
 		//In case the target service is not found in the repository
 		if (service == null)
@@ -50,11 +50,10 @@ public class XMLCSReader implements CompositeServiceReader
 	 * Method for parsing an XML composite service repository file to extract a specific service.
 	 * @param 	compSvcFileName		Complete name and path of the repository file
 	 * @param 	targetCSName		Name of the target composite service
-	 * @param 	logger				Logging utility object for logging error or status messages to a text file
 	 * @return	Target composite service object, if successfully extracted
 	 * 			Null, otherwise
 	 */
-	public Service readCSFromXMLFile(String compSvcFileName, String targetCSName, LogUtil logger)
+	public Service readCSFromXMLFile(String compSvcFileName, String targetCSName)
 	{
 		//Creating an XML document for the composite service repository file
 		Document doc = ReadWriteUtil.getXmlDocument(compSvcFileName);

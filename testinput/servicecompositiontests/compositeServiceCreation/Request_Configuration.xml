@@ -2,8 +2,8 @@
 <requestconfig>
     <inputs value="string : StudentID"/>
 	<outputs value="float : MarksPercentage"/>
-	<qos value=""/>
-	<constraints value=""/>
+	<qos value="COST"/>
+	<constraints value="COST | &lt; | 100"/>
 	<repofilename value="testinput/servicecompositiontests/compositeServiceCreation/Services_Repo.xml"/>
 	<storecsflag value="N"/>
 </requestconfig>

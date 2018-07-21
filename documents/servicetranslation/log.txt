@@ -1,0 +1,1 @@
+Invalid repository file type in the given composite service configuration. Only serialized Java object file or XML file can be parsed.

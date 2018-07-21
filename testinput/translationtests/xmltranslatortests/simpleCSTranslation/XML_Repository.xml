@@ -22,6 +22,12 @@
 		</cseffects>
 		<csconstraints>
 			<instance>
+                <servicename name="W9"/>
+                <literalvalue name="100"/>
+                <type name="COST"/>
+                <operator name="&lt;"/>
+            </instance>
+			<instance>
 				<servicename name="W9"/>
 				<literalvalue name="1"/>
 				<type name="int : NumberOfCourses"/>

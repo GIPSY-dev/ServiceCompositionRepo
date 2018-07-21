@@ -49,6 +49,7 @@ public class CompSvcStorageUtil
 				compSvcEffectSet.addAll(((ConstrainedService)serviceNode.getService()).getEffects());
 			}
 		}
+		compSvcCnstrSet.addAll(compRequest.getConstraints());
 		ArrayList<Constraint> svcConstraints = new ArrayList<Constraint>(compSvcCnstrSet);	
 		ArrayList<String> svcEffects = new ArrayList<String>(compSvcEffectSet);
 		
