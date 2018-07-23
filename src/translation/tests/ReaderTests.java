@@ -79,14 +79,12 @@ public class ReaderTests
 	}
 	
 	/**
-	 * Tests that XML translation is aborted if the given composite service input values could not be 
-	 * validated and error messages are recorded in the log file for the same.
+	 * Tests that XML translation is not affected by invalidity of the given composite service input values.
 	 */
 	@Test
 	public void invalidInputForXML()
 	{
 		String actualLogFileName = "testinput/translationtests/readertests/invalidInputForXML/log.txt";
-		String expectedLogFileName = "testinput/translationtests/readertests/invalidInputForXML/expectedlog.txt";
 		LogUtil logger = new LogUtil();
 		logger.setLogFileName(actualLogFileName);		
 				
@@ -95,13 +93,16 @@ public class ReaderTests
 		CSConfiguration csConfig = csConfigReader.readCSConfig(logger);
 		
 		CompositeServiceTranslator csTranslator = new XMLCSTranslator();
-		String csTranslationFileName = csTranslator.generateFormalLangCode(csConfig, logger);
+		String actualXMLFileName = csTranslator.generateFormalLangCode(csConfig, logger);
+		String expectedXMLFileName = "testinput/translationtests/readertests/invalidInputForXML/expectedxml.xml";
 		
-		String actualLog = ReadWriteUtil.readTextFile(actualLogFileName);
-		String expectedLog = ReadWriteUtil.readTextFile(expectedLogFileName);
+		File actualLogFile = new File(actualLogFileName);
+		boolean logGenerated = (!(actualLogFile.length() == 0));
 		
-		assertNull(csTranslationFileName);
-		assertEquals(expectedLog, actualLog);
+		String expectedXMLText = ReadWriteUtil.readTextFile(expectedXMLFileName);
+		String actualXMLText = ReadWriteUtil.readTextFile(actualXMLFileName);
+		assertEquals(expectedXMLText, actualXMLText);
+		assertFalse(logGenerated);
 	}
 	
 	/**

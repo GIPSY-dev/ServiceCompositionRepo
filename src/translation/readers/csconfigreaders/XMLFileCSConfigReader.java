@@ -34,7 +34,6 @@ public class XMLFileCSConfigReader extends FileCSConfigReader
 		String destFolderName = csRepoFileName.substring(0, (csRepoFileName.lastIndexOf("/") + 1));
 		String csName = ReadWriteUtil.getXMLTagValue("csname", "value", doc, null);
 		String targetLanguage = ReadWriteUtil.getXMLTagValue("targetlang", "value", doc, null);
-		List<String[]> inputDetails = getInputDetails(doc);
 		
 		//Parsing the source file to get the composite service object
 		Service compService = null;
@@ -61,6 +60,13 @@ public class XMLFileCSConfigReader extends FileCSConfigReader
 			return null;
 		}
 		
+		//Fetching the input values for the given composite service from the configuration file, if required
+		List<String[]> inputDetails = new ArrayList<String[]>();
+		if (targetLanguage.equalsIgnoreCase("Lucid"))
+		{			
+			inputDetails = getInputDetails(doc, compService);
+		}
+		
 		//Creating a composite service configuration object with the details fetched
 		CSConfiguration csConfig = new CSConfiguration(compService, inputDetails, targetLanguage, destFolderName);
 		
@@ -69,27 +75,44 @@ public class XMLFileCSConfigReader extends FileCSConfigReader
 	
 	/**
 	 * Method for parsing the configuration XML document to extract composite service input details.
-	 * @param 	doc		XML document for the composite service input configuration file
+	 * @param 	doc				XML document for the composite service input configuration file
+	 * @param	compService		Composite service object created for this configuration
 	 * @return	List of all composite service input details extracted from the XML document
 	 */
-	public List<String[]> getInputDetails(Document doc)
+	public List<String[]> getInputDetails(Document doc, Service compService)
 	{		
-		//Fetching all the input nodes from the file
-		NodeList inpNodeList = doc.getElementsByTagName("input");
-		
-		//Creating input detail records from the nodes
+		//Creating input detail records for all composite service inputs
 		List<String[]> inputDetails = new ArrayList<String[]>();
-		for (int i = 0; i < inpNodeList.getLength(); i++)
+		for (String input : compService.getInput())
 		{
 			String[] inpDtlRecord = new String[3];
+			String inpType = input.substring(0, input.indexOf(':') - 1);
+			String inpName = input.substring(input.indexOf(':') + 2);			
+			inpDtlRecord[0] = inpName;
+			inpDtlRecord[1] = inpType;
+			inputDetails.add(inpDtlRecord);
+		}
+		
+		//Fetching all input values from the file
+		NodeList inpNodeList = doc.getElementsByTagName("input");
+		for (int i = 0; i < inpNodeList.getLength(); i++)
+		{
 			Node inpNode = inpNodeList.item(i);
 			if (inpNode.getNodeType() == Node.ELEMENT_NODE)
 			{
 				Element inpElement = (Element) inpNode;
-				inpDtlRecord[0] = ReadWriteUtil.getXMLTagValue("name", "value", null, inpElement);
-				inpDtlRecord[1] = ReadWriteUtil.getXMLTagValue("type", "value", null, inpElement);
-				inpDtlRecord[2] = ReadWriteUtil.getXMLTagValue("value", "value", null, inpElement);
-				inputDetails.add(inpDtlRecord);
+				String inpName = ReadWriteUtil.getXMLTagValue("name", "value", null, inpElement);
+				String inpType = ReadWriteUtil.getXMLTagValue("type", "value", null, inpElement);
+				String inpValue = ReadWriteUtil.getXMLTagValue("value", "value", null, inpElement);
+				
+				for (String[] inpDtlRecord : inputDetails)
+				{
+					if ((inpDtlRecord[0].equals(inpName)) && (inpDtlRecord[1].equals(inpType)))
+					{
+						inpDtlRecord[2] = inpValue;
+						break;
+					}
+				}
 			}
 		}
 		

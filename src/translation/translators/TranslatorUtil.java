@@ -1,11 +1,11 @@
 package translation.translators;
 
 import java.util.List;
-
 import utilities.LogUtil;
 
 /**
- * Utility class for composite service translators. It contains methods that are shared by multiple concrete translators.
+ * Utility class for composite service translators. 
+ * It contains methods that could be shared by multiple concrete translators.
  * @author Jyotsana Gupta
  */
 public class TranslatorUtil 

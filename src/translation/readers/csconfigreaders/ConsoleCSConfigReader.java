@@ -59,23 +59,26 @@ public class ConsoleCSConfigReader implements CSConfigReader
 			return null;
 		}
 		
-		//Fetching the input values for the given composite service from the user
+		//Fetching the input values for the given composite service from the user, if required
 		List<String[]> inputDetails = new ArrayList<String[]>();
-		System.out.println("Please enter the values for the following composite service inputs:");
-		
-		for (String input : compService.getInput())
-		{
-			String[] inpDtlRecord = new String[3];
-			String inpType = input.substring(0, input.indexOf(':') - 1);
-			String inpName = input.substring(input.indexOf(':') + 2);
+		if (targetLanguage.equalsIgnoreCase("Lucid"))
+		{			
+			System.out.println("Please enter the values for the following composite service inputs:");
 			
-			System.out.println(inpName + "(" + inpType + "): ");
-			String inpValue = scanner.nextLine();
-			
-			inpDtlRecord[0] = inpName;
-			inpDtlRecord[1] = inpType;
-			inpDtlRecord[2] = inpValue;
-			inputDetails.add(inpDtlRecord);
+			for (String input : compService.getInput())
+			{
+				String[] inpDtlRecord = new String[3];
+				String inpType = input.substring(0, input.indexOf(':') - 1);
+				String inpName = input.substring(input.indexOf(':') + 2);
+				
+				System.out.println(inpName + "(" + inpType + "): ");
+				String inpValue = scanner.nextLine();
+				
+				inpDtlRecord[0] = inpName;
+				inpDtlRecord[1] = inpType;
+				inpDtlRecord[2] = inpValue;
+				inputDetails.add(inpDtlRecord);
+			}
 		}
 		scanner.close();
 		

@@ -39,16 +39,8 @@ public class XMLCSTranslator implements CompositeServiceTranslator
 	 */
 	public String generateFormalLangCode(CSConfiguration compSvcConfig, LogUtil logger)
 	{
-		boolean csInpValid = TranslatorUtil.validateInpValues(compSvcConfig.getInputDetails(), logger);
-		if (csInpValid)
-		{
-			String csXMLFileName = compServiceToXML(compSvcConfig, logger);
-			return csXMLFileName;
-		}
-		else
-		{
-			return null;
-		}
+		String csXMLFileName = compServiceToXML(compSvcConfig, logger);
+		return csXMLFileName;
 	}
 	
 	/**
