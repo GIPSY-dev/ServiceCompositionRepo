@@ -32,6 +32,7 @@ public class XMLTranslatorTests
 	/**
 	 * Tests that a composite service can be searched for by its name in an XML service repository, 
 	 * parsed into a composite service object and translated into an XML file.
+	 * Also tests that input values are not required for translation to XML.
 	 */
 	@Test
 	public void simpleCSTranslation()

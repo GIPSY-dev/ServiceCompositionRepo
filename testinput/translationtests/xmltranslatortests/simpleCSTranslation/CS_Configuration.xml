@@ -3,9 +3,4 @@
 	<csrepofilename value="testinput/translationtests/xmltranslatortests/simpleCSTranslation/XML_Repository.xml"/>
 	<csname value="CompSvc_123"/>
 	<targetlang value="XML"/>
-	<input>
-		<name value="StudentID"/>
-		<type value="string"/>
-		<value value="abc"/>
-	</input>
 </csconfig>
