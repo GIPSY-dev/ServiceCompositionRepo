@@ -75,9 +75,12 @@ public class ServiceCompositionDriver
 		scanner.close();
 		
 		//Triggering the service composition process
-		String logFileName = "testoutput/servicecompositionruns/log.txt";
+		String svcRepoFileName = reqConfig.getRepoFileName();
+		String destFolderName = svcRepoFileName.substring(0, (svcRepoFileName.lastIndexOf("/") + 1));
+		String logFileName = destFolderName + "log.txt";
 		LogUtil logger = new LogUtil();
 		logger.setLogFileName(logFileName);
+		
 		String planDetails = "";
 		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition(reqConfig, logger);
 		if (cnstrAwrPlans == null)
@@ -93,7 +96,7 @@ public class ServiceCompositionDriver
 			}
 			planDetails = planDetails.trim();
 			
-			String plansFileName = "testoutput/servicecompositionruns/plans.txt";
+			String plansFileName = destFolderName + "plans.txt";
 			ReadWriteUtil.writeToTextFile(plansFileName, planDetails);
 			
 			System.out.println("The composition plans generated for the given request have been written to "

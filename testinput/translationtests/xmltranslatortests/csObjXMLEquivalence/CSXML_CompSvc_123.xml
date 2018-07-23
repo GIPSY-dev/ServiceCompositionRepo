@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<compositeservices>
+    <compositeservice>
+        <csname value="CompSvc_123"/>
+        <csinputs>
+            <instance name="string : StudentID"/>
+        </csinputs>
+        <csoutputs>
+            <instance name="float : MarksPercentage"/>
+        </csoutputs>
+        <cseffects>
+            <instance name="float : TotalMarks"/>
+            <instance name="int : NumberOfCourses"/>
+            <instance name="float : AverageMarks"/>
+            <instance name="float : MarksPercentage"/>
+        </cseffects>
+        <csconstraints>
+            <instance>
+                <servicename name="W9"/>
+                <literalvalue name="1"/>
+                <type name="int : NumberOfCourses"/>
+                <operator name="&gt;"/>
+            </instance>
+            <instance>
+                <servicename name="W10"/>
+                <literalvalue name="100.0"/>
+                <type name="float : AverageMarks"/>
+                <operator name="&lt;="/>
+            </instance>
+        </csconstraints>
+        <csplan>
+            <servicelayer index="0">
+                <servicenode>
+                    <service name="W8"/>
+                    <constraints/>
+                    <predecessors/>
+                </servicenode>
+            </servicelayer>
+            <servicelayer index="1">
+                <servicenode>
+                    <service name="W9"/>
+                    <constraints>
+                        <instance>
+                            <servicename name="W9"/>
+                            <literalvalue name="1"/>
+                            <type name="int : NumberOfCourses"/>
+                            <operator name="&gt;"/>
+                        </instance>
+                    </constraints>
+                    <predecessors>
+                        <instance layerindex="0" name="W8"/>
+                    </predecessors>
+                </servicenode>
+            </servicelayer>
+            <servicelayer index="2">
+                <servicenode>
+                    <service name="W10"/>
+                    <constraints>
+                        <instance>
+                            <servicename name="W10"/>
+                            <literalvalue name="100.0"/>
+                            <type name="float : AverageMarks"/>
+                            <operator name="&lt;="/>
+                        </instance>
+                    </constraints>
+                    <predecessors>
+                        <instance layerindex="1" name="W9"/>
+                    </predecessors>
+                </servicenode>
+            </servicelayer>
+        </csplan>
+        <csatomicservices>
+            <service name="W8">
+                <inputs>
+                    <instance name="string : StudentID"/>
+                </inputs>
+                <outputs>
+                    <instance name="float : TotalMarks"/>
+                    <instance name="int : NumberOfCourses"/>
+                </outputs>
+                <constraints/>
+                <effects>
+                    <instance name="float : TotalMarks"/>
+                    <instance name="int : NumberOfCourses"/>
+                </effects>
+            </service>
+            <service name="W9">
+                <inputs>
+                    <instance name="float : TotalMarks"/>
+                    <instance name="int : NumberOfCourses"/>
+                </inputs>
+                <outputs>
+                    <instance name="float : AverageMarks"/>
+                </outputs>
+                <constraints>
+                    <instance>
+                        <servicename name="W9"/>
+                        <literalvalue name="1"/>
+                        <type name="int : NumberOfCourses"/>
+                        <operator name="&gt;"/>
+                    </instance>
+                </constraints>
+                <effects>
+                    <instance name="float : AverageMarks"/>
+                </effects>
+            </service>
+            <service name="W10">
+                <inputs>
+                    <instance name="float : AverageMarks"/>
+                </inputs>
+                <outputs>
+                    <instance name="float : MarksPercentage"/>
+                </outputs>
+                <constraints>
+                    <instance>
+                        <servicename name="W10"/>
+                        <literalvalue name="100.0"/>
+                        <type name="float : AverageMarks"/>
+                        <operator name="&lt;="/>
+                    </instance>
+                </constraints>
+                <effects>
+                    <instance name="float : MarksPercentage"/>
+                </effects>
+            </service>
+        </csatomicservices>
+    </compositeservice>
+</compositeservices>

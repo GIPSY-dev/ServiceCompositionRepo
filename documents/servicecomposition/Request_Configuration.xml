@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<requestconfig>
+    <inputs value="string : Delivery Address, string : Product Name, string : Customer Name, float : Price"/>
+	<outputs value="string : Shipment Confirmation, string : Invoice"/>
+	<qos value="COST, RESPONSE_TIME"/>
+	<constraints value="COST | &lt; | 100, string : Invoice | = | true, string : Delivery Address | = | Canada"/>
+	<repofilename value="testinput/servicecompositiontests/compositeServiceCreation/Services_Repo.xml"/>
+	<storecsflag value="N"/>
+</requestconfig>

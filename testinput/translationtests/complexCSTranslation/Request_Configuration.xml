@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<requestconfig>
-    <inputs value="int : input11, int : input21, string : input31, int : input32, int : input41"/>
-	<outputs value="float : output15, int : output86, char : output91, boolean : output101, string : output111"/>
-	<qos value=""/>
-	<constraints value=""/>
-	<repofilename value="testinput/translationtests/complexCSTranslation/Serialized_Repository.txt"/>
-	<storecsflag value="Y"/>
-</requestconfig>

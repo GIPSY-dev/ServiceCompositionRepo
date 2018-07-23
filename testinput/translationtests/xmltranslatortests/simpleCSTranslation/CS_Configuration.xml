@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<csconfig>
+	<csrepofilename value="testinput/translationtests/xmltranslatortests/simpleCSTranslation/XML_Repository.xml"/>
+	<csname value="CompSvc_123"/>
+	<targetlang value="XML"/>
+</csconfig>

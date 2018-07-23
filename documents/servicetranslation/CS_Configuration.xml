@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<csconfig>
+	<csrepofilename value="testinput/translationtests/lucidtranslatortests/Serialized_Repository.txt"/>
+	<csname value="CompSvc_OrderTranscript"/>
+	<targetlang value="Lucid"/>
+	<input>
+		<name value="StudentID"/>
+		<type value="string"/>
+		<value value="ST123456"/>
+	</input>
+	<input>
+		<name value="NumberOfCopies"/>
+		<type value="int"/>
+		<value value="4"/>
+	</input>
+</csconfig>
