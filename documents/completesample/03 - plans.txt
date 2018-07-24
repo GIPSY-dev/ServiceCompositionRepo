@@ -1,0 +1,4 @@
+Plan 1:
+Layer 0: {} [] GetStudentCourseMarks {GetStudentAvgMarks}
+Layer 1: {GetStudentCourseMarks} [int : NumberOfCourses GREATER_THAN 1] GetStudentAvgMarks {GetStudentMarksPercent}
+Layer 2: {GetStudentAvgMarks} [float : AverageMarks LESS_THAN_OR_EQUAL_TO 100.0] GetStudentMarksPercent {}

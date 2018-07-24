@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<compositeservices>
+    <compositeservice>
+        <csname value="CompSvc_123"/>
+        <csinputs>
+            <instance name="string : StudentID"/>
+        </csinputs>
+        <csoutputs>
+            <instance name="float : MarksPercentage"/>
+        </csoutputs>
+        <cseffects>
+            <instance name="float : TotalMarks"/>
+            <instance name="int : NumberOfCourses"/>
+            <instance name="float : AverageMarks"/>
+            <instance name="float : MarksPercentage"/>
+        </cseffects>
+        <csconstraints>
+            <instance>
+                <servicename name="CompSvc_123"/>
+                <literalvalue name="100"/>
+                <type name="COST"/>
+                <operator name="&lt;"/>
+            </instance>
+            <instance>
+                <servicename name="GetStudentAvgMarks"/>
+                <literalvalue name="1"/>
+                <type name="int : NumberOfCourses"/>
+                <operator name="&gt;"/>
+            </instance>
+            <instance>
+                <servicename name="GetStudentMarksPercent"/>
+                <literalvalue name="100.0"/>
+                <type name="float : AverageMarks"/>
+                <operator name="&lt;="/>
+            </instance>
+        </csconstraints>
+        <csplan>
+            <servicelayer index="0">
+                <servicenode>
+                    <service name="GetStudentCourseMarks"/>
+                    <constraints/>
+                    <predecessors/>
+                </servicenode>
+            </servicelayer>
+            <servicelayer index="1">
+                <servicenode>
+                    <service name="GetStudentAvgMarks"/>
+                    <constraints>
+                        <instance>
+                            <servicename name="GetStudentAvgMarks"/>
+                            <literalvalue name="1"/>
+                            <type name="int : NumberOfCourses"/>
+                            <operator name="&gt;"/>
+                        </instance>
+                    </constraints>
+                    <predecessors>
+                        <instance layerindex="0" name="GetStudentCourseMarks"/>
+                    </predecessors>
+                </servicenode>
+            </servicelayer>
+            <servicelayer index="2">
+                <servicenode>
+                    <service name="GetStudentMarksPercent"/>
+                    <constraints>
+                        <instance>
+                            <servicename name="GetStudentMarksPercent"/>
+                            <literalvalue name="100.0"/>
+                            <type name="float : AverageMarks"/>
+                            <operator name="&lt;="/>
+                        </instance>
+                    </constraints>
+                    <predecessors>
+                        <instance layerindex="1" name="GetStudentAvgMarks"/>
+                    </predecessors>
+                </servicenode>
+            </servicelayer>
+        </csplan>
+        <csatomicservices>
+            <service name="GetStudentCourseMarks">
+                <inputs>
+                    <instance name="string : StudentID"/>
+                </inputs>
+                <outputs>
+                    <instance name="float : TotalMarks"/>
+                    <instance name="int : NumberOfCourses"/>
+                </outputs>
+                <constraints/>
+                <effects>
+                    <instance name="float : TotalMarks"/>
+                    <instance name="int : NumberOfCourses"/>
+                </effects>
+            </service>
+            <service name="GetStudentAvgMarks">
+                <inputs>
+                    <instance name="float : TotalMarks"/>
+                    <instance name="int : NumberOfCourses"/>
+                </inputs>
+                <outputs>
+                    <instance name="float : AverageMarks"/>
+                </outputs>
+                <constraints>
+                    <instance>
+                        <servicename name="GetStudentAvgMarks"/>
+                        <literalvalue name="1"/>
+                        <type name="int : NumberOfCourses"/>
+                        <operator name="&gt;"/>
+                    </instance>
+                </constraints>
+                <effects>
+                    <instance name="float : AverageMarks"/>
+                </effects>
+            </service>
+            <service name="GetStudentMarksPercent">
+                <inputs>
+                    <instance name="float : AverageMarks"/>
+                </inputs>
+                <outputs>
+                    <instance name="float : MarksPercentage"/>
+                </outputs>
+                <constraints>
+                    <instance>
+                        <servicename name="GetStudentMarksPercent"/>
+                        <literalvalue name="100.0"/>
+                        <type name="float : AverageMarks"/>
+                        <operator name="&lt;="/>
+                    </instance>
+                </constraints>
+                <effects>
+                    <instance name="float : MarksPercentage"/>
+                </effects>
+            </service>
+        </csatomicservices>
+    </compositeservice>
+</compositeservices>

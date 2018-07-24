@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<requestconfig>
+    <inputs value="string : StudentID"/>
+	<outputs value="float : MarksPercentage"/>
+	<qos value="COST"/>
+	<constraints value="COST | &lt; | 100"/>
+	<repofilename value="Sample/Service_Repository.xml"/>
+	<storecsflag value="Y"/>
+</requestconfig>
