@@ -8,6 +8,7 @@ import translation.readers.csconfigreaders.ConsoleCSConfigReader;
 import translation.readers.csconfigreaders.FileCSConfigReader;
 import translation.readers.csconfigreaders.XMLFileCSConfigReader;
 import translation.translators.CompositeServiceTranslator;
+import translation.translators.DotGraphCSTranslator;
 import translation.translators.LucidCSTranslator;
 import translation.translators.XMLCSTranslator;
 import utilities.LogUtil;
@@ -96,6 +97,10 @@ public class CSTranslationDriver
 		else if (compSvcConfig.getTargetLanguage().equalsIgnoreCase("XML"))
 		{
 			csTranslator = new XMLCSTranslator();
+		}
+		else if (compSvcConfig.getTargetLanguage().equalsIgnoreCase("Dot"))
+		{
+			csTranslator = new DotGraphCSTranslator();
 		}
 		else
 		{

@@ -1,5 +1,6 @@
 package translation.translators;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,16 +36,23 @@ public class DotGraphCSTranslator implements CompositeServiceTranslator
 		}
 		
 		//Generating graph PNG image from the dot code
-		String csGraphFileName = csDotFileName.substring(0, csDotFileName.lastIndexOf(".")) + ".png";
+		String csImageFileName = csDotFileName.substring(0, csDotFileName.lastIndexOf(".")) + ".png";
 		String procExecCmd = compSvcConfig.getDotExeName() 
 								+ " -Tpng " 
 								+ csDotFileName
 								+ " -o "
-								+ csGraphFileName;
+								+ csImageFileName;
 		Runtime runTime = Runtime.getRuntime();
-		Process process = runTime.exec(procExecCmd);
+		try 
+		{
+			runTime.exec(procExecCmd);
+		}
+		catch (IOException ioe) 
+		{
+			logger.log("Exception occurred while generating PNG image of the dot graph: " + ioe.getMessage());
+		}
 		
-		return csGraphFileName;
+		return csDotFileName;
 	}
 	
 	private String compServiceToDot(CSConfiguration compSvcConfig, LogUtil logger)

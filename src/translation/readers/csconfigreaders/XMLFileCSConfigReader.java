@@ -67,8 +67,16 @@ public class XMLFileCSConfigReader extends FileCSConfigReader
 			inputDetails = getInputDetails(doc, compService);
 		}
 		
+		//Fetching the dot executable file details from the configuration file, if required
+		String dotExeName = new String();
+		if (targetLanguage.equalsIgnoreCase("Dot"))
+		{			
+			dotExeName = ReadWriteUtil.getXMLTagValue("dotexename", "value", doc, null);
+		}
+		
 		//Creating a composite service configuration object with the details fetched
-		CSConfiguration csConfig = new CSConfiguration(compService, inputDetails, targetLanguage, destFolderName);
+		CSConfiguration csConfig = new CSConfiguration(compService, inputDetails, targetLanguage, 
+														destFolderName, dotExeName);
 		
 		return csConfig;
 	}
