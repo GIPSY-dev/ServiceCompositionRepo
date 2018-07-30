@@ -14,6 +14,7 @@ import servicecomposition.entities.ConstraintAwarePlan;
 import servicecomposition.entities.ServiceNode;
 import translation.readers.csconfigreaders.CSConfiguration;
 import utilities.LogUtil;
+import utilities.ReadWriteUtil;
 
 public class DotGraphCSTranslator implements CompositeServiceTranslator
 {
@@ -45,11 +46,16 @@ public class DotGraphCSTranslator implements CompositeServiceTranslator
 		Runtime runTime = Runtime.getRuntime();
 		try 
 		{
-			runTime.exec(procExecCmd);
+			Process process = runTime.exec(procExecCmd);
+			process.waitFor();
 		}
 		catch (IOException ioe) 
 		{
 			logger.log("Exception occurred while generating PNG image of the dot graph: " + ioe.getMessage());
+		}
+		catch (InterruptedException ie) 
+		{
+			logger.log("Exception occurred while generating PNG image of the dot graph: " + ie.getMessage());
 		}
 		
 		return csDotFileName;
@@ -83,7 +89,11 @@ public class DotGraphCSTranslator implements CompositeServiceTranslator
 							+ "\n" + csOutputDef
 							+ "\n" + "}";
 		
-		return csGraphDef;
+		//Writing Dot code to a file
+		String csDotFileName = compSvcConfig.getDestinationFolder() + "CSDot_" + csName + ".dot";
+		ReadWriteUtil.writeToTextFile(csDotFileName, csGraphDef);
+				
+		return csDotFileName;
 	}
 	
 	private boolean generateSvcInfoTable(ConstraintAwarePlan csPlan, LogUtil logger)
@@ -161,11 +171,14 @@ public class DotGraphCSTranslator implements CompositeServiceTranslator
 	private String defCSInputs(Set<String> csInputs, ConstraintAwarePlan csPlan)
 	{
 		String inputDefs = "";
-		for (String input : csInputs)
+		List<String> csInputList = new ArrayList<String>(csInputs);
+		for (String input : csInputList)
 		{
-			inputDefs += "\t\t" + input + " [shape = \"point\"];" + "\n";
+			inputDefs += "\t\t" + "input" + csInputList.indexOf(input) 
+						+ " [shape = rectangle,"
+						+ " label = \"" + input + "\"];" + "\n";
 		}
-		inputDefs += "\t" + "{"
+		inputDefs = "\t" + "{"
 					+ "\n\t\t" + "rank = same;"
 					+ "\n" + inputDefs
 					+ "\t" + "}";
@@ -196,10 +209,9 @@ public class DotGraphCSTranslator implements CompositeServiceTranslator
 					{
 						if (!predOutputs.contains(sharedInput))
 						{
-							String inputEdge = "\t" + sharedInput + ":e -> c" + svcIndex + ":w"
+							String inputEdge = "\t" + "input" + csInputList.indexOf(sharedInput) + ":e -> c" + svcIndex + ":w"
 												+ " [lhead = cluster" + svcIndex + ","
-												+ " constraint = true,"
-												+ " taillabel = \"" + sharedInput + "\"];" + "\n";
+												+ " constraint = true];" + "\n";
 							inputEdgeDefs += inputEdge;
 						}
 					}
@@ -214,18 +226,19 @@ public class DotGraphCSTranslator implements CompositeServiceTranslator
 	
 	private String defCSOutputs(Set<String> csOutputs)
 	{
-		String outputDef = "\t" + "csoutput [shape = point];";
-		
 		String edgeLabel = "";
 		for (String output : csOutputs)
 		{
-			edgeLabel += output + ", ";
+			edgeLabel += output + ",\\n";
 		}
 		if (edgeLabel.lastIndexOf(",") >= 0)
 		{
 			edgeLabel = edgeLabel.substring(0, edgeLabel.lastIndexOf(","));
 		}
-		String outputEdgeDef = "\t" + "a -> csoutput [constraint = true, label = \"" + edgeLabel + "\"];";
+		
+		String outputDef = "\t" + "csoutput [shape = rectangle, label = \"" + edgeLabel + "\"];";
+				
+		String outputEdgeDef = "\t" + "a -> csoutput [constraint = true];";
 		
 		String csOutputDef = outputDef + "\n" + outputEdgeDef;
 		
@@ -272,7 +285,7 @@ public class DotGraphCSTranslator implements CompositeServiceTranslator
 								+ "\n\t\t" + "{"
 								+ "\n\t\t\t" + layerLabel
 								+ "\n\t\t\t" + layerColor
-								+ "\n\n\t\t\t" + svcNodeDefs
+								+ "\n\n" + svcNodeDefs
 								+ layerEdgeDefs
 								+"\t\t" + "}";
 				
@@ -281,9 +294,9 @@ public class DotGraphCSTranslator implements CompositeServiceTranslator
 	
 	private String defAccumSubgraph(int svcLayerCount)
 	{
-		String accumSubgraph = "\t\t" + "subgraph cluster" + (svcLayerCount + 1)
+		String accumSubgraph = "\t\t" + "subgraph cluster" + (svcLayerCount)
 								+ "\n\t\t" + "{"
-								+ "\n\t\t\t" + "label = \"Output\nAccumulator\";"
+								+ "\n\t\t\t" + "label = \"Output\\nAccumulator\";"
 								+ "\n\t\t\t" + "color = dimgray;"
 								+ "\n\t\t\t" + "a [label = \"A\", style = filled, color = gray, fillcolor = gray];"
 								+ "\n\t\t" + "}";
@@ -300,7 +313,7 @@ public class DotGraphCSTranslator implements CompositeServiceTranslator
 			String headIndex = (i + 1) + "0";
 			layerOrderDef += "\t\t" + "w" + tailIndex + " -> c" + headIndex
 							+ " [ltail = cluster" + tailIndex + ","
-							+ " [lhead = cluster" + headIndex + ","
+							+ " lhead = cluster" + headIndex + ","
 							+ " constraint = true,"
 							+ " style = invis];" + "\n";
 		}
@@ -340,7 +353,7 @@ public class DotGraphCSTranslator implements CompositeServiceTranslator
 					String edgeLabel = "";
 					for (String sharedParam : succInputs)
 					{
-						edgeLabel += sharedParam + ",\n";
+						edgeLabel += sharedParam + ",\\n";
 					}
 					if (edgeLabel.lastIndexOf(",") >= 0)
 					{
@@ -368,7 +381,7 @@ public class DotGraphCSTranslator implements CompositeServiceTranslator
 	{
 		String nodeConnDefs = "";
 		int svcLayerCount = csPlan.getServiceLayerCount();
-		for (int i = 0; i < svcLayerCount - 1; i++)
+		for (int i = 0; i < svcLayerCount; i++)
 		{
 			List<ServiceNode> currSvcLayer = csPlan.getServiceLayers().get(i);
 			for (ServiceNode svcNode : currSvcLayer)
@@ -386,7 +399,7 @@ public class DotGraphCSTranslator implements CompositeServiceTranslator
 				String edgeLabel = "";
 				for (String sharedOutput : svcOutputs)
 				{
-					edgeLabel += sharedOutput + ",\n";
+					edgeLabel += sharedOutput + ",\\n";
 				}
 				if (edgeLabel.lastIndexOf(",") >= 0)
 				{

@@ -1,0 +1,83 @@
+digraph CompSvc_123
+{
+	rankdir = LR;
+	nodesep = 0.5;
+	ranksep = 1;
+	edge [constraint = false];
+	compound = true;
+
+	subgraph clusterCS
+	{
+		subgraph cluster0
+		{
+			label = "Layer 0";
+			color = dimgray;
+
+			subgraph cluster00
+			{
+				label = "W8";
+				color = red;
+				c00 [label = "C", shape = diamond, style = filled, color = red, fillcolor = red];
+				w00 [label = "W", shape = circle, style = filled, color = red, fillcolor = red];
+			}
+
+			c00 -> w00[constraint = true, color = red];
+		}
+
+		subgraph cluster1
+		{
+			label = "Layer 1";
+			color = dimgray;
+
+			subgraph cluster10
+			{
+				label = "W9";
+				color = gold;
+				c10 [label = "C", shape = diamond, style = filled, color = gold, fillcolor = gold];
+				w10 [label = "W", shape = circle, style = filled, color = gold, fillcolor = gold];
+			}
+
+			c10 -> w10[constraint = true, color = gold];
+		}
+
+		subgraph cluster2
+		{
+			label = "Layer 2";
+			color = dimgray;
+
+			subgraph cluster20
+			{
+				label = "W10";
+				color = blue;
+				c20 [label = "C", shape = diamond, style = filled, color = blue, fillcolor = blue];
+				w20 [label = "W", shape = circle, style = filled, color = blue, fillcolor = blue];
+			}
+
+			c20 -> w20[constraint = true, color = blue];
+		}
+
+		subgraph cluster3
+		{
+			label = "Output\nAccumulator";
+			color = dimgray;
+			a [label = "A", style = filled, color = gray, fillcolor = gray];
+		}
+
+		w00 -> c10 [ltail = cluster00, lhead = cluster10, constraint = true, style = invis];
+		w10 -> c20 [ltail = cluster10, lhead = cluster20, constraint = true, style = invis];
+		w20 -> a [ltail = cluster20, constraint = true,  style = invis];
+
+		w00:e -> c10:w [ltail = cluster00, lhead = cluster10, label = "int : NumberOfCourses,\nfloat : TotalMarks", color = red, fontcolor = red];
+		w10:e -> c20:w [ltail = cluster10, lhead = cluster20, label = "float : AverageMarks", color = gold, fontcolor = gold];
+		w20:e -> a:w [ltail = cluster20, label = "float : MarksPercentage", color = blue, fontcolor = blue];
+	}
+
+	{
+		rank = same;
+		input0 [shape = rectangle, label = "string : StudentID"];
+	}
+	input0:e -> c00:w [lhead = cluster00, constraint = true];
+
+	csoutput [shape = rectangle, label = "float : MarksPercentage"];
+	a -> csoutput [constraint = true];
+}
