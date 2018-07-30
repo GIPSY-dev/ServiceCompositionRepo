@@ -32,14 +32,14 @@ digraph CompSvc_965997724866851
 			subgraph cluster02
 			{
 				label = "W1";
-				color = blue;
-				c02 [label = "C", shape = diamond, style = filled, color = blue, fillcolor = blue];
-				w02 [label = "W", shape = circle, style = filled, color = blue, fillcolor = blue];
+				color = green;
+				c02 [label = "C", shape = diamond, style = filled, color = green, fillcolor = green];
+				w02 [label = "W", shape = circle, style = filled, color = green, fillcolor = green];
 			}
 
-			c00 -> w00[constraint = true, color = red];
-			c01 -> w01[constraint = true, color = gold];
-			c02 -> w02[constraint = true, color = blue];
+			c00 -> w00 [constraint = true, color = red];
+			c01 -> w01 [constraint = true, color = gold];
+			c02 -> w02 [constraint = true, color = green];
 			c02 -> c01 -> c00 [constraint = false, style = invis];
 			w02 -> w01 -> w00 [constraint = false, style = invis];
 		}
@@ -52,9 +52,9 @@ digraph CompSvc_965997724866851
 			subgraph cluster10
 			{
 				label = "W5";
-				color = green;
-				c10 [label = "C", shape = diamond, style = filled, color = green, fillcolor = green];
-				w10 [label = "W", shape = circle, style = filled, color = green, fillcolor = green];
+				color = blue;
+				c10 [label = "C", shape = diamond, style = filled, color = blue, fillcolor = blue];
+				w10 [label = "W", shape = circle, style = filled, color = blue, fillcolor = blue];
 			}
 
 			subgraph cluster11
@@ -65,8 +65,8 @@ digraph CompSvc_965997724866851
 				w11 [label = "W", shape = circle, style = filled, color = brown, fillcolor = brown];
 			}
 
-			c10 -> w10[constraint = true, color = green];
-			c11 -> w11[constraint = true, color = brown];
+			c10 -> w10 [constraint = true, color = blue];
+			c11 -> w11 [constraint = true, color = brown];
 			c11 -> c10 [constraint = false, style = invis];
 			w11 -> w10 [constraint = false, style = invis];
 		}
@@ -92,8 +92,8 @@ digraph CompSvc_965997724866851
 				w21 [label = "W", shape = circle, style = filled, color = orange, fillcolor = orange];
 			}
 
-			c20 -> w20[constraint = true, color = purple];
-			c21 -> w21[constraint = true, color = orange];
+			c20 -> w20 [constraint = true, color = purple];
+			c21 -> w21 [constraint = true, color = orange];
 			c21 -> c20 [constraint = false, style = invis];
 			w21 -> w20 [constraint = false, style = invis];
 		}
@@ -114,22 +114,22 @@ digraph CompSvc_965997724866851
 			subgraph cluster31
 			{
 				label = "W11";
-				color = salmon;
-				c31 [label = "C", shape = diamond, style = filled, color = salmon, fillcolor = salmon];
-				w31 [label = "W", shape = circle, style = filled, color = salmon, fillcolor = salmon];
+				color = darkgreen;
+				c31 [label = "C", shape = diamond, style = filled, color = darkgreen, fillcolor = darkgreen];
+				w31 [label = "W", shape = circle, style = filled, color = darkgreen, fillcolor = darkgreen];
 			}
 
 			subgraph cluster32
 			{
 				label = "W9";
-				color = darkgreen;
-				c32 [label = "C", shape = diamond, style = filled, color = darkgreen, fillcolor = darkgreen];
-				w32 [label = "W", shape = circle, style = filled, color = darkgreen, fillcolor = darkgreen];
+				color = darkgoldenrod;
+				c32 [label = "C", shape = diamond, style = filled, color = darkgoldenrod, fillcolor = darkgoldenrod];
+				w32 [label = "W", shape = circle, style = filled, color = darkgoldenrod, fillcolor = darkgoldenrod];
 			}
 
-			c30 -> w30[constraint = true, color = deeppink];
-			c31 -> w31[constraint = true, color = salmon];
-			c32 -> w32[constraint = true, color = darkgreen];
+			c30 -> w30 [constraint = true, color = deeppink];
+			c31 -> w31 [constraint = true, color = darkgreen];
+			c32 -> w32 [constraint = true, color = darkgoldenrod];
 			c32 -> c31 -> c30 [constraint = false, style = invis];
 			w32 -> w31 -> w30 [constraint = false, style = invis];
 		}
@@ -148,20 +148,20 @@ digraph CompSvc_965997724866851
 
 		w00:e -> c10:w [ltail = cluster00, lhead = cluster10, label = "boolean : output21", color = red, fontcolor = red];
 		w01:e -> c10:w [ltail = cluster01, lhead = cluster10, label = "string : output31,\nint : output32", color = gold, fontcolor = gold];
-		w02:e -> c11:w [ltail = cluster02, lhead = cluster11, label = "boolean : output12", color = blue, fontcolor = blue];
-		w10:e -> c21:w [ltail = cluster10, lhead = cluster21, label = "int : output51", color = green, fontcolor = green];
-		w10:e -> c30:w [ltail = cluster10, lhead = cluster30, label = "char : output85", color = green, fontcolor = green];
+		w02:e -> c11:w [ltail = cluster02, lhead = cluster11, label = "boolean : output12", color = green, fontcolor = green];
+		w10:e -> c21:w [ltail = cluster10, lhead = cluster21, label = "int : output51", color = blue, fontcolor = blue];
+		w10:e -> c30:w [ltail = cluster10, lhead = cluster30, label = "char : output85", color = blue, fontcolor = blue];
 		w11:e -> c20:w [ltail = cluster11, lhead = cluster20, label = "int : output41", color = brown, fontcolor = brown];
 		w11:e -> c32:w [ltail = cluster11, lhead = cluster32, label = "int : output42", color = brown, fontcolor = brown];
 		w20:e -> c32:w [ltail = cluster20, lhead = cluster32, label = "char : output61", color = purple, fontcolor = purple];
 		w21:e -> c30:w [ltail = cluster21, lhead = cluster30, label = "int : output71", color = orange, fontcolor = orange];
 		w21:e -> c31:w [ltail = cluster21, lhead = cluster31, label = "int : output72", color = orange, fontcolor = orange];
-		w02:e -> a:w [ltail = cluster02, label = "float : output15", color = blue, fontcolor = blue];
-		w10:e -> a:w [ltail = cluster10, label = "float : output15", color = green, fontcolor = green];
+		w02:e -> a:w [ltail = cluster02, label = "float : output15", color = green, fontcolor = green];
+		w10:e -> a:w [ltail = cluster10, label = "float : output15", color = blue, fontcolor = blue];
 		w20:e -> a:w [ltail = cluster20, label = "int : output86", color = purple, fontcolor = purple];
 		w30:e -> a:w [ltail = cluster30, label = "boolean : output101", color = deeppink, fontcolor = deeppink];
-		w31:e -> a:w [ltail = cluster31, label = "string : output111", color = salmon, fontcolor = salmon];
-		w32:e -> a:w [ltail = cluster32, label = "char : output91", color = darkgreen, fontcolor = darkgreen];
+		w31:e -> a:w [ltail = cluster31, label = "string : output111", color = darkgreen, fontcolor = darkgreen];
+		w32:e -> a:w [ltail = cluster32, label = "char : output91", color = darkgoldenrod, fontcolor = darkgoldenrod];
 	}
 
 	{

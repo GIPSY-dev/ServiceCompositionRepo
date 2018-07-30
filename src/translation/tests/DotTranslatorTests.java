@@ -14,8 +14,17 @@ import translation.translators.DotGraphCSTranslator;
 import utilities.LogUtil;
 import utilities.ReadWriteUtil;
 
+/**
+ * Class for testing the layered composite service to Dot graph translator.
+ * @author Jyotsana Gupta
+ */
 public class DotTranslatorTests 
 {
+	/**
+	 * Tests that a composite service can be searched for by its name in an XML service repository, 
+	 * parsed into a composite service object and translated into Dot and PNG files.
+	 * Also tests that input values are not required for translation to Dot.
+	 */
 	@Test
 	public void simpleCSTranslation()
 	{		
@@ -49,6 +58,9 @@ public class DotTranslatorTests
 		assertFalse(logGenerated);
 	}
 	
+	/**
+	 * Tests correct translation of a complex layered composite service into a Dot graph.
+	 */
 	@Test
 	public void complexCSTranslation()
 	{		

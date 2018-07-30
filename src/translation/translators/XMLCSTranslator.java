@@ -46,6 +46,7 @@ public class XMLCSTranslator implements CompositeServiceTranslator
 	/**
 	 * Method for sequentially triggering the phases involved in generation of an XML representation of a composite service.
 	 * @param 	compSvcConfig	Composite service configuration received from the user
+	 * @param 	logger			Logging utility object for logging error or status messages to a text file
 	 * @return	Complete name and path of the XML file generated
 	 */
 	private String compServiceToXML(CSConfiguration compSvcConfig, LogUtil logger)
