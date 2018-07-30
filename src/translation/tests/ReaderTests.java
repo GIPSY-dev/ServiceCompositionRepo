@@ -3,6 +3,8 @@ package translation.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +21,7 @@ import translation.readers.csreaders.CompositeServiceReader;
 import translation.readers.csreaders.SerializedCSReader;
 import translation.readers.csreaders.XMLCSReader;
 import translation.translators.CompositeServiceTranslator;
+import translation.translators.DotGraphCSTranslator;
 import translation.translators.LucidCSTranslator;
 import translation.translators.XMLCSTranslator;
 import utilities.LogUtil;
@@ -102,6 +105,42 @@ public class ReaderTests
 		String expectedXMLText = ReadWriteUtil.readTextFile(expectedXMLFileName);
 		String actualXMLText = ReadWriteUtil.readTextFile(actualXMLFileName);
 		assertEquals(expectedXMLText, actualXMLText);
+		assertFalse(logGenerated);
+	}
+	
+	/**
+	 * Tests that Dot translation is not affected by invalidity of the given composite service input values.
+	 */
+	@Test
+	public void invalidInputForDot()
+	{
+		String actualLogFileName = "testinput/translationtests/readertests/invalidInputForDot/log.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);		
+				
+		FileCSConfigReader csConfigReader = new XMLFileCSConfigReader();
+		csConfigReader.setConfigFileName("testinput/translationtests/readertests/invalidInputForDot/CS_Configuration.xml");
+		CSConfiguration csConfig = csConfigReader.readCSConfig(logger);
+		
+		CompositeServiceTranslator csTranslator = new DotGraphCSTranslator();
+		String actualDotFileName = csTranslator.generateFormalLangCode(csConfig, logger);
+		String expectedDotFileName = "testinput/translationtests/readertests/invalidInputForDot/expecteddot.dot";
+		
+		String actualImageFileName = actualDotFileName.substring(0, actualDotFileName.lastIndexOf(".")) + ".png";
+		File actualImageFile = new File(actualImageFileName);
+		boolean dotImageGenerated = false;
+		if ((actualImageFile.exists()) && (!actualImageFile.isDirectory()))
+		{
+			dotImageGenerated = true;
+		}
+		
+		File actualLogFile = new File(actualLogFileName);
+		boolean logGenerated = (!(actualLogFile.length() == 0));
+		
+		String expectedDotText = ReadWriteUtil.readTextFile(expectedDotFileName);
+		String actualDotText = ReadWriteUtil.readTextFile(actualDotFileName);
+		assertEquals(expectedDotText, actualDotText);
+		assertTrue(dotImageGenerated);
 		assertFalse(logGenerated);
 	}
 	

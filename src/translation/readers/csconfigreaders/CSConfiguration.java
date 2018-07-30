@@ -14,6 +14,7 @@ public class CSConfiguration
 	private List<String[]> inputDetails;
 	private String targetLanguage;
 	private String destinationFolder;
+	private String dotExeName;
 	
 	/**
 	 * Parameterized constructor.
@@ -22,13 +23,16 @@ public class CSConfiguration
 	 * 								Each record consists of the input name, type and value.
 	 * @param	targetLanguage		Language to which the composite service needs to be translated
 	 * @param	destinationFolder	Complete name and path of the folder where the translation file will be placed
+	 * @param	dotExeName			Complete name and path of the dot executable file
 	 */
-	public CSConfiguration(Service compositeService, List<String[]> inputDetails, String targetLanguage, String destinationFolder)
+	public CSConfiguration(Service compositeService, List<String[]> inputDetails, String targetLanguage, 
+							String destinationFolder, String dotExeName)
 	{
 		this.compositeService = compositeService;
 		this.inputDetails = inputDetails;
 		this.targetLanguage = targetLanguage;
 		this.destinationFolder = destinationFolder;
+		this.dotExeName = dotExeName;
 	}
 	
 	/**
@@ -65,5 +69,14 @@ public class CSConfiguration
 	public String getDestinationFolder()
 	{
 		return destinationFolder;
+	}
+	
+	/**
+	 * Method for fetching the dot executable file name and path from this configuration.
+	 * @return	Dot executable file name and path
+	 */
+	public String getDotExeName()
+	{
+		return dotExeName;
 	}
 }

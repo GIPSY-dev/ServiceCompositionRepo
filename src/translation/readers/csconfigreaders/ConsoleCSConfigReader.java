@@ -29,7 +29,7 @@ public class ConsoleCSConfigReader implements CSConfigReader
 		String destFolderName = csRepoFileName.substring(0, (csRepoFileName.lastIndexOf("/") + 1));
 		System.out.println("Please enter the name of the composite service to be translated: ");
 		String csName = scanner.nextLine();
-		System.out.println("Please enter the name of the target formal language (Lucid/XML) for the translation: ");
+		System.out.println("Please enter the name of the target formal language (Lucid/XML/Dot) for the translation: ");
 		String targetLanguage = scanner.nextLine();
 		
 		//Parsing the source file to get the composite service object
@@ -80,10 +80,19 @@ public class ConsoleCSConfigReader implements CSConfigReader
 				inputDetails.add(inpDtlRecord);
 			}
 		}
+		
+		//Fetching the dot executable file details from the user, if required
+		String dotExeName = new String();
+		if (targetLanguage.equalsIgnoreCase("Dot"))
+		{	
+			System.out.println("Please enter the complete file path and name of the dot executable: ");
+			dotExeName = scanner.nextLine();
+		}
 		scanner.close();
 		
 		//Creating a composite service configuration object with the details fetched
-		CSConfiguration csConfig = new CSConfiguration(compService, inputDetails, targetLanguage, destFolderName);
+		CSConfiguration csConfig = new CSConfiguration(compService, inputDetails, targetLanguage, 
+														destFolderName, dotExeName);
 		
 		return csConfig;
 	}

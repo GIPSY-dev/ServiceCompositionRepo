@@ -1,0 +1,184 @@
+digraph CompSvc_965997724866851
+{
+	rankdir = LR;
+	nodesep = 0.5;
+	ranksep = 1;
+	edge [constraint = false];
+	compound = true;
+
+	subgraph clusterCS
+	{
+		subgraph cluster0
+		{
+			label = "Layer 0";
+			color = dimgray;
+
+			subgraph cluster00
+			{
+				label = "W2";
+				color = red;
+				c00 [label = "C", shape = diamond, style = filled, color = red, fillcolor = red];
+				w00 [label = "W", shape = circle, style = filled, color = red, fillcolor = red];
+			}
+
+			subgraph cluster01
+			{
+				label = "W3";
+				color = gold;
+				c01 [label = "C", shape = diamond, style = filled, color = gold, fillcolor = gold];
+				w01 [label = "W", shape = circle, style = filled, color = gold, fillcolor = gold];
+			}
+
+			subgraph cluster02
+			{
+				label = "W1";
+				color = green;
+				c02 [label = "C", shape = diamond, style = filled, color = green, fillcolor = green];
+				w02 [label = "W", shape = circle, style = filled, color = green, fillcolor = green];
+			}
+
+			c00 -> w00 [constraint = true, color = red];
+			c01 -> w01 [constraint = true, color = gold];
+			c02 -> w02 [constraint = true, color = green];
+			c02 -> c01 -> c00 [constraint = false, style = invis];
+			w02 -> w01 -> w00 [constraint = false, style = invis];
+		}
+
+		subgraph cluster1
+		{
+			label = "Layer 1";
+			color = dimgray;
+
+			subgraph cluster10
+			{
+				label = "W5";
+				color = blue;
+				c10 [label = "C", shape = diamond, style = filled, color = blue, fillcolor = blue];
+				w10 [label = "W", shape = circle, style = filled, color = blue, fillcolor = blue];
+			}
+
+			subgraph cluster11
+			{
+				label = "W4";
+				color = brown;
+				c11 [label = "C", shape = diamond, style = filled, color = brown, fillcolor = brown];
+				w11 [label = "W", shape = circle, style = filled, color = brown, fillcolor = brown];
+			}
+
+			c10 -> w10 [constraint = true, color = blue];
+			c11 -> w11 [constraint = true, color = brown];
+			c11 -> c10 [constraint = false, style = invis];
+			w11 -> w10 [constraint = false, style = invis];
+		}
+
+		subgraph cluster2
+		{
+			label = "Layer 2";
+			color = dimgray;
+
+			subgraph cluster20
+			{
+				label = "W6";
+				color = purple;
+				c20 [label = "C", shape = diamond, style = filled, color = purple, fillcolor = purple];
+				w20 [label = "W", shape = circle, style = filled, color = purple, fillcolor = purple];
+			}
+
+			subgraph cluster21
+			{
+				label = "W7";
+				color = orange;
+				c21 [label = "C", shape = diamond, style = filled, color = orange, fillcolor = orange];
+				w21 [label = "W", shape = circle, style = filled, color = orange, fillcolor = orange];
+			}
+
+			c20 -> w20 [constraint = true, color = purple];
+			c21 -> w21 [constraint = true, color = orange];
+			c21 -> c20 [constraint = false, style = invis];
+			w21 -> w20 [constraint = false, style = invis];
+		}
+
+		subgraph cluster3
+		{
+			label = "Layer 3";
+			color = dimgray;
+
+			subgraph cluster30
+			{
+				label = "W10";
+				color = deeppink;
+				c30 [label = "C", shape = diamond, style = filled, color = deeppink, fillcolor = deeppink];
+				w30 [label = "W", shape = circle, style = filled, color = deeppink, fillcolor = deeppink];
+			}
+
+			subgraph cluster31
+			{
+				label = "W11";
+				color = darkgreen;
+				c31 [label = "C", shape = diamond, style = filled, color = darkgreen, fillcolor = darkgreen];
+				w31 [label = "W", shape = circle, style = filled, color = darkgreen, fillcolor = darkgreen];
+			}
+
+			subgraph cluster32
+			{
+				label = "W9";
+				color = darkgoldenrod;
+				c32 [label = "C", shape = diamond, style = filled, color = darkgoldenrod, fillcolor = darkgoldenrod];
+				w32 [label = "W", shape = circle, style = filled, color = darkgoldenrod, fillcolor = darkgoldenrod];
+			}
+
+			c30 -> w30 [constraint = true, color = deeppink];
+			c31 -> w31 [constraint = true, color = darkgreen];
+			c32 -> w32 [constraint = true, color = darkgoldenrod];
+			c32 -> c31 -> c30 [constraint = false, style = invis];
+			w32 -> w31 -> w30 [constraint = false, style = invis];
+		}
+
+		subgraph cluster4
+		{
+			label = "Output\nAccumulator";
+			color = dimgray;
+			a [label = "A", style = filled, color = gray, fillcolor = gray];
+		}
+
+		w00 -> c10 [ltail = cluster00, lhead = cluster10, constraint = true, style = invis];
+		w10 -> c20 [ltail = cluster10, lhead = cluster20, constraint = true, style = invis];
+		w20 -> c30 [ltail = cluster20, lhead = cluster30, constraint = true, style = invis];
+		w30 -> a [ltail = cluster30, constraint = true,  style = invis];
+
+		w00:e -> c10:w [ltail = cluster00, lhead = cluster10, label = "boolean : output21", color = red, fontcolor = red];
+		w01:e -> c10:w [ltail = cluster01, lhead = cluster10, label = "string : output31,\nint : output32", color = gold, fontcolor = gold];
+		w02:e -> c11:w [ltail = cluster02, lhead = cluster11, label = "boolean : output12", color = green, fontcolor = green];
+		w10:e -> c21:w [ltail = cluster10, lhead = cluster21, label = "int : output51", color = blue, fontcolor = blue];
+		w10:e -> c30:w [ltail = cluster10, lhead = cluster30, label = "char : output85", color = blue, fontcolor = blue];
+		w11:e -> c20:w [ltail = cluster11, lhead = cluster20, label = "int : output41", color = brown, fontcolor = brown];
+		w11:e -> c32:w [ltail = cluster11, lhead = cluster32, label = "int : output42", color = brown, fontcolor = brown];
+		w20:e -> c32:w [ltail = cluster20, lhead = cluster32, label = "char : output61", color = purple, fontcolor = purple];
+		w21:e -> c30:w [ltail = cluster21, lhead = cluster30, label = "int : output71", color = orange, fontcolor = orange];
+		w21:e -> c31:w [ltail = cluster21, lhead = cluster31, label = "int : output72", color = orange, fontcolor = orange];
+		w02:e -> a:w [ltail = cluster02, label = "float : output15", color = green, fontcolor = green];
+		w10:e -> a:w [ltail = cluster10, label = "float : output15", color = blue, fontcolor = blue];
+		w20:e -> a:w [ltail = cluster20, label = "int : output86", color = purple, fontcolor = purple];
+		w30:e -> a:w [ltail = cluster30, label = "boolean : output101", color = deeppink, fontcolor = deeppink];
+		w31:e -> a:w [ltail = cluster31, label = "string : output111", color = darkgreen, fontcolor = darkgreen];
+		w32:e -> a:w [ltail = cluster32, label = "char : output91", color = darkgoldenrod, fontcolor = darkgoldenrod];
+	}
+
+	{
+		rank = same;
+		input0 [shape = rectangle, label = "string : input31"];
+		input1 [shape = rectangle, label = "int : input41"];
+		input2 [shape = rectangle, label = "int : input11"];
+		input3 [shape = rectangle, label = "int : input21"];
+		input4 [shape = rectangle, label = "int : input32"];
+	}
+	input3:e -> c00:w [lhead = cluster00, constraint = true];
+	input0:e -> c01:w [lhead = cluster01, constraint = true];
+	input4:e -> c01:w [lhead = cluster01, constraint = true];
+	input2:e -> c02:w [lhead = cluster02, constraint = true];
+	input1:e -> c11:w [lhead = cluster11, constraint = true];
+	input2:e -> c30:w [lhead = cluster30, constraint = true];
+
+	csoutput [shape = rectangle, label = "boolean : output101,\nchar : output91,\nstring : output111,\nfloat : output15,\nint : output86"];
+	a -> csoutput [constraint = true];
+}

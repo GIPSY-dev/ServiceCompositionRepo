@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<services>
+    <service name="W1">
+        <inputs>
+            <instance name="int : input11"/>
+        </inputs>
+        <outputs>
+            <instance name="boolean : output12"/>
+			<instance name="float : output15"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="boolean : output12"/>
+			<instance name="float : output15"/>
+        </effects>
+    </service>
+    <service name="W2">
+        <inputs>
+            <instance name="int : input21"/>
+        </inputs>
+        <outputs>
+            <instance name="boolean : output21"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W2"/>
+                <literalvalue name="20"/>
+                <type name="int : input21"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="boolean : output21"/>
+        </effects>
+    </service>
+	<service name="W3">
+        <inputs>
+            <instance name="string : input31"/>
+			<instance name="int : input32"/>
+        </inputs>
+        <outputs>
+            <instance name="string : output31"/>
+			<instance name="int : output32"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W3"/>
+                <literalvalue name="30"/>
+                <type name="int : input32"/>
+                <operator name="&lt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="string : output31"/>
+			<instance name="int : output32"/>
+        </effects>
+    </service>
+	<service name="W4">
+        <inputs>
+            <instance name="boolean : output12"/>
+			<instance name="int : input41"/>
+        </inputs>
+        <outputs>
+            <instance name="int : output41"/>
+			<instance name="int : output42"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W4"/>
+                <literalvalue name="80"/>
+                <type name="int : input41"/>
+                <operator name="&lt;="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="int : output41"/>
+			<instance name="int : output42"/>
+        </effects>
+    </service>
+	<service name="W5">
+        <inputs>
+            <instance name="boolean : output21"/>
+			<instance name="string : output31"/>
+			<instance name="int : output32"/>
+        </inputs>
+        <outputs>
+            <instance name="float : output15"/>
+			<instance name="int : output51"/>
+			<instance name="float : output52"/>
+			<instance name="char : output85"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="float : output15"/>
+			<instance name="int : output51"/>
+			<instance name="float : output52"/>
+			<instance name="char : output85"/>
+        </effects>
+    </service>
+	<service name="W6">
+        <inputs>
+            <instance name="int : output41"/>
+        </inputs>
+        <outputs>
+            <instance name="char : output61"/>
+			<instance name="int : output86"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W6"/>
+                <literalvalue name="70"/>
+                <type name="int : output41"/>
+                <operator name="&gt;="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="char : output61"/>
+			<instance name="int : output86"/>
+        </effects>
+    </service>
+	<service name="W7">
+        <inputs>
+            <instance name="int : output51"/>
+        </inputs>
+        <outputs>
+            <instance name="int : output71"/>
+			<instance name="int : output72"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W7"/>
+                <literalvalue name="60"/>
+                <type name="int : output51"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="int : output71"/>
+			<instance name="int : output72"/>
+        </effects>
+    </service>
+	<service name="W8">
+        <inputs>
+            <instance name="float : output52"/>
+        </inputs>
+        <outputs>
+            <instance name="char : output85"/>
+			<instance name="int : input11"/>
+			<instance name="int : output86"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="char : output85"/>
+			<instance name="int : input11"/>
+			<instance name="int : output86"/>
+        </effects>
+    </service>
+	<service name="W9">
+        <inputs>
+            <instance name="int : output42"/>
+			<instance name="char : output61"/>
+        </inputs>
+        <outputs>
+            <instance name="char : output91"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W9"/>
+                <literalvalue name="50"/>
+                <type name="int : output42"/>
+                <operator name="&gt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="char : output91"/>
+        </effects>
+    </service>
+	<service name="W10">
+        <inputs>
+            <instance name="int : output71"/>
+			<instance name="char : output85"/>
+			<instance name="int : input11"/>
+        </inputs>
+        <outputs>
+            <instance name="boolean : output101"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W10"/>
+                <literalvalue name="10"/>
+                <type name="int : input11"/>
+                <operator name="&lt;"/>
+            </instance>
+			<instance>
+                <servicename name="W10"/>
+                <literalvalue name="40"/>
+                <type name="int : output71"/>
+                <operator name="&gt;"/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="boolean : output101"/>
+        </effects>
+    </service>
+	<service name="W11">
+        <inputs>
+            <instance name="int : output72"/>
+        </inputs>
+        <outputs>
+            <instance name="string : output111"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="string : output111"/>
+        </effects>
+    </service>
+</services>
