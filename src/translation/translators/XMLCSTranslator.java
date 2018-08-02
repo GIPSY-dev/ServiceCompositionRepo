@@ -83,7 +83,7 @@ public class XMLCSTranslator implements CompositeServiceTranslator
 		}
 		catch(ParserConfigurationException pce)
 		{
-			logger.log("Exception occurred while creating XML document builder: " + pce.getMessage());
+			logger.log("Exception occurred while creating XML document builder: " + pce.getMessage() + "\n");
 			return null;
 		}		
 		Document doc = docBldr.newDocument();
@@ -172,7 +172,7 @@ public class XMLCSTranslator implements CompositeServiceTranslator
 		}
 		catch(TransformerException te)
 		{
-			logger.log("Exception occurred while writing composite service to XML file: " + te.getMessage());
+			logger.log("Exception occurred while writing composite service to XML file: " + te.getMessage() + "\n");
 			return null;
 		}
 		
