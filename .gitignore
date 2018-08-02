@@ -1,5 +1,5 @@
 /bin/
-/documents/*.docx
+/documents/**/*.docx
 src/dummy.java
 /testinput/**/log*.txt
 /testinput/**/CSXML*.xml
