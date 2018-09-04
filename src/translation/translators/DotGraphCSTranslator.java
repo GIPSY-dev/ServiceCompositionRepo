@@ -64,11 +64,11 @@ public class DotGraphCSTranslator implements CompositeServiceTranslator
 		}
 		catch (IOException ioe) 
 		{
-			logger.log("Exception occurred while generating PNG image of the dot graph: " + ioe.getMessage());
+			logger.log("Exception occurred while generating PNG image of the dot graph: " + ioe.getMessage() + "\n");
 		}
 		catch (InterruptedException ie) 
 		{
-			logger.log("Exception occurred while generating PNG image of the dot graph: " + ie.getMessage());
+			logger.log("Exception occurred while generating PNG image of the dot graph: " + ie.getMessage() + "\n");
 		}
 		
 		return csDotFileName;

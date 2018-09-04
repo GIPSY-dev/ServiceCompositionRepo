@@ -1,0 +1,127 @@
+#JAVA
+
+public class CAWSReqComp
+{
+	private float MarksPercentage;
+
+	public CAWSReqComp(float MarksPercentage)
+	{
+		this.MarksPercentage = MarksPercentage;
+	}
+}
+
+public class CAWSGetMarksAndCourseCount
+{
+	private String StudentID;
+	private float TotalMarks;
+	private int NumberOfCourses;
+
+	public CAWSGetMarksAndCourseCount(String StudentID)
+	{
+		this.StudentID = StudentID;
+		TotalMarks = 0.0;
+		NumberOfCourses = 0;
+	}
+
+	public void process()
+	{
+		TotalMarks = 20.0;
+		NumberOfCourses = 10;
+	}
+}
+
+public CAWSGetMarksAndCourseCount GetMarksAndCourseCount(String StudentID)
+{
+	CAWSGetMarksAndCourseCount CAWS_GetMarksAndCourseCount = new CAWSGetMarksAndCourseCount(StudentID);
+	CAWS_GetMarksAndCourseCount.process();
+	return CAWS_GetMarksAndCourseCount;
+}
+
+public class CAWSCalcAverage
+{
+	private float TotalMarks;
+	private int NumberOfCourses;
+	private float AverageMarks;
+
+	public CAWSCalcAverage(float TotalMarks, int NumberOfCourses)
+	{
+		this.TotalMarks = TotalMarks;
+		this.NumberOfCourses = NumberOfCourses;
+		AverageMarks = 0.0;
+	}
+
+	public void process()
+	{
+		AverageMarks = 20.0;
+	}
+}
+
+public CAWSCalcAverage CalcAverage(float TotalMarks, int NumberOfCourses)
+{
+	CAWSCalcAverage CAWS_CalcAverage = new CAWSCalcAverage(TotalMarks, NumberOfCourses);
+	CAWS_CalcAverage.process();
+	return CAWS_CalcAverage;
+}
+
+public class CAWSCalcPercentage
+{
+	private float AverageMarks;
+	private float MarksPercentage;
+
+	public CAWSCalcPercentage(float AverageMarks)
+	{
+		this.AverageMarks = AverageMarks;
+		MarksPercentage = 0.0;
+	}
+
+	public void process()
+	{
+		MarksPercentage = 20.0;
+	}
+}
+
+public CAWSCalcPercentage CalcPercentage(float AverageMarks)
+{
+	CAWSCalcPercentage CAWS_CalcPercentage = new CAWSCalcPercentage(AverageMarks);
+	CAWS_CalcPercentage.process();
+	return CAWS_CalcPercentage;
+}
+
+
+#OBJECTIVELUCID
+
+oCAWS_main @ [StudentID:'abc123']
+where
+	dimension StudentID, MarksPercentage;
+
+	oCAWS_main = CAWSReqComp(#.MarksPercentage)
+					wvr CAWSreq_cnstr
+					@ [	MarksPercentage:CAWS_CalcPercentage.MarksPercentage ]
+					where
+						CAWSreq_cnstr = true;
+
+						CAWS_GetMarksAndCourseCount = GetMarksAndCourseCount(#.StudentID)
+									wvr c_GetMarksAndCourseCount
+									@ [StudentID:#.StudentID]
+									where
+										c_GetMarksAndCourseCount = true;
+									end;
+
+						CAWS_CalcAverage = CalcAverage(#.TotalMarks, #.NumberOfCourses)
+									wvr c_CalcAverage
+									@ [NumberOfCourses:CAWS_GetMarksAndCourseCount.NumberOfCourses, 
+										TotalMarks:CAWS_GetMarksAndCourseCount.TotalMarks]
+									where
+										dimension NumberOfCourses, TotalMarks;
+										c_CalcAverage = #.NumberOfCourses > 1;
+									end;
+
+						CAWS_CalcPercentage = CalcPercentage(#.AverageMarks)
+									wvr c_CalcPercentage
+									@ [AverageMarks:CAWS_CalcAverage.AverageMarks]
+									where
+										dimension AverageMarks;
+										c_CalcPercentage = #.AverageMarks <= 100.0;
+									end;
+					end;
+end;
