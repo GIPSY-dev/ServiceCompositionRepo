@@ -1,6 +1,5 @@
 package translation.translators;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -21,15 +20,13 @@ import servicecomposition.entities.ServiceNode;
 public class ObjLucidCodeGenerator 
 {	
 	public static String generateObjLucidSegment(Service compService, List<String[]> compSvcInputs)
-	{
-		List<String> compSvcDims = new ArrayList<String>();
-		
+	{	
 		String lucidCode = "#OBJECTIVELUCID"
-							+ "\n\n" + "oCAWS_main @ [" + assignCompSvcInpContext(compSvcInputs) + "]"
+							+ "\n\n" + "oCAWSMain " + assignCompSvcInpContext(compSvcInputs)
 							+ "\n" + "where" 
-							+ "\n\t" + "dimension " + listCompSvcInpsOutps(compService.getInput(), compService.getOutput(), compSvcDims) + ";"
-							+ defineOCAWSMain(compService.getOutput(), ((LayeredCompositeService)compService).getCompositionPlan(), compSvcDims)
-							+ "\n" + "end;";
+							+ "\n\t" + "dimension " + listCompSvcInpsOutps(compService.getInput()) + ";"
+							+ defineOCAWSMain(compService.getOutput(), ((LayeredCompositeService)compService).getCompositionPlan())
+							+ "\n" + "end";
 				
 		return lucidCode;
 	}
@@ -41,7 +38,11 @@ public class ObjLucidCodeGenerator
 		for (String[] input : compSvcInputs)
 		{
 			String inputVal = new String();
-			if ((input[1].equalsIgnoreCase("string")) || (input[1].equalsIgnoreCase("char")))
+			if (input[1].equalsIgnoreCase("string"))
+			{
+				inputVal = "\"" + input[2] + "\"";
+			}
+			else if (input[1].equalsIgnoreCase("char"))
 			{
 				inputVal = "'" + input[2] + "'";
 			}
@@ -49,28 +50,20 @@ public class ObjLucidCodeGenerator
 			{
 				inputVal = input[2];
 			}
-			lucidCode += input[0] + ":" + inputVal + ", ";
-		}
-		if (lucidCode.lastIndexOf(",") >= 0)
-		{
-			lucidCode = lucidCode.substring(0, lucidCode.lastIndexOf(","));
+			lucidCode += "@.g_" + input[0] + " " + inputVal + " ";
 		}
 		
 		return lucidCode;
 	}
 	
-	private static String listCompSvcInpsOutps(List<String> csInputs, List<String> csOutputs, List<String> compSvcDims)
+	private static String listCompSvcInpsOutps(List<String> csInputs)
 	{
-		String lucidCode = ""; 
-		List<String> compSvcInpsOutps = new ArrayList<String>();
-		compSvcInpsOutps.addAll(csInputs);
-		compSvcInpsOutps.addAll(csOutputs);
+		String lucidCode = "";
 		
-		for (String param : compSvcInpsOutps)
+		for (String param : csInputs)
 		{
 			String dimension = param.substring(param.indexOf(':') + 2);
-			lucidCode += dimension + ", ";
-			compSvcDims.add(dimension);
+			lucidCode += "g_" + dimension + ", ";
 		}
 		if (lucidCode.lastIndexOf(",") >= 0)
 		{
@@ -80,16 +73,16 @@ public class ObjLucidCodeGenerator
 		return lucidCode;
 	}
 	
-	private static String defineOCAWSMain(List<String> csOutputs, ConstraintAwarePlan cnstrAwrPlan, List<String> compSvcDims)
+	private static String defineOCAWSMain(List<String> csOutputs, ConstraintAwarePlan cnstrAwrPlan)
 	{
 		String lucidCode = ""; 
 		
-		lucidCode += "\n\n\t" + "oCAWS_main = CAWSReqComp(" + listCompSvcOutpDims(csOutputs) + ")"
-					+ "\n\t\t\t\t\t" + "wvr CAWSreq_cnstr"
-					+ "\n\t\t\t\t\t" + "@ [" + "\t" + assignCompSvcOutpContext(csOutputs, cnstrAwrPlan) + " ]"
+		lucidCode += "\n\n\t" + "oCAWSMain = CAWSReqComp(" + listCompSvcOutpDims(csOutputs) + ")"
+					+ "\n\t\t\t\t\t" + "wvr CAWSReqCnstr"
+					+ "\n\t\t\t\t\t" + assignCompSvcOutpContext(csOutputs, cnstrAwrPlan)
 					+ "\n\t\t\t\t\t" + "where"
-					+ "\n\t\t\t\t\t\t" + "CAWSreq_cnstr = true;"
-					+ listAtomicSvcDefs(cnstrAwrPlan, compSvcDims)
+					+ "\n\t\t\t\t\t\t" + "CAWSReqCnstr = true;"
+					+ listAtomicSvcDefs(cnstrAwrPlan)
 					+ "\n\t\t\t\t\t" + "end;";
 		
 		return lucidCode;
@@ -101,7 +94,7 @@ public class ObjLucidCodeGenerator
 		
 		for (String output : csOutputs)
 		{
-			lucidCode += "#." + output.substring(output.indexOf(':') + 2) + ", ";
+			lucidCode += "#.l_" + output.substring(output.indexOf(':') + 2) + ", ";
 		}
 		if (lucidCode.lastIndexOf(",") >= 0)
 		{
@@ -137,19 +130,15 @@ public class ObjLucidCodeGenerator
 			String output = svcOutpEntry.getKey();
 			String outpName = output.substring(output.indexOf(':') + 2);
 			String svcName = svcOutpEntry.getValue();
-			lucidCode += "\n\t\t\t\t\t\t" + outpName + ":CAWS_" + svcName + "." + outpName + ", ";
+			lucidCode += "\n\t\t\t\t\t" + "@.l_" + outpName + " oCAWS" + svcName + "." + outpName + " ";
 		}
 		
-		if (lucidCode.lastIndexOf(",") >= 0)
-		{
-			lucidCode = lucidCode.substring(0, lucidCode.lastIndexOf(","));
-		}
 		lucidCode = lucidCode.trim();
 		
 		return lucidCode;
 	}
 		
-	private static String listAtomicSvcDefs(ConstraintAwarePlan cnstrAwrPlan, List<String> compSvcDims)
+	private static String listAtomicSvcDefs(ConstraintAwarePlan cnstrAwrPlan)
 	{
 		String lucidCode = "";
 		
@@ -157,14 +146,14 @@ public class ObjLucidCodeGenerator
 		{
 			for (ServiceNode serviceNode : serviceLayer)
 			{
-				lucidCode += defineAtomicSvc(serviceNode, compSvcDims);
+				lucidCode += defineAtomicSvc(serviceNode);
 			}
 		}
 		
 		return lucidCode;
 	}
 	
-	private static String defineAtomicSvc(ServiceNode serviceNode, List<String> compSvcDims)
+	private static String defineAtomicSvc(ServiceNode serviceNode)
 	{
 		String lucidCode = "";
 		String svcDef = "";
@@ -172,13 +161,13 @@ public class ObjLucidCodeGenerator
 		
 		svcDef += svcName + "(" + listAtmSvcInpDims(serviceNode) + ")" 
 				+ "\n\t\t\t\t\t\t\t\t\t" + "wvr c_" + svcName
-				+ "\n\t\t\t\t\t\t\t\t\t" + "@ [" + assignAtmSvcInpContext(serviceNode) + "]"
+				+ "\n\t\t\t\t\t\t\t\t\t" + assignAtmSvcInpContext(serviceNode)
 				+ "\n\t\t\t\t\t\t\t\t\t" + "where"
-				+ listAtmSvcDims(serviceNode, compSvcDims)
+				+ listAtmSvcDims(serviceNode)
 				+ "\n\t\t\t\t\t\t\t\t\t\t" + "c_" + svcName + " = " + listAtmSvcCnstrs(serviceNode)
 				+ "\n\t\t\t\t\t\t\t\t\t" + "end;";
 		
-		lucidCode += "\n\n\t\t\t\t\t\t" + "CAWS_" + svcName + " = " + svcDef;
+		lucidCode += "\n\n\t\t\t\t\t\t" + "oCAWS" + svcName + " = " + svcDef;
 		
 		return lucidCode;
 	}
@@ -189,7 +178,7 @@ public class ObjLucidCodeGenerator
 		
 		for (String input : serviceNode.getService().getInput())
 		{
-			svcDef += "#." + input.substring(input.indexOf(':') + 2) + ", ";
+			svcDef += "#.l_" + input.substring(input.indexOf(':') + 2) + ", ";
 		}
 		
 		if (svcDef.lastIndexOf(",") >= 0)
@@ -224,24 +213,20 @@ public class ObjLucidCodeGenerator
 			String predName = svcInpPredMapping.get(input);
 			if (predName != null)
 			{
-				svcDef += "\n\t\t\t\t\t\t\t\t\t\t" + inpName + ":CAWS_" + predName + "." + inpName + ", ";
+				svcDef += "\n\t\t\t\t\t\t\t\t\t" + "@.l_" + inpName + " oCAWS" + predName + "." + inpName + " ";
 			}
 			else
 			{
-				svcDef += "\n\t\t\t\t\t\t\t\t\t\t" + inpName + ":#." + inpName + ", ";
+				svcDef += "\n\t\t\t\t\t\t\t\t\t" + "@.l_" + inpName + " #.g_" + inpName + " ";
 			}
 		}
 		
-		if (svcDef.lastIndexOf(",") >= 0)
-		{
-			svcDef = svcDef.substring(0, svcDef.lastIndexOf(","));
-		}
 		svcDef = svcDef.trim();
 		
 		return svcDef;
 	}
 	
-	private static String listAtmSvcDims(ServiceNode serviceNode, List<String> compSvcDims)
+	private static String listAtmSvcDims(ServiceNode serviceNode)
 	{
 		String svcDef = "";
 		Set<String> atmSvcInpSet = new HashSet<String>();		
@@ -251,23 +236,18 @@ public class ObjLucidCodeGenerator
 			atmSvcInpSet.add(inpName);
 		}
 		
-		atmSvcInpSet.removeAll(compSvcDims);
-		
-		if (atmSvcInpSet.size() > 0)
-		{
-			svcDef += "\n\t\t\t\t\t\t\t\t\t\t" + "dimension ";
+		svcDef += "\n\t\t\t\t\t\t\t\t\t\t" + "dimension ";
 			
-			for (String input : atmSvcInpSet)
-			{
-				svcDef += input + ", ";
-			}
-			if (svcDef.lastIndexOf(",") >= 0)
-			{
-				svcDef = svcDef.substring(0, svcDef.lastIndexOf(","));
-			}
-						
-			svcDef += ";";
+		for (String input : atmSvcInpSet)
+		{
+			svcDef += "l_"+ input + ", ";
 		}
+		if (svcDef.lastIndexOf(",") >= 0)
+		{
+			svcDef = svcDef.substring(0, svcDef.lastIndexOf(","));
+		}
+					
+		svcDef += ";";
 		
 		return svcDef;
 	}
@@ -281,9 +261,12 @@ public class ObjLucidCodeGenerator
 			String cnstrFeatureName = cnstrFeature.substring(cnstrFeature.indexOf(':') + 2);
 			String cnstrFeatureType = cnstrFeature.substring(0, cnstrFeature.indexOf(':') - 1);
 			
-			svcDef += "#." + cnstrFeatureName + " " + getOpSymbol(constraint.getOperator()) + " ";
-			if ((cnstrFeatureType.equalsIgnoreCase("string")) 
-				|| (cnstrFeatureType.equalsIgnoreCase("char")))
+			svcDef += "#.l_" + cnstrFeatureName + " " + getOpSymbol(constraint.getOperator()) + " ";
+			if (cnstrFeatureType.equalsIgnoreCase("string"))
+			{
+				svcDef += "\"" + constraint.getLiteralValue() + "\" and ";
+			}
+			else if (cnstrFeatureType.equalsIgnoreCase("char"))
 			{
 				svcDef += "'" + constraint.getLiteralValue() + "' and ";
 			}

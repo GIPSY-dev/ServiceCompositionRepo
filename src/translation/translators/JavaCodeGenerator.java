@@ -62,6 +62,10 @@ public class JavaCodeGenerator
 			{
 				outpType = "String";
 			}
+			else if (outpType.equalsIgnoreCase("float"))
+			{
+				outpType = "double";
+			}
 			else
 			{
 				outpType = outpType.toLowerCase();
@@ -87,6 +91,10 @@ public class JavaCodeGenerator
 			if (outpType.equalsIgnoreCase("string"))
 			{
 				outpType = "String";
+			}
+			else if (outpType.equalsIgnoreCase("float"))
+			{
+				outpType = "double";
 			}
 			else
 			{
@@ -140,6 +148,10 @@ public class JavaCodeGenerator
 			{
 				inpType = "String";
 			}
+			else if (inpType.equalsIgnoreCase("float"))
+			{
+				inpType = "double";
+			}
 			else
 			{
 				inpType = inpType.toLowerCase();
@@ -157,9 +169,9 @@ public class JavaCodeGenerator
 		String svcName = serviceNode.getService().getName();
 		String javaCode = "\n\n" + "public CAWS" + svcName + " " + svcName + "(" + freeFnParamCode + ")"
 						+ "\n" + "{"
-						+ "\n\t" + "CAWS" + svcName + " CAWS_" + svcName + " = new CAWS" + svcName + "(" + ctorArgCode + ");"
-						+ "\n\t" + "CAWS_" + svcName + ".process();"
-						+ "\n\t" + "return CAWS_" + svcName + ";"
+						+ "\n\t" + "CAWS" + svcName + " oCAWS" + svcName + " = new CAWS" + svcName + "(" + ctorArgCode + ");"
+						+ "\n\t" + "oCAWS" + svcName + ".process();"
+						+ "\n\t" + "return oCAWS" + svcName + ";"
 						+ "\n" + "}";
 		
 		return javaCode;
@@ -178,6 +190,10 @@ public class JavaCodeGenerator
 			if (inpType.equalsIgnoreCase("string"))
 			{
 				inpType = "String";
+			}
+			else if (inpType.equalsIgnoreCase("float"))
+			{
+				inpType = "double";
 			}
 			else
 			{
