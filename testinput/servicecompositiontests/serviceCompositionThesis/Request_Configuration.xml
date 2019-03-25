@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<requestconfig>
+    <inputs value="string : ProductName, string : CreditCardBrand, string : CreditCardNumber, string : ShippingAddress"/>
+	<outputs value="string : ShipmentStatus"/>
+	<qos value=""/>
+	<constraints value=""/>
+	<repofilename value="testinput/servicerepos/Test_Services_Set_7_Thesis_8_Services.xml"/>
+	<storecsflag value="N"/>
+</requestconfig>

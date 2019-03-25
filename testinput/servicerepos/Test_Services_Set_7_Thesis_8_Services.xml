@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<services>
+    <service name="W1">
+        <inputs>
+            <instance name="string : ProductName"/>
+        </inputs>
+        <outputs>
+            <instance name="string : ProductNumber"/>
+			<instance name="float : ProductPrice"/>
+			<instance name="int : ProductWeight"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="string : ProductNumber"/>
+			<instance name="float : ProductPrice"/>
+			<instance name="int : ProductWeight"/>
+        </effects>
+    </service>
+	<service name="W2">
+        <inputs>
+            <instance name="string : ProductNumber"/>
+			<instance name="float : ProductPrice"/>
+        </inputs>
+        <outputs>
+            <instance name="string : OrderNumber"/>
+			<instance name="float : PaymentAmount"/>
+        </outputs>
+        <constraints>
+        </constraints>
+        <effects>
+            <instance name="string : OrderNumber"/>
+			<instance name="float : PaymentAmount"/>
+        </effects>
+    </service>
+	<service name="W3">
+        <inputs>
+            <instance name="string : OrderNumber"/>
+			<instance name="float : PaymentAmount"/>
+			<instance name="string : CreditCardBrand"/>
+			<instance name="string : CreditCardNumber"/>
+        </inputs>
+        <outputs>
+            <instance name="string : PaymentStatus"/>
+        </outputs>
+        <constraints>
+			<instance>
+                <servicename name="W3"/>
+                <literalvalue name="Visa"/>
+                <type name="string : CreditCardBrand"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="string : PaymentStatus"/>
+        </effects>
+    </service>
+	<service name="W4">
+        <inputs>
+            <instance name="string : ProductNumber"/>
+			<instance name="float : ProductPrice"/>
+			<instance name="string : CreditCardBrand"/>
+			<instance name="string : CreditCardNumber"/>
+        </inputs>
+        <outputs>
+            <instance name="string : PaymentNumber"/>
+        </outputs>
+        <constraints>
+			<instance>
+                <servicename name="W4"/>
+                <literalvalue name="Visa"/>
+                <type name="string : CreditCardBrand"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="string : PaymentNumber"/>
+        </effects>
+    </service>
+	<service name="W5">
+        <inputs>
+            <instance name="string : ProductNumber"/>
+			<instance name="float : ProductPrice"/>
+			<instance name="string : CreditCardBrand"/>
+			<instance name="string : CreditCardNumber"/>
+        </inputs>
+        <outputs>
+            <instance name="string : PaymentNumber"/>
+        </outputs>
+        <constraints>
+			<instance>
+                <servicename name="W5"/>
+                <literalvalue name="Master"/>
+                <type name="string : CreditCardBrand"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="string : PaymentNumber"/>
+        </effects>
+    </service>
+	<service name="W6">
+        <inputs>
+            <instance name="string : PaymentNumber"/>
+            <instance name="int : ProductWeight"/>
+			<instance name="string : ShippingAddress"/>
+        </inputs>
+        <outputs>
+            <instance name="string : ShipmentStatus"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W6"/>
+                <literalvalue name="50"/>
+                <type name="int : ProductWeight"/>
+                <operator name="&lt;="/>
+            </instance>
+            <instance>
+                <servicename name="W6"/>
+                <literalvalue name="Montreal"/>
+                <type name="string : ShippingAddress"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="string : ShipmentStatus"/>
+        </effects>
+    </service>
+	<service name="W7">
+        <inputs>
+            <instance name="string : PaymentNumber"/>
+            <instance name="int : ProductWeight"/>
+			<instance name="string : ShippingAddress"/>
+        </inputs>
+        <outputs>
+            <instance name="string : ShipmentStatus"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W7"/>
+                <literalvalue name="50"/>
+                <type name="int : ProductWeight"/>
+                <operator name="&lt;="/>
+            </instance>
+            <instance>
+                <servicename name="W7"/>
+                <literalvalue name="Quebec"/>
+                <type name="string : ShippingAddress"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="string : ShipmentStatus"/>
+        </effects>
+    </service>
+	<service name="W8">
+        <inputs>
+            <instance name="string : PaymentStatus"/>
+			<instance name="int : ProductWeight"/>
+			<instance name="string : ShippingAddress"/>
+        </inputs>
+        <outputs>
+            <instance name="string : ShipmentStatus"/>
+        </outputs>
+        <constraints>
+            <instance>
+                <servicename name="W8"/>
+                <literalvalue name="50"/>
+                <type name="int : ProductWeight"/>
+                <operator name="&lt;="/>
+            </instance>
+            <instance>
+                <servicename name="W8"/>
+                <literalvalue name="Canada"/>
+                <type name="string : ShippingAddress"/>
+                <operator name="="/>
+            </instance>
+        </constraints>
+        <effects>
+            <instance name="string : ShipmentStatus"/>
+        </effects>
+    </service>
+</services>
