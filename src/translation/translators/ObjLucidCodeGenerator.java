@@ -77,10 +77,11 @@ public class ObjLucidCodeGenerator
 	{
 		String lucidCode = ""; 
 		
-		lucidCode += "\n\n\t" + "oCAWSMain = CAWSReqComp(" + listCompSvcOutpDims(csOutputs) + ")"
+		lucidCode += "\n\n\t" + "oCAWSMain = CAWSReqComp(" + listCompSvcOutpDimParams(csOutputs) + ")"
 					+ "\n\t\t\t\t\t" + "wvr CAWSReqCnstr"
 					+ "\n\t\t\t\t\t" + assignCompSvcOutpContext(csOutputs, cnstrAwrPlan)
 					+ "\n\t\t\t\t\t" + "where"
+					+ "\n\t\t\t\t\t\t" + listCompSvcOutpDims(csOutputs)
 					+ "\n\t\t\t\t\t\t" + "CAWSReqCnstr = true;"
 					+ listAtomicSvcDefs(cnstrAwrPlan)
 					+ "\n\t\t\t\t\t" + "end;";
@@ -88,7 +89,7 @@ public class ObjLucidCodeGenerator
 		return lucidCode;
 	}
 	
-	private static String listCompSvcOutpDims(List<String> csOutputs)
+	private static String listCompSvcOutpDimParams(List<String> csOutputs)
 	{
 		String lucidCode = ""; 
 		
@@ -134,6 +135,24 @@ public class ObjLucidCodeGenerator
 		}
 		
 		lucidCode = lucidCode.trim();
+		
+		return lucidCode;
+	}
+	
+	private static String listCompSvcOutpDims(List<String> csOutputs)
+	{
+		String lucidCode = "dimension "; 
+		
+		for (String output : csOutputs)
+		{
+			lucidCode += "l_" + output.substring(output.indexOf(':') + 2) + ", ";
+		}
+		if (lucidCode.lastIndexOf(",") >= 0)
+		{
+			lucidCode = lucidCode.substring(0, lucidCode.lastIndexOf(","));
+		}
+					
+		lucidCode += ";";
 		
 		return lucidCode;
 	}
