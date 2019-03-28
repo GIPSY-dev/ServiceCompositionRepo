@@ -24,7 +24,7 @@ public class ObjLucidCodeGenerator
 		String lucidCode = "#OBJECTIVELUCID"
 							+ "\n\n" + "oCAWSMain " + assignCompSvcInpContext(compSvcInputs)
 							+ "\n" + "where" 
-							+ "\n\t" + "dimension " + listCompSvcInpsOutps(compService.getInput()) + ";"
+							+ "\n\t" + "dimension " + listCompSvcInps(compService.getInput()) + ";"
 							+ defineOCAWSMain(compService.getOutput(), ((LayeredCompositeService)compService).getCompositionPlan())
 							+ "\n" + "end";
 				
@@ -56,7 +56,7 @@ public class ObjLucidCodeGenerator
 		return lucidCode;
 	}
 	
-	private static String listCompSvcInpsOutps(List<String> csInputs)
+	private static String listCompSvcInps(List<String> csInputs)
 	{
 		String lucidCode = "";
 		
