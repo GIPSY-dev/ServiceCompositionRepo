@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<csconfig>
+	<csrepofilename value="testinput/translationtests/oltransjavaseggentests/multicsoutpmultisvclastlayer/XML_Repository.xml"/>
+	<csname value="SplitCompSvc"/>
+	<targetlang value="Lucid"/>
+	<input>
+		<name value="input11"/>
+		<type value="boolean"/>
+		<value value="true"/>
+	</input>
+	<input>
+		<name value="input12"/>
+		<type value="string"/>
+		<value value="xyz"/>
+	</input>
+</csconfig>

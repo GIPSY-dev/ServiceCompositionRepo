@@ -1,0 +1,91 @@
+#JAVA
+
+public class CAWSReqComp
+{
+	private char output21;
+
+	public CAWSReqComp(char output21)
+	{
+		this.output21 = output21;
+	}
+}
+
+public class CAWSW1
+{
+	private char input11;
+	private char output11;
+
+	public CAWSW1(char input11)
+	{
+		this.input11 = input11;
+		output11 = ' ';
+	}
+
+	public void process()
+	{
+		output11 = 'a';
+	}
+}
+
+public CAWSW1 W1(char input11)
+{
+	CAWSW1 oCAWSW1 = new CAWSW1(input11);
+	oCAWSW1.process();
+	return oCAWSW1;
+}
+
+public class CAWSW2
+{
+	private char output11;
+	private char output21;
+
+	public CAWSW2(char output11)
+	{
+		this.output11 = output11;
+		output21 = ' ';
+	}
+
+	public void process()
+	{
+		output21 = 'a';
+	}
+}
+
+public CAWSW2 W2(char output11)
+{
+	CAWSW2 oCAWSW2 = new CAWSW2(output11);
+	oCAWSW2.process();
+	return oCAWSW2;
+}
+
+
+#OBJECTIVELUCID
+
+oCAWSMain @.g_input11 'a' 
+where
+	dimension g_input11;
+
+	oCAWSMain = CAWSReqComp(#.l_output21)
+					wvr CAWSReqCnstr
+					@.l_output21 oCAWSW2.output21
+					where
+						dimension l_output21;
+						CAWSReqCnstr = true;
+
+						oCAWSW1 = W1(#.l_input11)
+									wvr c_W1
+									@.l_input11 #.g_input11
+									where
+										dimension l_input11;
+										c_W1 = true;
+									end;
+
+						oCAWSW2 = W2(#.l_output11)
+									wvr c_W2
+									@.l_output11 oCAWSW1.output11
+									where
+										dimension l_output11;
+										c_W2 = true;
+									end;
+					end;
+end
