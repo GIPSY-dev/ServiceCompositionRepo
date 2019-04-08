@@ -1,0 +1,240 @@
+#JAVA
+
+public class CAWSReqComp
+{
+	private String output31;
+	private double output32;
+	private boolean output61;
+
+	public CAWSReqComp(String output31, double output32, boolean output61)
+	{
+		this.output31 = output31;
+		this.output32 = output32;
+		this.output61 = output61;
+	}
+}
+
+public class CAWSW1
+{
+	private int input11;
+	private String output11;
+	private boolean output12;
+
+	public CAWSW1(int input11)
+	{
+		this.input11 = input11;
+		output11 = " ";
+		output12 = false;
+	}
+
+	public void process()
+	{
+		output11 = "test";
+		output12 = true;
+	}
+}
+
+public CAWSW1 W1(int input11)
+{
+	CAWSW1 oCAWSW1 = new CAWSW1(input11);
+	oCAWSW1.process();
+	return oCAWSW1;
+}
+
+public class CAWSW4
+{
+	private double input41;
+	private int output41;
+
+	public CAWSW4(double input41)
+	{
+		this.input41 = input41;
+		output41 = 0;
+	}
+
+	public void process()
+	{
+		output41 = 10;
+	}
+}
+
+public CAWSW4 W4(double input41)
+{
+	CAWSW4 oCAWSW4 = new CAWSW4(input41);
+	oCAWSW4.process();
+	return oCAWSW4;
+}
+
+public class CAWSW2
+{
+	private boolean output12;
+	private double output21;
+
+	public CAWSW2(boolean output12)
+	{
+		this.output12 = output12;
+		output21 = 0.0;
+	}
+
+	public void process()
+	{
+		output21 = 20.0;
+	}
+}
+
+public CAWSW2 W2(boolean output12)
+{
+	CAWSW2 oCAWSW2 = new CAWSW2(output12);
+	oCAWSW2.process();
+	return oCAWSW2;
+}
+
+public class CAWSW5
+{
+	private int output41;
+	private char output51;
+
+	public CAWSW5(int output41)
+	{
+		this.output41 = output41;
+		output51 = ' ';
+	}
+
+	public void process()
+	{
+		output51 = 'a';
+	}
+}
+
+public CAWSW5 W5(int output41)
+{
+	CAWSW5 oCAWSW5 = new CAWSW5(output41);
+	oCAWSW5.process();
+	return oCAWSW5;
+}
+
+public class CAWSW3
+{
+	private String output11;
+	private double output21;
+	private String output31;
+	private double output32;
+
+	public CAWSW3(String output11, double output21)
+	{
+		this.output11 = output11;
+		this.output21 = output21;
+		output31 = " ";
+		output32 = 0.0;
+	}
+
+	public void process()
+	{
+		output31 = "test";
+		output32 = 20.0;
+	}
+}
+
+public CAWSW3 W3(String output11, double output21)
+{
+	CAWSW3 oCAWSW3 = new CAWSW3(output11, output21);
+	oCAWSW3.process();
+	return oCAWSW3;
+}
+
+public class CAWSW6
+{
+	private int output41;
+	private char output51;
+	private char input61;
+	private boolean output61;
+
+	public CAWSW6(int output41, char output51, char input61)
+	{
+		this.output41 = output41;
+		this.output51 = output51;
+		this.input61 = input61;
+		output61 = false;
+	}
+
+	public void process()
+	{
+		output61 = true;
+	}
+}
+
+public CAWSW6 W6(int output41, char output51, char input61)
+{
+	CAWSW6 oCAWSW6 = new CAWSW6(output41, output51, input61);
+	oCAWSW6.process();
+	return oCAWSW6;
+}
+
+
+#OBJECTIVELUCID
+
+oCAWSMain @.g_input11 100 @.g_input41 200.2 @.g_input61 'x' 
+where
+	dimension g_input11, g_input41, g_input61;
+
+	oCAWSMain = CAWSReqComp(#.l_output31, #.l_output32, #.l_output61)
+					wvr CAWSReqCnstr
+					@.l_output31 oCAWSW3.output31 
+					@.l_output61 oCAWSW6.output61 
+					@.l_output32 oCAWSW3.output32
+					where
+						dimension l_output31, l_output32, l_output61;
+						CAWSReqCnstr = true;
+
+						oCAWSW1 = W1(#.l_input11)
+									wvr c_W1
+									@.l_input11 #.g_input11
+									where
+										dimension l_input11;
+										c_W1 = true;
+									end;
+
+						oCAWSW4 = W4(#.l_input41)
+									wvr c_W4
+									@.l_input41 #.g_input41
+									where
+										dimension l_input41;
+										c_W4 = true;
+									end;
+
+						oCAWSW2 = W2(#.l_output12)
+									wvr c_W2
+									@.l_output12 oCAWSW1.output12
+									where
+										dimension l_output12;
+										c_W2 = true;
+									end;
+
+						oCAWSW5 = W5(#.l_output41)
+									wvr c_W5
+									@.l_output41 oCAWSW4.output41
+									where
+										dimension l_output41;
+										c_W5 = true;
+									end;
+
+						oCAWSW3 = W3(#.l_output11, #.l_output21)
+									wvr c_W3
+									@.l_output11 oCAWSW1.output11 
+									@.l_output21 oCAWSW2.output21
+									where
+										dimension l_output21, l_output11;
+										c_W3 = true;
+									end;
+
+						oCAWSW6 = W6(#.l_output41, #.l_output51, #.l_input61)
+									wvr c_W6
+									@.l_input61 #.g_input61 
+									@.l_output51 oCAWSW5.output51 
+									@.l_output41 oCAWSW4.output41
+									where
+										dimension l_output41, l_input61, l_output51;
+										c_W6 = true;
+									end;
+					end;
+end

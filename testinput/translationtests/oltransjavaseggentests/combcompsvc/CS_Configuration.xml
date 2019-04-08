@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <csconfig>
-	<csrepofilename value="testinput/translationtests/oltransjavaseggentests/multicsoutpmultilayer/XML_Repository.xml"/>
+	<csrepofilename value="testinput/translationtests/oltransjavaseggentests/combcompsvc/XML_Repository.xml"/>
 	<csname value="CombCompSvc"/>
 	<targetlang value="Lucid"/>
 	<input>
