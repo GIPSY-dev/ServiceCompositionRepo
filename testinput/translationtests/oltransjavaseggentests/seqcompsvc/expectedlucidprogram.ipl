@@ -61,7 +61,7 @@ public CAWSW2 W2(char output11)
 
 #OBJECTIVELUCID
 
-oCAWSMain @.g_input11 'a' 
+oCAWSMain @.g_input11 'x' 
 where
 	dimension g_input11;
 

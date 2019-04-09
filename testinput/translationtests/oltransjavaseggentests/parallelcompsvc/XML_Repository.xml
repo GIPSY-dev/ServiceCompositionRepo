@@ -3,7 +3,7 @@
 	<compositeservice>
 		<csname value="ParallelCompSvc"/>
 		<csinputs>
-			<instance name="int : input11"/>
+			<instance name="float : input11"/>
 			<instance name="float : input41"/>
 			<instance name="char : input61"/>
 		</csinputs>
@@ -83,7 +83,7 @@
 		<csatomicservices>
 			<service name="W1">
 				<inputs>
-					<instance name="int : input11"/>
+					<instance name="float : input11"/>
 				</inputs>
 				<outputs>
 					<instance name="string : output11"/>

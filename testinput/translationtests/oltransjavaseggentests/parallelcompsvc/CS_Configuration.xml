@@ -5,13 +5,13 @@
 	<targetlang value="Lucid"/>
 	<input>
 		<name value="input11"/>
-		<type value="int"/>
-		<value value="100"/>
+		<type value="float"/>
+		<value value="200.2"/>
 	</input>
 	<input>
 		<name value="input41"/>
 		<type value="float"/>
-		<value value="200.2"/>
+		<value value="300.3"/>
 	</input>
 	<input>
 		<name value="input61"/>

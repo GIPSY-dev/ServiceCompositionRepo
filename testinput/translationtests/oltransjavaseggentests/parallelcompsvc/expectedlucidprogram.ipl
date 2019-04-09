@@ -16,11 +16,11 @@ public class CAWSReqComp
 
 public class CAWSW1
 {
-	private int input11;
+	private double input11;
 	private String output11;
 	private boolean output12;
 
-	public CAWSW1(int input11)
+	public CAWSW1(double input11)
 	{
 		this.input11 = input11;
 		output11 = " ";
@@ -34,7 +34,7 @@ public class CAWSW1
 	}
 }
 
-public CAWSW1 W1(int input11)
+public CAWSW1 W1(double input11)
 {
 	CAWSW1 oCAWSW1 = new CAWSW1(input11);
 	oCAWSW1.process();
@@ -173,7 +173,7 @@ public CAWSW6 W6(int output41, char output51, char input61)
 
 #OBJECTIVELUCID
 
-oCAWSMain @.g_input11 100 @.g_input41 200.2 @.g_input61 'x' 
+oCAWSMain @.g_input11 200.2 @.g_input41 300.3 @.g_input61 'x' 
 where
 	dimension g_input11, g_input41, g_input61;
 

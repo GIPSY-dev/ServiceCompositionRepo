@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <requestconfig>
-    <inputs value="int : input11, float : input41, char : input61"/>
+    <inputs value="float : input11, float : input41, char : input61"/>
 	<outputs value="string : output31, float : output32, boolean : output61"/>
 	<qos value=""/>
 	<constraints value=""/>

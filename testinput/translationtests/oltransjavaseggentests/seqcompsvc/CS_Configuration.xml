@@ -6,6 +6,6 @@
 	<input>
 		<name value="input11"/>
 		<type value="char"/>
-		<value value="a"/>
+		<value value="x"/>
 	</input>
 </csconfig>
