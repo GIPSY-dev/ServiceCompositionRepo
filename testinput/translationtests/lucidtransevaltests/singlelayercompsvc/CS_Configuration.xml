@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<csconfig>
+	<csrepofilename value="testinput/translationtests/lucidtransevaltests/singlelayercompsvc/XML_Repository.xml"/>
+	<csname value="SingleLayerCompSvc"/>
+	<targetlang value="Lucid"/>
+	<input>
+		<name value="input11"/>
+		<type value="boolean"/>
+		<value value="true"/>
+	</input>
+	<input>
+		<name value="input21"/>
+		<type value="string"/>
+		<value value="xyz"/>
+	</input>
+</csconfig>

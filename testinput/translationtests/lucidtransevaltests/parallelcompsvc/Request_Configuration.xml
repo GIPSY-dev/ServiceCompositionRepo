@@ -4,6 +4,6 @@
 	<outputs value="string : output31, float : output32, boolean : output61"/>
 	<qos value=""/>
 	<constraints value=""/>
-	<repofilename value="testinput/translationtests/oltransjavaseggentests/parallelcompsvc/XML_Atom_Repository.xml"/>
+	<repofilename value="testinput/translationtests/lucidtransevaltests/parallelcompsvc/XML_Atom_Repository.xml"/>
 	<storecsflag value="N"/>
 </requestconfig>

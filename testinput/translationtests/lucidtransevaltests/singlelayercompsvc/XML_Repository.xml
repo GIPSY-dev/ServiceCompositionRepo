@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<compositeservices>
+	<compositeservice>
+		<csname value="SingleLayerCompSvc"/>
+		<csinputs>
+			<instance name="boolean : input11"/>
+			<instance name="string : input21"/>
+		</csinputs>
+		<csoutputs>
+			<instance name="int : output11"/>
+			<instance name="float : output21"/>
+			<instance name="int : output31"/>
+		</csoutputs>
+		<cseffects>
+			<instance name="int : output11"/>
+			<instance name="float : output21"/>
+			<instance name="int : output31"/>
+		</cseffects>
+		<csconstraints>
+		</csconstraints>
+		<csplan>
+			<servicelayer index="0">
+				<servicenode>
+					<service name="W1"/>
+					<constraints>
+					</constraints>
+					<predecessors>
+					</predecessors>
+				</servicenode>
+				<servicenode>
+					<service name="W2"/>
+					<constraints>
+					</constraints>
+					<predecessors>
+					</predecessors>
+				</servicenode>
+				<servicenode>
+					<service name="W3"/>
+					<constraints>
+					</constraints>
+					<predecessors>
+					</predecessors>
+				</servicenode>
+			</servicelayer>
+		</csplan>
+		<csatomicservices>
+			<service name="W1">
+				<inputs>
+					<instance name="boolean : input11"/>
+				</inputs>
+				<outputs>
+					<instance name="int : output11"/>
+				</outputs>
+				<constraints>
+				</constraints>
+				<effects>
+					<instance name="int : output11"/>
+				</effects>
+			</service>
+			<service name="W2">
+				<inputs>
+					<instance name="string : input21"/>
+				</inputs>
+				<outputs>
+					<instance name="float : output21"/>
+				</outputs>
+				<constraints>
+				</constraints>
+				<effects>
+					<instance name="float : output21"/>
+				</effects>
+			</service>
+			<service name="W3">
+				<inputs>
+					<instance name="string : input21"/>
+				</inputs>
+				<outputs>
+					<instance name="int : output31"/>
+				</outputs>
+				<constraints>
+				</constraints>
+				<effects>
+					<instance name="int : output31"/>
+				</effects>
+			</service>
+		</csatomicservices>
+	</compositeservice>
+</compositeservices>

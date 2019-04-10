@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <csconfig>
-	<csrepofilename value="testinput/translationtests/oltransjavaseggentests/parallelcompsvc/XML_Repository.xml"/>
+	<csrepofilename value="testinput/translationtests/lucidtransevaltests/parallelcompsvc/XML_Repository.xml"/>
 	<csname value="ParallelCompSvc"/>
 	<targetlang value="Lucid"/>
 	<input>

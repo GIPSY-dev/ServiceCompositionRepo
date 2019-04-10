@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <csconfig>
-	<csrepofilename value="testinput/translationtests/oltransjavaseggentests/combcompsvc/XML_Repository.xml"/>
-	<csname value="CombCompSvc"/>
+	<csrepofilename value="testinput/translationtests/lucidtransevaltests/joincompsvc/XML_Repository.xml"/>
+	<csname value="JoinCompSvc"/>
 	<targetlang value="Lucid"/>
 	<input>
 		<name value="input11"/>
