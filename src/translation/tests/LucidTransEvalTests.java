@@ -24,7 +24,7 @@ import utilities.LogUtil;
 import utilities.ReadWriteUtil;
 
 /**
- * Class for testing correct generation of the Java segment of a composite service's Objective Lucid translation.
+ * Class for testing correct generation of a composite service's Objective Lucid translation for evaluation purposes.
  * @author Jyotsana Gupta
  */
 public class LucidTransEvalTests 
@@ -196,7 +196,7 @@ public class LucidTransEvalTests
 		/*
 		//Creating composite service
 		FileReqConfigReader configReader = new XMLFileReqConfigReader();
-		configReader.setConfigFileName("testinput/translationtests/oltransjavaseggentests/parallelcompsvc/Request_Configuration.xml");
+		configReader.setConfigFileName("testinput/translationtests/lucidtransevaltests/parallelcompsvc/Request_Configuration.xml");
 		RequestConfiguration reqConfig = configReader.readReqConfig();
 		
 		List<String> actualPlanDetails = new ArrayList<String>();
@@ -265,7 +265,7 @@ public class LucidTransEvalTests
 		/*
 		//Creating composite service
 		FileReqConfigReader configReader = new XMLFileReqConfigReader();
-		configReader.setConfigFileName("testinput/translationtests/oltransjavaseggentests/combcompsvc/Request_Configuration.xml");
+		configReader.setConfigFileName("testinput/translationtests/lucidtransevaltests/combcompsvc/Request_Configuration.xml");
 		RequestConfiguration reqConfig = configReader.readReqConfig();
 		
 		List<String> actualPlanDetails = new ArrayList<String>();
@@ -326,6 +326,166 @@ public class LucidTransEvalTests
 		CompositeServiceTranslator csTranslator = new LucidCSTranslator();
 		String actualLucidFileName = csTranslator.generateFormalLangCode(csConfig, logger);
 		String expectedLucidFileName = "testinput/translationtests/lucidtransevaltests/singlelayercompsvc/expectedlucidprogram.ipl";
+		
+		File actualLogFile = new File(actualLogFileName);
+		boolean logGenerated = (!(actualLogFile.length() == 0));
+		
+		String expectedProgram = ReadWriteUtil.readTextFile(expectedLucidFileName);
+		String actualProgram = ReadWriteUtil.readTextFile(actualLucidFileName);
+		assertEquals(expectedProgram, actualProgram);
+		assertFalse(logGenerated);
+	}
+	
+	/**
+	 * Tests correct generation of the following definitions for a sequential composition plan with only 1 constraint on each component:
+	 * 1. Lucid definition for a component service (W1) with just 1 constraint - on an input from the user.
+	 * 2. Lucid definition for a component service (W2) with just 1 constraint - on an input from another component service.
+	 * 3. Lucid definition for component service (W1) with a constraint on char type input.
+	 */
+	@Test
+	public void cnstrSeqCompSvc()
+	{
+		String actualLogFileName = "testinput/translationtests/lucidtransevaltests/cnstrseqcompsvc/log.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);		
+				
+		FileCSConfigReader csConfigReader = new XMLFileCSConfigReader();
+		csConfigReader.setConfigFileName("testinput/translationtests/lucidtransevaltests/cnstrseqcompsvc/CS_Configuration.xml");
+		CSConfiguration csConfig = csConfigReader.readCSConfig(logger);
+		
+		CompositeServiceTranslator csTranslator = new LucidCSTranslator();
+		String actualLucidFileName = csTranslator.generateFormalLangCode(csConfig, logger);
+		String expectedLucidFileName = "testinput/translationtests/lucidtransevaltests/cnstrseqcompsvc/expectedlucidprogram.ipl";
+		
+		File actualLogFile = new File(actualLogFileName);
+		boolean logGenerated = (!(actualLogFile.length() == 0));
+		
+		String expectedProgram = ReadWriteUtil.readTextFile(expectedLucidFileName);
+		String actualProgram = ReadWriteUtil.readTextFile(actualLucidFileName);
+		assertEquals(expectedProgram, actualProgram);
+		assertFalse(logGenerated);
+	}
+	
+	/**
+	 * Tests correct generation of the following definitions for a sequential composition plan with multiple constraints on each component:
+	 * 1. Lucid definition for a component service (W1) with multiple constraints - on inputs from the user.
+	 * 2. Lucid definition for a component service (W2) with multiple constraints - on inputs from another component service.
+	 * 3. Lucid definition for a component service (W1) with constraints on all its inputs - from the user.
+	 * 4. Lucid definition for a component service (W2) with constraints on all its inputs - from another component service.
+	 * 5. Lucid definition for a component service (W1) with multiple constraints on the same input - from the user.
+	 * 6. Lucid definition for a component service (W3) with multiple constraints on the same input - from another component service.
+	 * 7. Lucid definition for component services (W1, W2) with constraints on int, float, boolean and String type inputs.
+	 * 8. Lucid definition for constraints that use >, <, >=, <= and = as operator.
+	 * 9. Lucid definition for a component service (W1) with 1 adjusted constraint - on a parameter from the user.
+	 * 10. Lucid definition for a component service (W3) with 1 adjusted constraint - on a parameter from another component service.
+	 */
+	@Test
+	public void multiCnstrCompSvc()
+	{
+		String actualLogFileName = "testinput/translationtests/lucidtransevaltests/multicnstrcompsvc/log.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);	
+		
+		/*
+		 * The commented part below was used during the first run of this test case 
+		 * to ensure that the composite service used for translation can be created.
+		 */
+		/*
+		//Creating composite service
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
+		configReader.setConfigFileName("testinput/translationtests/lucidtransevaltests/multicnstrcompsvc/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		List<String> actualPlanDetails = new ArrayList<String>();
+		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition(reqConfig, logger);
+		for (ConstraintAwarePlan cnstrAwrPlan : cnstrAwrPlans)
+		{
+			actualPlanDetails.add(cnstrAwrPlan.toString());
+		}
+		Collections.sort(actualPlanDetails);
+		
+		List<String> expectedPlanDetails = new ArrayList<String>();
+		expectedPlanDetails.add("Layer 0: {} [float : input11 GREATER_THAN 55.5, float : input11 LESS_THAN 66.6, int : input12 LESS_THAN_OR_EQUAL_TO 50, int : input31 GREATER_THAN_OR_EQUAL_TO 55] W1 {W2, W3}" 
+								+ "\nLayer 1: {W1} [boolean : output12 EQUALS true, string : output11 EQUALS abc, string : output11 EQUALS pqr] W2 {W3}" 
+								+ "\nLayer 2: {W1, W2} [boolean : output12 EQUALS true, float : output21 GREATER_THAN_OR_EQUAL_TO 101.01, float : output21 LESS_THAN_OR_EQUAL_TO 202.02, string : output11 EQUALS abc, string : output11 EQUALS pqr] W3 {}");
+				
+		File actualLogFile = new File(actualLogFileName);
+		boolean compLogGenerated = (!(actualLogFile.length() == 0));
+		
+		assertFalse(compLogGenerated);
+		assertEquals(actualPlanDetails, expectedPlanDetails);
+		*/
+		
+		FileCSConfigReader csConfigReader = new XMLFileCSConfigReader();
+		csConfigReader.setConfigFileName("testinput/translationtests/lucidtransevaltests/multicnstrcompsvc/CS_Configuration.xml");
+		CSConfiguration csConfig = csConfigReader.readCSConfig(logger);
+		
+		CompositeServiceTranslator csTranslator = new LucidCSTranslator();
+		String actualLucidFileName = csTranslator.generateFormalLangCode(csConfig, logger);
+		String expectedLucidFileName = "testinput/translationtests/lucidtransevaltests/multicnstrcompsvc/expectedlucidprogram.ipl";
+		
+		File actualLogFile = new File(actualLogFileName);
+		boolean logGenerated = (!(actualLogFile.length() == 0));
+		
+		String expectedProgram = ReadWriteUtil.readTextFile(expectedLucidFileName);
+		String actualProgram = ReadWriteUtil.readTextFile(actualLucidFileName);
+		assertEquals(expectedProgram, actualProgram);
+		assertFalse(logGenerated);
+	}
+	
+	/**
+	 * Tests correct generation of the following definitions for a constrained split composition plan:
+	 * 1. Lucid definition for a component service (W1) with multiple adjusted constraints - on parameters of another service from the user.
+	 * 2. Lucid definition for a component service (W1) with multiple adjusted constraints - on parameters of multiple services from the user.
+	 * 3. Lucid definition for a component service (W2) with multiple adjusted constraints - on parameter of another service from another service.
+	 * 4. Lucid definition for a component service (W2) with multiple adjusted constraints - on parameters of multiple services from other services.
+	 * 5. Lucid definition for a component service (W1) with constraints some of its inputs - from the user.
+	 * 6. Lucid definition for a component service (W1) with multiple constraints - of its own and adjusted on parameters from the user.
+	 * 7. Lucid definition for a component service (W3) with multiple constraints - of its own and adjusted on parameters from other services.
+	 */
+	@Test
+	public void cnstrSplitCompSvc()
+	{
+		String actualLogFileName = "testinput/translationtests/lucidtransevaltests/cnstrsplitcompsvc/log.txt";
+		LogUtil logger = new LogUtil();
+		logger.setLogFileName(actualLogFileName);	
+		
+		/*
+		 * The commented part below was used during the first run of this test case 
+		 * to ensure that the composite service used for translation can be created.
+		 */
+		/*
+		//Creating composite service
+		FileReqConfigReader configReader = new XMLFileReqConfigReader();
+		configReader.setConfigFileName("testinput/translationtests/lucidtransevaltests/cnstrsplitcompsvc/Request_Configuration.xml");
+		RequestConfiguration reqConfig = configReader.readReqConfig();
+		
+		List<String> actualPlanDetails = new ArrayList<String>();
+		List<ConstraintAwarePlan> cnstrAwrPlans = ServiceComposition.driveServiceComposition(reqConfig, logger);
+		for (ConstraintAwarePlan cnstrAwrPlan : cnstrAwrPlans)
+		{
+			actualPlanDetails.add(cnstrAwrPlan.toString());
+		}
+		Collections.sort(actualPlanDetails);
+		
+		List<String> expectedPlanDetails = new ArrayList<String>();
+		expectedPlanDetails.add("Layer 0: {} [boolean : input11 EQUALS true, char : input22 EQUALS z, float : input31 GREATER_THAN 55.5, float : input31 LESS_THAN 66.6, string : input21 EQUALS abc] W1 {W2, W3, W4}" 
+								+ "\nLayer 1: {W1} [char : output13 EQUALS y, int : output12 LESS_THAN_OR_EQUAL_TO 50, int : output14 GREATER_THAN_OR_EQUAL_TO 55, int : output14 LESS_THAN_OR_EQUAL_TO 60] W2 {}, {W1} [char : output13 EQUALS y, int : output12 LESS_THAN_OR_EQUAL_TO 50, int : output14 GREATER_THAN_OR_EQUAL_TO 55, int : output14 LESS_THAN_OR_EQUAL_TO 60] W3 {}, {W1} [char : output13 EQUALS y, int : output12 LESS_THAN_OR_EQUAL_TO 50, int : output14 GREATER_THAN_OR_EQUAL_TO 55, int : output14 LESS_THAN_OR_EQUAL_TO 60] W4 {}");
+				
+		File actualLogFile = new File(actualLogFileName);
+		boolean compLogGenerated = (!(actualLogFile.length() == 0));
+		
+		assertFalse(compLogGenerated);
+		assertEquals(actualPlanDetails, expectedPlanDetails);
+		*/
+		
+		FileCSConfigReader csConfigReader = new XMLFileCSConfigReader();
+		csConfigReader.setConfigFileName("testinput/translationtests/lucidtransevaltests/cnstrsplitcompsvc/CS_Configuration.xml");
+		CSConfiguration csConfig = csConfigReader.readCSConfig(logger);
+		
+		CompositeServiceTranslator csTranslator = new LucidCSTranslator();
+		String actualLucidFileName = csTranslator.generateFormalLangCode(csConfig, logger);
+		String expectedLucidFileName = "testinput/translationtests/lucidtransevaltests/cnstrsplitcompsvc/expectedlucidprogram.ipl";
 		
 		File actualLogFile = new File(actualLogFileName);
 		boolean logGenerated = (!(actualLogFile.length() == 0));

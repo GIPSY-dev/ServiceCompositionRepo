@@ -1,0 +1,146 @@
+#JAVA
+
+public class CAWSReqComp
+{
+	private String output31;
+	private double output32;
+
+	public CAWSReqComp(String output31, double output32)
+	{
+		this.output31 = output31;
+		this.output32 = output32;
+	}
+}
+
+public class CAWSW1
+{
+	private double input11;
+	private int input12;
+	private String output11;
+	private boolean output12;
+
+	public CAWSW1(double input11, int input12)
+	{
+		this.input11 = input11;
+		this.input12 = input12;
+		output11 = " ";
+		output12 = false;
+	}
+
+	public void process()
+	{
+		output11 = "test";
+		output12 = true;
+	}
+}
+
+public CAWSW1 W1(double input11, int input12)
+{
+	CAWSW1 oCAWSW1 = new CAWSW1(input11, input12);
+	oCAWSW1.process();
+	return oCAWSW1;
+}
+
+public class CAWSW2
+{
+	private String output11;
+	private boolean output12;
+	private double output21;
+
+	public CAWSW2(String output11, boolean output12)
+	{
+		this.output11 = output11;
+		this.output12 = output12;
+		output21 = 0.0;
+	}
+
+	public void process()
+	{
+		output21 = 20.0;
+	}
+}
+
+public CAWSW2 W2(String output11, boolean output12)
+{
+	CAWSW2 oCAWSW2 = new CAWSW2(output11, output12);
+	oCAWSW2.process();
+	return oCAWSW2;
+}
+
+public class CAWSW3
+{
+	private int input31;
+	private String output11;
+	private double output21;
+	private String output31;
+	private double output32;
+
+	public CAWSW3(int input31, String output11, double output21)
+	{
+		this.input31 = input31;
+		this.output11 = output11;
+		this.output21 = output21;
+		output31 = " ";
+		output32 = 0.0;
+	}
+
+	public void process()
+	{
+		output31 = "test";
+		output32 = 20.0;
+	}
+}
+
+public CAWSW3 W3(int input31, String output11, double output21)
+{
+	CAWSW3 oCAWSW3 = new CAWSW3(input31, output11, output21);
+	oCAWSW3.process();
+	return oCAWSW3;
+}
+
+
+#OBJECTIVELUCID
+
+oCAWSMain @.g_input11 200.2 @.g_input12 300 @.g_input31 400 
+where
+	dimension g_input11, g_input12, g_input31;
+
+	oCAWSMain = CAWSReqComp(#.l_output31, #.l_output32)
+					wvr CAWSReqCnstr
+					@.l_output31 oCAWSW3.output31 
+					@.l_output32 oCAWSW3.output32
+					where
+						dimension l_output31, l_output32;
+						CAWSReqCnstr = true;
+
+						oCAWSW1 = W1(#.l_input11, #.l_input12)
+									wvr c_W1
+									@.l_input11 #.g_input11 
+									@.l_input12 #.g_input12 
+									@.l_input31 #.g_input31
+									where
+										dimension l_input31, l_input11, l_input12;
+										c_W1 = #.l_input11 > 55.5 and #.l_input11 < 66.6 and #.l_input12 <= 50 and #.l_input31 >= 55;
+									end;
+
+						oCAWSW2 = W2(#.l_output11, #.l_output12)
+									wvr c_W2
+									@.l_output12 oCAWSW1.output12 
+									@.l_output11 oCAWSW1.output11
+									where
+										dimension l_output12, l_output11;
+										c_W2 = #.l_output12 == true and #.l_output11 == "abc" and #.l_output11 == "pqr";
+									end;
+
+						oCAWSW3 = W3(#.l_input31, #.l_output11, #.l_output21)
+									wvr c_W3
+									@.l_output12 oCAWSW1.output12 
+									@.l_output11 oCAWSW1.output11 
+									@.l_input31 #.g_input31 
+									@.l_output21 oCAWSW2.output21
+									where
+										dimension l_input31, l_output12, l_output21, l_output11;
+										c_W3 = #.l_output21 >= 101.01 and #.l_output11 == "pqr" and #.l_output21 <= 202.02 and #.l_output12 == true and #.l_output11 == "abc";
+									end;
+					end;
+end

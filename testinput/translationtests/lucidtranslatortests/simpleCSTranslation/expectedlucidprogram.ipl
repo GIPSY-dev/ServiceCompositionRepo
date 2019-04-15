@@ -32,9 +32,9 @@ public class CAWSW27
 
 public CAWSW27 W27(char input271)
 {
-	CAWSW27 CAWS_W27 = new CAWSW27(input271);
-	CAWS_W27.process();
-	return CAWS_W27;
+	CAWSW27 oCAWSW27 = new CAWSW27(input271);
+	oCAWSW27.process();
+	return oCAWSW27;
 }
 
 public class CAWSW28
@@ -59,15 +59,15 @@ public class CAWSW28
 
 public CAWSW28 W28(String output271)
 {
-	CAWSW28 CAWS_W28 = new CAWSW28(output271);
-	CAWS_W28.process();
-	return CAWS_W28;
+	CAWSW28 oCAWSW28 = new CAWSW28(output271);
+	oCAWSW28.process();
+	return oCAWSW28;
 }
 
 public class CAWSW29
 {
 	private int output281;
-	private float output291;
+	private double output291;
 	private boolean output272;
 
 	public CAWSW29(int output281)
@@ -86,17 +86,17 @@ public class CAWSW29
 
 public CAWSW29 W29(int output281)
 {
-	CAWSW29 CAWS_W29 = new CAWSW29(output281);
-	CAWS_W29.process();
-	return CAWS_W29;
+	CAWSW29 oCAWSW29 = new CAWSW29(output281);
+	oCAWSW29.process();
+	return oCAWSW29;
 }
 
 public class CAWSW30
 {
-	private float output291;
+	private double output291;
 	private char output301;
 
-	public CAWSW30(float output291)
+	public CAWSW30(double output291)
 	{
 		this.output291 = output291;
 		output301 = ' ';
@@ -108,11 +108,11 @@ public class CAWSW30
 	}
 }
 
-public CAWSW30 W30(float output291)
+public CAWSW30 W30(double output291)
 {
-	CAWSW30 CAWS_W30 = new CAWSW30(output291);
-	CAWS_W30.process();
-	return CAWS_W30;
+	CAWSW30 oCAWSW30 = new CAWSW30(output291);
+	oCAWSW30.process();
+	return oCAWSW30;
 }
 
 public class CAWSW31
@@ -134,61 +134,64 @@ public class CAWSW31
 
 public CAWSW31 W31(char output301)
 {
-	CAWSW31 CAWS_W31 = new CAWSW31(output301);
-	CAWS_W31.process();
-	return CAWS_W31;
+	CAWSW31 oCAWSW31 = new CAWSW31(output301);
+	oCAWSW31.process();
+	return oCAWSW31;
 }
 
 
 #OBJECTIVELUCID
 
-oCAWS_main @ [input271:'x']
+oCAWSMain @.g_input271 'x' 
 where
-	dimension input271, output311;
+	dimension g_input271;
 
-	oCAWS_main = CAWSReqComp(#.output311)
-					wvr CAWSreq_cnstr
-					@ [	output311:CAWS_W31.output311 ]
+	oCAWSMain = CAWSReqComp(#.l_output311)
+					wvr CAWSReqCnstr
+					@.l_output311 oCAWSW31.output311
 					where
-						CAWSreq_cnstr = true;
+						dimension l_output311;
+						CAWSReqCnstr = true;
 
-						CAWS_W27 = W27(#.input271)
+						oCAWSW27 = W27(#.l_input271)
 									wvr c_W27
-									@ [input271:#.input271]
+									@.l_input271 #.g_input271
 									where
+										dimension l_input271;
 										c_W27 = true;
 									end;
 
-						CAWS_W28 = W28(#.output271)
+						oCAWSW28 = W28(#.l_output271)
 									wvr c_W28
-									@ [output271:CAWS_W27.output271]
+									@.l_output271 oCAWSW27.output271
 									where
-										dimension output271;
+										dimension l_output271;
 										c_W28 = true;
 									end;
 
-						CAWS_W29 = W29(#.output281)
+						oCAWSW29 = W29(#.l_output281)
 									wvr c_W29
-									@ [output281:CAWS_W28.output281]
+									@.l_output281 oCAWSW28.output281
 									where
-										dimension output281;
+										dimension l_output281;
 										c_W29 = true;
 									end;
 
-						CAWS_W30 = W30(#.output291)
+						oCAWSW30 = W30(#.l_output291)
 									wvr c_W30
-									@ [output291:CAWS_W29.output291]
+									@.l_output291 oCAWSW29.output291 
+									@.l_output272 oCAWSW29.output272
 									where
-										dimension output291;
-										c_W30 = #.output272 == true;
+										dimension l_output272, l_output291;
+										c_W30 = #.l_output272 == true;
 									end;
 
-						CAWS_W31 = W31(#.output301)
+						oCAWSW31 = W31(#.l_output301)
 									wvr c_W31
-									@ [output301:CAWS_W30.output301]
+									@.l_output301 oCAWSW30.output301
 									where
-										dimension output301;
+										dimension l_output301;
 										c_W31 = true;
 									end;
 					end;
-end;
+end

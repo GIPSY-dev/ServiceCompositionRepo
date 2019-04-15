@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<csconfig>
+	<csrepofilename value="testinput/translationtests/lucidtransevaltests/multicnstrcompsvc/XML_Repository.xml"/>
+	<csname value="MultiCnstrCompSvc"/>
+	<targetlang value="Lucid"/>
+	<input>
+		<name value="input11"/>
+		<type value="float"/>
+		<value value="200.2"/>
+	</input>
+	<input>
+		<name value="input12"/>
+		<type value="int"/>
+		<value value="300"/>
+	</input>
+	<input>
+		<name value="input31"/>
+		<type value="int"/>
+		<value value="400"/>
+	</input>
+</csconfig>

@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<compositeservices>
+	<compositeservice>
+		<csname value="CnstrSplitCompSvc"/>
+		<csinputs>
+			<instance name="boolean : input11"/>
+			<instance name="string : input12"/>
+			<instance name="string : input21"/>
+			<instance name="char : input22"/>
+			<instance name="float : input31"/>
+		</csinputs>
+		<csoutputs>
+			<instance name="float : output21"/>
+			<instance name="boolean : output31"/>
+			<instance name="string : output41"/>
+		</csoutputs>
+		<cseffects>
+			<instance name="int : output11"/>
+			<instance name="int : output12"/>
+			<instance name="char : output13"/>
+			<instance name="int : output14"/>
+			<instance name="float : output21"/>
+			<instance name="boolean : output31"/>
+			<instance name="string : output41"/>
+		</cseffects>
+		<csconstraints>
+			<instance>
+				<servicename name="W1"/>
+				<literalvalue name="true"/>
+				<type name="boolean : input11"/>
+				<operator name="="/>
+			</instance>
+			<instance>
+				<servicename name="W2"/>
+				<literalvalue name="abc"/>
+				<type name="string : input21"/>
+				<operator name="="/>
+			</instance>
+			<instance>
+				<servicename name="W2"/>
+				<literalvalue name="z"/>
+				<type name="char : input22"/>
+				<operator name="="/>
+			</instance>
+			<instance>
+				<servicename name="W3"/>
+				<literalvalue name="55.5"/>
+				<type name="float : input31"/>
+				<operator name="&gt;"/>
+			</instance>
+			<instance>
+				<servicename name="W3"/>
+				<literalvalue name="66.6"/>
+				<type name="float : input31"/>
+				<operator name="&lt;"/>
+			</instance>
+			<instance>
+				<servicename name="W3"/>
+				<literalvalue name="50"/>
+				<type name="int : output12"/>
+				<operator name="&lt;="/>
+			</instance>
+			<instance>
+				<servicename name="W3"/>
+				<literalvalue name="y"/>
+				<type name="char : output13"/>
+				<operator name="="/>
+			</instance>
+			<instance>
+				<servicename name="W4"/>
+				<literalvalue name="55"/>
+				<type name="int : output14"/>
+				<operator name="&gt;="/>
+			</instance>
+			<instance>
+				<servicename name="W4"/>
+				<literalvalue name="60"/>
+				<type name="int : output14"/>
+				<operator name="&lt;="/>
+			</instance>
+		</csconstraints>
+		<csplan>
+			<servicelayer index="0">
+				<servicenode>
+					<service name="W1"/>
+					<constraints>
+						<instance>
+							<servicename name="W1"/>
+							<literalvalue name="true"/>
+							<type name="boolean : input11"/>
+							<operator name="="/>
+						</instance>
+						<instance>
+							<servicename name="W2"/>
+							<literalvalue name="abc"/>
+							<type name="string : input21"/>
+							<operator name="="/>
+						</instance>
+						<instance>
+							<servicename name="W2"/>
+							<literalvalue name="z"/>
+							<type name="char : input22"/>
+							<operator name="="/>
+						</instance>
+						<instance>
+							<servicename name="W3"/>
+							<literalvalue name="55.5"/>
+							<type name="float : input31"/>
+							<operator name="&gt;"/>
+						</instance>
+						<instance>
+							<servicename name="W3"/>
+							<literalvalue name="66.6"/>
+							<type name="float : input31"/>
+							<operator name="&lt;"/>
+						</instance>
+					</constraints>
+					<predecessors>
+					</predecessors>
+				</servicenode>
+			</servicelayer>
+			<servicelayer index="1">
+				<servicenode>
+					<service name="W2"/>
+					<constraints>
+						<instance>
+							<servicename name="W3"/>
+							<literalvalue name="50"/>
+							<type name="int : output12"/>
+							<operator name="&lt;="/>
+						</instance>
+						<instance>
+							<servicename name="W3"/>
+							<literalvalue name="y"/>
+							<type name="char : output13"/>
+							<operator name="="/>
+						</instance>
+						<instance>
+							<servicename name="W4"/>
+							<literalvalue name="55"/>
+							<type name="int : output14"/>
+							<operator name="&gt;="/>
+						</instance>
+						<instance>
+							<servicename name="W4"/>
+							<literalvalue name="60"/>
+							<type name="int : output14"/>
+							<operator name="&lt;="/>
+						</instance>
+					</constraints>
+					<predecessors>
+						<instance name="W1" layerindex="0"/>
+					</predecessors>
+				</servicenode>
+				<servicenode>
+					<service name="W3"/>
+					<constraints>
+						<instance>
+							<servicename name="W3"/>
+							<literalvalue name="50"/>
+							<type name="int : output12"/>
+							<operator name="&lt;="/>
+						</instance>
+						<instance>
+							<servicename name="W3"/>
+							<literalvalue name="y"/>
+							<type name="char : output13"/>
+							<operator name="="/>
+						</instance>
+						<instance>
+							<servicename name="W4"/>
+							<literalvalue name="55"/>
+							<type name="int : output14"/>
+							<operator name="&gt;="/>
+						</instance>
+						<instance>
+							<servicename name="W4"/>
+							<literalvalue name="60"/>
+							<type name="int : output14"/>
+							<operator name="&lt;="/>
+						</instance>
+					</constraints>
+					<predecessors>
+						<instance name="W1" layerindex="0"/>
+					</predecessors>
+				</servicenode>
+				<servicenode>
+					<service name="W4"/>
+					<constraints>
+						<instance>
+							<servicename name="W3"/>
+							<literalvalue name="50"/>
+							<type name="int : output12"/>
+							<operator name="&lt;="/>
+						</instance>
+						<instance>
+							<servicename name="W3"/>
+							<literalvalue name="y"/>
+							<type name="char : output13"/>
+							<operator name="="/>
+						</instance>
+						<instance>
+							<servicename name="W4"/>
+							<literalvalue name="55"/>
+							<type name="int : output14"/>
+							<operator name="&gt;="/>
+						</instance>
+						<instance>
+							<servicename name="W4"/>
+							<literalvalue name="60"/>
+							<type name="int : output14"/>
+							<operator name="&lt;="/>
+						</instance>
+					</constraints>
+					<predecessors>
+						<instance name="W1" layerindex="0"/>
+					</predecessors>
+				</servicenode>
+			</servicelayer>
+		</csplan>
+		<csatomicservices>
+			<service name="W1">
+				<inputs>
+					<instance name="boolean : input11"/>
+					<instance name="string : input12"/>
+				</inputs>
+				<outputs>
+					<instance name="int : output11"/>
+					<instance name="int : output12"/>
+					<instance name="char : output13"/>
+					<instance name="int : output14"/>
+				</outputs>
+				<constraints>
+					<instance>
+						<servicename name="W1"/>
+						<literalvalue name="true"/>
+						<type name="boolean : input11"/>
+						<operator name="="/>
+					</instance>
+				</constraints>
+				<effects>
+					<instance name="int : output11"/>
+					<instance name="int : output12"/>
+					<instance name="char : output13"/>
+					<instance name="int : output14"/>
+				</effects>
+			</service>
+			<service name="W2">
+				<inputs>
+					<instance name="string : input21"/>
+					<instance name="char : input22"/>
+					<instance name="int : output11"/>
+				</inputs>
+				<outputs>
+					<instance name="float : output21"/>
+				</outputs>
+				<constraints>
+					<instance>
+						<servicename name="W2"/>
+						<literalvalue name="abc"/>
+						<type name="string : input21"/>
+						<operator name="="/>
+					</instance>
+					<instance>
+						<servicename name="W2"/>
+						<literalvalue name="z"/>
+						<type name="char : input22"/>
+						<operator name="="/>
+					</instance>
+				</constraints>
+				<effects>
+					<instance name="float : output21"/>
+				</effects>
+			</service>
+			<service name="W3">
+				<inputs>
+					<instance name="float : input31"/>
+					<instance name="int : output12"/>
+					<instance name="char : output13"/>
+				</inputs>
+				<outputs>
+					<instance name="boolean : output31"/>
+				</outputs>
+				<constraints>
+					<instance>
+						<servicename name="W3"/>
+						<literalvalue name="55.5"/>
+						<type name="float : input31"/>
+						<operator name="&gt;"/>
+					</instance>
+					<instance>
+						<servicename name="W3"/>
+						<literalvalue name="66.6"/>
+						<type name="float : input31"/>
+						<operator name="&lt;"/>
+					</instance>
+					<instance>
+						<servicename name="W3"/>
+						<literalvalue name="50"/>
+						<type name="int : output12"/>
+						<operator name="&lt;="/>
+					</instance>
+					<instance>
+						<servicename name="W3"/>
+						<literalvalue name="y"/>
+						<type name="char : output13"/>
+						<operator name="="/>
+					</instance>
+				</constraints>
+				<effects>
+					<instance name="boolean : output31"/>
+				</effects>
+			</service>
+			<service name="W4">
+				<inputs>
+					<instance name="int : output14"/>
+				</inputs>
+				<outputs>
+					<instance name="string : output41"/>
+				</outputs>
+				<constraints>
+					<instance>
+						<servicename name="W4"/>
+						<literalvalue name="55"/>
+						<type name="int : output14"/>
+						<operator name="&gt;="/>
+					</instance>
+					<instance>
+						<servicename name="W4"/>
+						<literalvalue name="60"/>
+						<type name="int : output14"/>
+						<operator name="&lt;="/>
+					</instance>
+				</constraints>
+				<effects>
+					<instance name="string : output41"/>
+				</effects>
+			</service>
+		</csatomicservices>
+	</compositeservice>
+</compositeservices>

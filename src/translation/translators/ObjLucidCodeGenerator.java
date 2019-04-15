@@ -19,24 +19,37 @@ import servicecomposition.entities.ServiceNode;
  */
 public class ObjLucidCodeGenerator 
 {	
+	/**
+	 * Method for generating the Lucid segment for a given composite service.
+	 * @param 	compService		Layered composite service whose Lucid representation needs to be generated
+	 * @param 	compSvcInputs	List of composite service input names, data types and values
+	 * @return	Lucid segment generated
+	 */
 	public static String generateObjLucidSegment(Service compService, List<String[]> compSvcInputs)
-	{	
+	{
+		//Generating and combining all sub-definitions to form the Lucid segment
 		String lucidCode = "#OBJECTIVELUCID"
-							+ "\n\n" + "oCAWSMain " + assignCompSvcInpContext(compSvcInputs)
+							+ "\n\n" + "oCAWSMain " + assignCompSvcContext(compSvcInputs)
 							+ "\n" + "where" 
-							+ "\n\t" + "dimension " + listCompSvcInps(compService.getInput()) + ";"
-							+ defineOCAWSMain(compService.getOutput(), ((LayeredCompositeService)compService).getCompositionPlan())
+							+ "\n\t" + "dimension " + listCompSvcDims(compService.getInput()) + ";"
+							+ defineOutputAccmr(compService.getOutput(), ((LayeredCompositeService)compService).getCompositionPlan())
 							+ "\n" + "end";
 				
 		return lucidCode;
 	}
 	
-	private static String assignCompSvcInpContext(List<String[]> compSvcInputs)
+	/**
+	 * Method for generating the composite service's Lucid context specification.
+	 * @param 	compSvcInputs	List of composite service input names, data types and values
+	 * @return	Composite service's Lucid context specification
+	 */
+	private static String assignCompSvcContext(List<String[]> compSvcInputs)
 	{
 		String lucidCode = "";
 		
 		for (String[] input : compSvcInputs)
 		{
+			//Extracting composite service input value and enclosing it in quotes if required
 			String inputVal = new String();
 			if (input[1].equalsIgnoreCase("string"))
 			{
@@ -50,16 +63,24 @@ public class ObjLucidCodeGenerator
 			{
 				inputVal = input[2];
 			}
+			
+			//Generating and appending context name-value pair for each dimension
 			lucidCode += "@.g_" + input[0] + " " + inputVal + " ";
 		}
 		
 		return lucidCode;
 	}
 	
-	private static String listCompSvcInps(List<String> csInputs)
+	/**
+	 * Method for generating the composite service's Lucid dimension list.
+	 * @param 	csInputs	List of composite service input names
+	 * @return	Composite service's Lucid dimension list
+	 */
+	private static String listCompSvcDims(List<String> csInputs)
 	{
 		String lucidCode = "";
 		
+		//Forming the global dimension list with composite service inputs
 		for (String param : csInputs)
 		{
 			String dimension = param.substring(param.indexOf(':') + 2);
@@ -73,15 +94,22 @@ public class ObjLucidCodeGenerator
 		return lucidCode;
 	}
 	
-	private static String defineOCAWSMain(List<String> csOutputs, ConstraintAwarePlan cnstrAwrPlan)
+	/**
+	 * Method for generating Lucid definition for the output accumulator node.
+	 * @param 	csOutputs		List of composite service output names
+	 * @param 	cnstrAwrPlan	Constraint-aware plan of the composite service to be translated
+	 * @return	Lucid definition for the output accumulator node
+	 */
+	private static String defineOutputAccmr(List<String> csOutputs, ConstraintAwarePlan cnstrAwrPlan)
 	{
 		String lucidCode = ""; 
 		
-		lucidCode += "\n\n\t" + "oCAWSMain = CAWSReqComp(" + listCompSvcOutpDimParams(csOutputs) + ")"
+		//Generating and combining all sub-definitions to form the accumulator's Lucid definition
+		lucidCode += "\n\n\t" + "oCAWSMain = CAWSReqComp(" + listCompSvcOutpParams(csOutputs) + ")"
 					+ "\n\t\t\t\t\t" + "wvr CAWSReqCnstr"
-					+ "\n\t\t\t\t\t" + assignCompSvcOutpContext(csOutputs, cnstrAwrPlan)
+					+ "\n\t\t\t\t\t" + assignOutputAccmrContext(csOutputs, cnstrAwrPlan)
 					+ "\n\t\t\t\t\t" + "where"
-					+ "\n\t\t\t\t\t\t" + listCompSvcOutpDims(csOutputs)
+					+ "\n\t\t\t\t\t\t" + listOutputAccmrDims(csOutputs)
 					+ "\n\t\t\t\t\t\t" + "CAWSReqCnstr = true;"
 					+ listAtomicSvcDefs(cnstrAwrPlan)
 					+ "\n\t\t\t\t\t" + "end;";
@@ -89,10 +117,16 @@ public class ObjLucidCodeGenerator
 		return lucidCode;
 	}
 	
-	private static String listCompSvcOutpDimParams(List<String> csOutputs)
+	/**
+	 * Method for transforming composite service outputs into output accumulator's constructor argument list.
+	 * @param 	csOutputs	List of composite service output names
+	 * @return	Output accumulator's constructor argument list
+	 */
+	private static String listCompSvcOutpParams(List<String> csOutputs)
 	{
 		String lucidCode = ""; 
 		
+		//Forming the argument list with composite service outputs
 		for (String output : csOutputs)
 		{
 			lucidCode += "#.l_" + output.substring(output.indexOf(':') + 2) + ", ";
@@ -105,20 +139,29 @@ public class ObjLucidCodeGenerator
 		return lucidCode;
 	}
 	
-	private static String assignCompSvcOutpContext(List<String> csOutputs, ConstraintAwarePlan cnstrAwrPlan)
+	/**
+	 * Method for generating the output accumulator's Lucid context specification.
+	 * @param 	csOutputs		List of composite service output names
+	 * @param 	cnstrAwrPlan	Constraint-aware plan of the composite service to be translated
+	 * @return	Output accumulator's Lucid context specification
+	 */
+	private static String assignOutputAccmrContext(List<String> csOutputs, ConstraintAwarePlan cnstrAwrPlan)
 	{
 		String lucidCode = "";
 		Set<String> compReqOutputSet = new HashSet<String>(csOutputs);
 		Map<String, String> compSvcOutpMapping = new HashMap<String, String>();
 	
+		//Looping through each service-node in the plan
 		for (List<ServiceNode> serviceLayer : cnstrAwrPlan.getServiceLayers())
 		{
 			for (ServiceNode serviceNode : serviceLayer)
 			{
-				//Checking if the node produces any of the requested outputs
+				//Checking if the node produces any of the composite service outputs
 				Set<String> svcNodeOutputSet = new HashSet<String>(serviceNode.getService().getOutput());
 				svcNodeOutputSet.retainAll(compReqOutputSet);
 				
+				//Recording names of the current component service and 
+				//the composite service outputs that it produces, if any
 				for (String output : svcNodeOutputSet)
 				{
 					compSvcOutpMapping.put(output, serviceNode.getService().getName());
@@ -126,6 +169,7 @@ public class ObjLucidCodeGenerator
 			}
 		}
 		
+		//Generating and appending context name-value pair for each composite service output
 		for (Entry<String, String> svcOutpEntry : compSvcOutpMapping.entrySet())
 		{
 			String output = svcOutpEntry.getKey();
@@ -139,10 +183,16 @@ public class ObjLucidCodeGenerator
 		return lucidCode;
 	}
 	
-	private static String listCompSvcOutpDims(List<String> csOutputs)
+	/**
+	 * Method for generating the output accumulator's Lucid dimension list.
+	 * @param 	csOutputs	List of composite service output names
+	 * @return	Output accumulator's Lucid dimension list
+	 */
+	private static String listOutputAccmrDims(List<String> csOutputs)
 	{
 		String lucidCode = "dimension "; 
 		
+		//Forming the accumulator's dimension list with composite service outputs
 		for (String output : csOutputs)
 		{
 			lucidCode += "l_" + output.substring(output.indexOf(':') + 2) + ", ";
@@ -157,10 +207,16 @@ public class ObjLucidCodeGenerator
 		return lucidCode;
 	}
 		
+	/**
+	 * Method for generating Lucid definitions for all the component services.
+	 * @param 	cnstrAwrPlan	Constraint-aware plan of the composite service to be translated
+	 * @return	Code block comprising of Lucid definitions representing all the component services
+	 */
 	private static String listAtomicSvcDefs(ConstraintAwarePlan cnstrAwrPlan)
 	{
 		String lucidCode = "";
 		
+		//Generating and appending Lucid definition of each component service
 		for (List<ServiceNode> serviceLayer : cnstrAwrPlan.getServiceLayers())
 		{
 			for (ServiceNode serviceNode : serviceLayer)
@@ -172,15 +228,21 @@ public class ObjLucidCodeGenerator
 		return lucidCode;
 	}
 	
+	/**
+	 * Method for generating Lucid definition for a component service.
+	 * @param 	serviceNode		Service node for which Lucid definition needs to be generated
+	 * @return	Lucid definition for the given component service
+	 */
 	private static String defineAtomicSvc(ServiceNode serviceNode)
 	{
 		String lucidCode = "";
 		String svcDef = "";
 		String svcName = serviceNode.getService().getName();
 		
-		svcDef += svcName + "(" + listAtmSvcInpDims(serviceNode) + ")" 
+		//Generating and combining all sub-definitions to form the component's Lucid definition
+		svcDef += svcName + "(" + listAtmSvcInpParams(serviceNode) + ")" 
 				+ "\n\t\t\t\t\t\t\t\t\t" + "wvr c_" + svcName
-				+ "\n\t\t\t\t\t\t\t\t\t" + assignAtmSvcInpContext(serviceNode)
+				+ "\n\t\t\t\t\t\t\t\t\t" + assignAtmSvcContext(serviceNode)
 				+ "\n\t\t\t\t\t\t\t\t\t" + "where"
 				+ listAtmSvcDims(serviceNode)
 				+ "\n\t\t\t\t\t\t\t\t\t\t" + "c_" + svcName + " = " + listAtmSvcCnstrs(serviceNode)
@@ -191,10 +253,16 @@ public class ObjLucidCodeGenerator
 		return lucidCode;
 	}
 	
-	private static String listAtmSvcInpDims(ServiceNode serviceNode)
+	/**
+	 * Method for transforming a component service's inputs into its free function's argument list.
+	 * @param 	serviceNode		Service node for which the argument list needs to be generated
+	 * @return	Component service's free function argument list
+	 */
+	private static String listAtmSvcInpParams(ServiceNode serviceNode)
 	{
 		String svcDef = "";
 		
+		//Forming the argument list with component service inputs
 		for (String input : serviceNode.getService().getInput())
 		{
 			svcDef += "#.l_" + input.substring(input.indexOf(':') + 2) + ", ";
@@ -208,35 +276,52 @@ public class ObjLucidCodeGenerator
 		return svcDef;
 	}
 	
-	private static String assignAtmSvcInpContext(ServiceNode serviceNode)
+	/**
+	 * Method for generating a component service's Lucid context specification.
+	 * @param 	serviceNode		Service node for which the context specification needs to be generated
+	 * @return	Component service's Lucid context specification
+	 */
+	private static String assignAtmSvcContext(ServiceNode serviceNode)
 	{
 		String svcDef = "";
-		Set<String> atmSvcInpSet = new HashSet<String>(serviceNode.getService().getInput());
-		Map<String, String> svcInpPredMapping = new HashMap<String, String>();
-	
+		
+		//Defining the service-node's inputs and constraint features as its Lucid dimensions
+		Set<String> atmSvcDimSet = new HashSet<String>(serviceNode.getService().getInput());
+		for (Constraint constraint : serviceNode.getConstraints())
+		{
+			atmSvcDimSet.add(constraint.getType());
+		}
+		
+		//Looping through each predecessor node of the service-node
+		Map<String, String> svcDimPredMapping = new HashMap<String, String>();
 		for (ServiceNode predecessor : serviceNode.getPredecessors())
 		{
-			//Checking if the current predecessor produces any of the service inputs
+			//Checking if the current predecessor produces any of the service dimensions
 			Set<String> predOutpSet = new HashSet<String>(predecessor.getService().getOutput());
-			predOutpSet.retainAll(atmSvcInpSet);
+			predOutpSet.retainAll(atmSvcDimSet);
 			
+			//Recording the names of the current predecessor service and the 
+			//component service dimension parameters that it produces, if any
 			for (String output : predOutpSet)
 			{
-				svcInpPredMapping.put(output, predecessor.getService().getName());
+				svcDimPredMapping.put(output, predecessor.getService().getName());
 			}
 		}
 	
-		for (String input : atmSvcInpSet)
+		//Generating and appending context name-value pair for each component service dimension
+		for (String dimension : atmSvcDimSet)
 		{
-			String inpName = input.substring(input.indexOf(':') + 2);
-			String predName = svcInpPredMapping.get(input);
+			String dimName = dimension.substring(dimension.indexOf(':') + 2);
+			String predName = svcDimPredMapping.get(dimension);
 			if (predName != null)
 			{
-				svcDef += "\n\t\t\t\t\t\t\t\t\t" + "@.l_" + inpName + " oCAWS" + predName + "." + inpName + " ";
+				//For dimension parameters produced by a predecessor
+				svcDef += "\n\t\t\t\t\t\t\t\t\t" + "@.l_" + dimName + " oCAWS" + predName + "." + dimName + " ";
 			}
 			else
 			{
-				svcDef += "\n\t\t\t\t\t\t\t\t\t" + "@.l_" + inpName + " #.g_" + inpName + " ";
+				//For dimension parameters provided by the user
+				svcDef += "\n\t\t\t\t\t\t\t\t\t" + "@.l_" + dimName + " #.g_" + dimName + " ";
 			}
 		}
 		
@@ -245,21 +330,34 @@ public class ObjLucidCodeGenerator
 		return svcDef;
 	}
 	
+	/**
+	 * Method for generating a component service's Lucid dimension list.
+	 * @param 	serviceNode		Service node for which the dimension list needs to be generated
+	 * @return	Component service's Lucid dimension list
+	 */
 	private static String listAtmSvcDims(ServiceNode serviceNode)
 	{
 		String svcDef = "";
-		Set<String> atmSvcInpSet = new HashSet<String>();		
+		Set<String> atmSvcDimSet = new HashSet<String>();		
+		
+		//Forming the service-node's dimension list with its inputs and constraint features
 		for (String input : serviceNode.getService().getInput())
 		{
 			String inpName = input.substring(input.indexOf(':') + 2);
-			atmSvcInpSet.add(inpName);
+			atmSvcDimSet.add(inpName);
+		}
+		for (Constraint constraint : serviceNode.getConstraints())
+		{
+			String cnstrFeature = constraint.getType();
+			String cnstrFeatureName = cnstrFeature.substring(cnstrFeature.indexOf(':') + 2);
+			atmSvcDimSet.add(cnstrFeatureName);
 		}
 		
 		svcDef += "\n\t\t\t\t\t\t\t\t\t\t" + "dimension ";
 			
-		for (String input : atmSvcInpSet)
+		for (String dimension : atmSvcDimSet)
 		{
-			svcDef += "l_"+ input + ", ";
+			svcDef += "l_"+ dimension + ", ";
 		}
 		if (svcDef.lastIndexOf(",") >= 0)
 		{
@@ -271,16 +369,27 @@ public class ObjLucidCodeGenerator
 		return svcDef;
 	}
 	
+	/**
+	 * Method for generating a component service's Lucid constraint definition.
+	 * @param 	serviceNode		Service node for which the constraint definition needs to be generated
+	 * @return	Component service's Lucid constraint definition
+	 */
 	private static String listAtmSvcCnstrs(ServiceNode serviceNode)
 	{
 		String svcDef = "";
+		
+		//Forming Lucid definition of each constraint of the service-node
 		for (Constraint constraint : serviceNode.getConstraints())
 		{
+			//Extracting the name and data type of each constraint feature
 			String cnstrFeature = constraint.getType();
 			String cnstrFeatureName = cnstrFeature.substring(cnstrFeature.indexOf(':') + 2);
 			String cnstrFeatureType = cnstrFeature.substring(0, cnstrFeature.indexOf(':') - 1);
 			
+			//Appending constraint operator to constraint feature name
 			svcDef += "#.l_" + cnstrFeatureName + " " + getOpSymbol(constraint.getOperator()) + " ";
+			
+			//Appending constraint's literal value (enclosed in quotes if required) to its feature and operator  
 			if (cnstrFeatureType.equalsIgnoreCase("string"))
 			{
 				svcDef += "\"" + constraint.getLiteralValue() + "\" and ";
@@ -300,6 +409,7 @@ public class ObjLucidCodeGenerator
 		}
 		else
 		{
+			//If the service-node has no internal constraints
 			svcDef += "true";
 		}		
 		svcDef += ";";

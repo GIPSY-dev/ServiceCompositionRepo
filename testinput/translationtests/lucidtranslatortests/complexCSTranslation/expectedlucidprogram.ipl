@@ -2,13 +2,13 @@
 
 public class CAWSReqComp
 {
-	private float output15;
+	private double output15;
 	private int output86;
 	private char output91;
 	private boolean output101;
 	private String output111;
 
-	public CAWSReqComp(float output15, int output86, char output91, boolean output101, String output111)
+	public CAWSReqComp(double output15, int output86, char output91, boolean output101, String output111)
 	{
 		this.output15 = output15;
 		this.output86 = output86;
@@ -37,9 +37,9 @@ public class CAWSW2
 
 public CAWSW2 W2(int input21)
 {
-	CAWSW2 CAWS_W2 = new CAWSW2(input21);
-	CAWS_W2.process();
-	return CAWS_W2;
+	CAWSW2 oCAWSW2 = new CAWSW2(input21);
+	oCAWSW2.process();
+	return oCAWSW2;
 }
 
 public class CAWSW3
@@ -66,16 +66,16 @@ public class CAWSW3
 
 public CAWSW3 W3(String input31, int input32)
 {
-	CAWSW3 CAWS_W3 = new CAWSW3(input31, input32);
-	CAWS_W3.process();
-	return CAWS_W3;
+	CAWSW3 oCAWSW3 = new CAWSW3(input31, input32);
+	oCAWSW3.process();
+	return oCAWSW3;
 }
 
 public class CAWSW1
 {
 	private int input11;
 	private boolean output12;
-	private float output15;
+	private double output15;
 
 	public CAWSW1(int input11)
 	{
@@ -93,9 +93,9 @@ public class CAWSW1
 
 public CAWSW1 W1(int input11)
 {
-	CAWSW1 CAWS_W1 = new CAWSW1(input11);
-	CAWS_W1.process();
-	return CAWS_W1;
+	CAWSW1 oCAWSW1 = new CAWSW1(input11);
+	oCAWSW1.process();
+	return oCAWSW1;
 }
 
 public class CAWSW5
@@ -103,9 +103,9 @@ public class CAWSW5
 	private boolean output21;
 	private String output31;
 	private int output32;
-	private float output15;
+	private double output15;
 	private int output51;
-	private float output52;
+	private double output52;
 	private char output85;
 
 	public CAWSW5(boolean output21, String output31, int output32)
@@ -130,9 +130,9 @@ public class CAWSW5
 
 public CAWSW5 W5(boolean output21, String output31, int output32)
 {
-	CAWSW5 CAWS_W5 = new CAWSW5(output21, output31, output32);
-	CAWS_W5.process();
-	return CAWS_W5;
+	CAWSW5 oCAWSW5 = new CAWSW5(output21, output31, output32);
+	oCAWSW5.process();
+	return oCAWSW5;
 }
 
 public class CAWSW4
@@ -159,9 +159,9 @@ public class CAWSW4
 
 public CAWSW4 W4(boolean output12, int input41)
 {
-	CAWSW4 CAWS_W4 = new CAWSW4(output12, input41);
-	CAWS_W4.process();
-	return CAWS_W4;
+	CAWSW4 oCAWSW4 = new CAWSW4(output12, input41);
+	oCAWSW4.process();
+	return oCAWSW4;
 }
 
 public class CAWSW6
@@ -186,9 +186,9 @@ public class CAWSW6
 
 public CAWSW6 W6(int output41)
 {
-	CAWSW6 CAWS_W6 = new CAWSW6(output41);
-	CAWS_W6.process();
-	return CAWS_W6;
+	CAWSW6 oCAWSW6 = new CAWSW6(output41);
+	oCAWSW6.process();
+	return oCAWSW6;
 }
 
 public class CAWSW7
@@ -213,9 +213,9 @@ public class CAWSW7
 
 public CAWSW7 W7(int output51)
 {
-	CAWSW7 CAWS_W7 = new CAWSW7(output51);
-	CAWS_W7.process();
-	return CAWS_W7;
+	CAWSW7 oCAWSW7 = new CAWSW7(output51);
+	oCAWSW7.process();
+	return oCAWSW7;
 }
 
 public class CAWSW10
@@ -241,9 +241,9 @@ public class CAWSW10
 
 public CAWSW10 W10(int output71, char output85, int input11)
 {
-	CAWSW10 CAWS_W10 = new CAWSW10(output71, output85, input11);
-	CAWS_W10.process();
-	return CAWS_W10;
+	CAWSW10 oCAWSW10 = new CAWSW10(output71, output85, input11);
+	oCAWSW10.process();
+	return oCAWSW10;
 }
 
 public class CAWSW11
@@ -265,9 +265,9 @@ public class CAWSW11
 
 public CAWSW11 W11(int output72)
 {
-	CAWSW11 CAWS_W11 = new CAWSW11(output72);
-	CAWS_W11.process();
-	return CAWS_W11;
+	CAWSW11 oCAWSW11 = new CAWSW11(output72);
+	oCAWSW11.process();
+	return oCAWSW11;
 }
 
 public class CAWSW9
@@ -291,110 +291,123 @@ public class CAWSW9
 
 public CAWSW9 W9(int output42, char output61)
 {
-	CAWSW9 CAWS_W9 = new CAWSW9(output42, output61);
-	CAWS_W9.process();
-	return CAWS_W9;
+	CAWSW9 oCAWSW9 = new CAWSW9(output42, output61);
+	oCAWSW9.process();
+	return oCAWSW9;
 }
 
 
 #OBJECTIVELUCID
 
-oCAWS_main @ [input11:11, input21:15, input31:'xyz12abc', input32:45, input41:79]
+oCAWSMain @.g_input11 11 @.g_input21 15 @.g_input31 "xyz12abc" @.g_input32 45 @.g_input41 79 
 where
-	dimension input11, input21, input31, input32, input41, output15, output86, output91, output101, output111;
+	dimension g_input11, g_input21, g_input31, g_input32, g_input41;
 
-	oCAWS_main = CAWSReqComp(#.output15, #.output86, #.output91, #.output101, #.output111)
-					wvr CAWSreq_cnstr
-					@ [	output101:CAWS_W10.output101, 
-						output111:CAWS_W11.output111, 
-						output91:CAWS_W9.output91, 
-						output15:CAWS_W5.output15, 
-						output86:CAWS_W6.output86 ]
+	oCAWSMain = CAWSReqComp(#.l_output15, #.l_output86, #.l_output91, #.l_output101, #.l_output111)
+					wvr CAWSReqCnstr
+					@.l_output101 oCAWSW10.output101 
+					@.l_output111 oCAWSW11.output111 
+					@.l_output91 oCAWSW9.output91 
+					@.l_output15 oCAWSW5.output15 
+					@.l_output86 oCAWSW6.output86
 					where
-						CAWSreq_cnstr = true;
+						dimension l_output15, l_output86, l_output91, l_output101, l_output111;
+						CAWSReqCnstr = true;
 
-						CAWS_W2 = W2(#.input21)
+						oCAWSW2 = W2(#.l_input21)
 									wvr c_W2
-									@ [input21:#.input21]
+									@.l_input41 #.g_input41 
+									@.l_input11 #.g_input11 
+									@.l_input21 #.g_input21
 									where
-										c_W2 = #.input21 < 20 and #.input41 <= 80 and #.input11 < 10;
+										dimension l_input41, l_input21, l_input11;
+										c_W2 = #.l_input21 < 20 and #.l_input41 <= 80 and #.l_input11 < 10;
 									end;
 
-						CAWS_W3 = W3(#.input31, #.input32)
+						oCAWSW3 = W3(#.l_input31, #.l_input32)
 									wvr c_W3
-									@ [input31:#.input31, 
-										input32:#.input32]
+									@.l_input31 #.g_input31 
+									@.l_input41 #.g_input41 
+									@.l_input11 #.g_input11 
+									@.l_input32 #.g_input32
 									where
-										c_W3 = #.input32 < 30 and #.input41 <= 80 and #.input11 < 10;
+										dimension l_input41, l_input31, l_input32, l_input11;
+										c_W3 = #.l_input32 < 30 and #.l_input41 <= 80 and #.l_input11 < 10;
 									end;
 
-						CAWS_W1 = W1(#.input11)
+						oCAWSW1 = W1(#.l_input11)
 									wvr c_W1
-									@ [input11:#.input11]
+									@.l_input41 #.g_input41 
+									@.l_input11 #.g_input11
 									where
-										c_W1 = #.input41 <= 80 and #.input11 < 10;
+										dimension l_input41, l_input11;
+										c_W1 = #.l_input41 <= 80 and #.l_input11 < 10;
 									end;
 
-						CAWS_W5 = W5(#.output21, #.output31, #.output32)
+						oCAWSW5 = W5(#.l_output21, #.l_output31, #.l_output32)
 									wvr c_W5
-									@ [output31:CAWS_W3.output31, 
-										output32:CAWS_W3.output32, 
-										output21:CAWS_W2.output21]
+									@.l_output31 oCAWSW3.output31 
+									@.l_output32 oCAWSW3.output32 
+									@.l_output21 oCAWSW2.output21
 									where
-										dimension output31, output21, output32;
+										dimension l_output31, l_output21, l_output32;
 										c_W5 = true;
 									end;
 
-						CAWS_W4 = W4(#.output12, #.input41)
+						oCAWSW4 = W4(#.l_output12, #.l_input41)
 									wvr c_W4
-									@ [output12:CAWS_W1.output12, 
-										input41:#.input41]
+									@.l_output12 oCAWSW1.output12 
+									@.l_input41 #.g_input41
 									where
-										dimension output12;
+										dimension l_input41, l_output12;
 										c_W4 = true;
 									end;
 
-						CAWS_W6 = W6(#.output41)
+						oCAWSW6 = W6(#.l_output41)
 									wvr c_W6
-									@ [output41:CAWS_W4.output41]
+									@.l_output42 oCAWSW4.output42 
+									@.l_output41 oCAWSW4.output41
 									where
-										dimension output41;
-										c_W6 = #.output41 >= 70 and #.output42 > 50;
+										dimension l_output41, l_output42;
+										c_W6 = #.l_output41 >= 70 and #.l_output42 > 50;
 									end;
 
-						CAWS_W7 = W7(#.output51)
+						oCAWSW7 = W7(#.l_output51)
 									wvr c_W7
-									@ [output51:CAWS_W5.output51]
+									@.l_output51 oCAWSW5.output51
 									where
-										dimension output51;
-										c_W7 = #.output51 == 60;
+										dimension l_output51;
+										c_W7 = #.l_output51 == 60;
 									end;
 
-						CAWS_W10 = W10(#.output71, #.output85, #.input11)
+						oCAWSW10 = W10(#.l_output71, #.l_output85, #.l_input11)
 									wvr c_W10
-									@ [output85:CAWS_W5.output85, 
-										output71:CAWS_W7.output71, 
-										input11:#.input11]
+									@.l_output85 oCAWSW5.output85 
+									@.l_output71 oCAWSW7.output71 
+									@.l_input11 #.g_input11 
+									@.l_output51 oCAWSW5.output51
 									where
-										dimension output85, output71;
-										c_W10 = #.output71 > 40 and #.output51 == 60;
+										dimension l_output85, l_output51, l_output71, l_input11;
+										c_W10 = #.l_output71 > 40 and #.l_output51 == 60;
 									end;
 
-						CAWS_W11 = W11(#.output72)
+						oCAWSW11 = W11(#.l_output72)
 									wvr c_W11
-									@ [output72:CAWS_W7.output72]
+									@.l_output71 oCAWSW7.output71 
+									@.l_output72 oCAWSW7.output72
 									where
-										dimension output72;
-										c_W11 = #.output71 > 40;
+										dimension l_output72, l_output71;
+										c_W11 = #.l_output71 > 40;
 									end;
 
-						CAWS_W9 = W9(#.output42, #.output61)
+						oCAWSW9 = W9(#.l_output42, #.l_output61)
 									wvr c_W9
-									@ [output61:CAWS_W6.output61, 
-										output42:CAWS_W4.output42]
+									@.l_output61 oCAWSW6.output61 
+									@.l_output42 oCAWSW4.output42 
+									@.l_output41 oCAWSW4.output41
 									where
-										dimension output42, output61;
-										c_W9 = #.output42 > 50 and #.output41 >= 70;
+										dimension l_output41, l_output42, l_output61;
+										c_W9 = #.l_output42 > 50 and #.l_output41 >= 70;
 									end;
 					end;
-end;
+end
