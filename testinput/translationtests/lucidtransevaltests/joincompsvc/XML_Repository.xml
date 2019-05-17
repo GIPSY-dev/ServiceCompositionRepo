@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<compositeservices>
+	<compositeservice>
+		<csname value="JoinCompSvc"/>
+		<csinputs>
+			<instance name="int : input11"/>
+			<instance name="float : input21"/>
+		</csinputs>
+		<csoutputs>
+			<instance name="string : output31"/>
+			<instance name="int : output32"/>
+			<instance name="boolean : output33"/>
+		</csoutputs>
+		<cseffects>
+			<instance name="char : output11"/>
+			<instance name="boolean : output21"/>
+			<instance name="string : output31"/>
+			<instance name="int : output32"/>
+			<instance name="boolean : output33"/>
+		</cseffects>
+		<csconstraints>
+		</csconstraints>
+		<csplan>
+			<servicelayer index="0">
+				<servicenode>
+					<service name="W1"/>
+					<constraints>
+					</constraints>
+					<predecessors>
+					</predecessors>
+				</servicenode>
+				<servicenode>
+					<service name="W2"/>
+					<constraints>
+					</constraints>
+					<predecessors>
+					</predecessors>
+				</servicenode>
+			</servicelayer>
+			<servicelayer index="1">
+				<servicenode>
+					<service name="W3"/>
+					<constraints>
+					</constraints>
+					<predecessors>
+						<instance name="W1" layerindex="0"/>
+						<instance name="W2" layerindex="0"/>
+					</predecessors>
+				</servicenode>
+			</servicelayer>
+		</csplan>
+		<csatomicservices>
+			<service name="W1">
+				<inputs>
+					<instance name="int : input11"/>
+				</inputs>
+				<outputs>
+					<instance name="char : output11"/>
+				</outputs>
+				<constraints>
+				</constraints>
+				<effects>
+					<instance name="char : output11"/>
+				</effects>
+			</service>
+			<service name="W2">
+				<inputs>
+					<instance name="float : input21"/>
+				</inputs>
+				<outputs>
+					<instance name="boolean : output21"/>
+				</outputs>
+				<constraints>
+				</constraints>
+				<effects>
+					<instance name="boolean : output21"/>
+				</effects>
+			</service>
+			<service name="W3">
+				<inputs>
+					<instance name="char : output11"/>
+					<instance name="boolean : output21"/>
+				</inputs>
+				<outputs>
+					<instance name="string : output31"/>
+					<instance name="int : output32"/>
+					<instance name="boolean : output33"/>
+				</outputs>
+				<constraints>
+				</constraints>
+				<effects>
+					<instance name="string : output31"/>
+					<instance name="int : output32"/>
+					<instance name="boolean : output33"/>
+				</effects>
+			</service>
+		</csatomicservices>
+	</compositeservice>
+</compositeservices>

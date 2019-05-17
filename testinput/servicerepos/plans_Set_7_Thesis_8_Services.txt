@@ -1,0 +1,44 @@
+Plan 1:
+Layer 0: {} [string : CreditCardBrand EQUALS Master, string : CreditCardBrand EQUALS Visa, string : ShippingAddress EQUALS Quebec] W1 {W4, W5, W7}
+Layer 1: {W1} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W4 {W7}, {W1} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W5 {W7}
+Layer 2: {W1, W4, W5} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W7 {}
+
+Plan 2:
+Layer 0: {} [string : CreditCardBrand EQUALS Master, string : ShippingAddress EQUALS Quebec] W1 {W5, W7}
+Layer 1: {W1} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W5 {W7}
+Layer 2: {W1, W5} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W7 {}
+
+Plan 3:
+Layer 0: {} [string : CreditCardBrand EQUALS Visa, string : ShippingAddress EQUALS Quebec] W1 {W4, W7}
+Layer 1: {W1} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W4 {W7}
+Layer 2: {W1, W4} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W7 {}
+
+Plan 4:
+Layer 0: {} [string : CreditCardBrand EQUALS Master, string : CreditCardBrand EQUALS Visa, string : ShippingAddress EQUALS Montreal] W1 {W4, W5, W6}
+Layer 1: {W1} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W4 {W6}, {W1} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W5 {W6}
+Layer 2: {W1, W4, W5} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W6 {}
+
+Plan 5:
+Layer 0: {} [string : CreditCardBrand EQUALS Visa, string : ShippingAddress EQUALS Montreal] W1 {W4, W6}
+Layer 1: {W1} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W4 {W6}
+Layer 2: {W1, W4} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W6 {}
+
+Plan 6:
+Layer 0: {} [string : CreditCardBrand EQUALS Master, string : ShippingAddress EQUALS Montreal] W1 {W5, W6}
+Layer 1: {W1} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W5 {W6}
+Layer 2: {W1, W5} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W6 {}
+
+Plan 7:
+Layer 0: {} [string : CreditCardBrand EQUALS Master, string : CreditCardBrand EQUALS Visa, string : ShippingAddress EQUALS Montreal, string : ShippingAddress EQUALS Quebec] W1 {W4, W5, W6, W7}
+Layer 1: {W1} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50, int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W4 {W6, W7}, {W1} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50, int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W5 {W6, W7}
+Layer 2: {W1, W4, W5} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50, int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W6 {}, {W1, W4, W5} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50, int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W7 {}
+
+Plan 8:
+Layer 0: {} [string : CreditCardBrand EQUALS Visa, string : ShippingAddress EQUALS Montreal, string : ShippingAddress EQUALS Quebec] W1 {W4, W6, W7}
+Layer 1: {W1} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50, int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W4 {W6, W7}
+Layer 2: {W1, W4} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50, int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W6 {}, {W1, W4} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50, int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W7 {}
+
+Plan 9:
+Layer 0: {} [string : CreditCardBrand EQUALS Master, string : ShippingAddress EQUALS Montreal, string : ShippingAddress EQUALS Quebec] W1 {W5, W6, W7}
+Layer 1: {W1} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50, int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W5 {W6, W7}
+Layer 2: {W1, W5} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50, int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W6 {}, {W1, W5} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50, int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W7 {}

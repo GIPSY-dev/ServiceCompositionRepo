@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<requestconfig>
+    <inputs value="int : input11, float : input21"/>
+	<outputs value="string : output31, string : output61, float : output71, int : output51"/>
+	<qos value=""/>
+	<constraints value=""/>
+	<repofilename value="testinput/translationtests/lucidtransevaltests/combcompsvc/XML_Atom_Repository.xml"/>
+	<storecsflag value="N"/>
+</requestconfig>

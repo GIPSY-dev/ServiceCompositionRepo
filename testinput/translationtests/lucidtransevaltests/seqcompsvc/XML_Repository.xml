@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<compositeservices>
+	<compositeservice>
+		<csname value="SeqCompSvc"/>
+		<csinputs>
+			<instance name="char : input11"/>
+		</csinputs>
+		<csoutputs>
+			<instance name="char : output21"/>
+		</csoutputs>
+		<cseffects>
+			<instance name="char : output11"/>
+			<instance name="char : output21"/>
+		</cseffects>
+		<csconstraints>
+		</csconstraints>
+		<csplan>
+			<servicelayer index="0">
+				<servicenode>
+					<service name="W1"/>
+					<constraints>
+					</constraints>
+					<predecessors>
+					</predecessors>
+				</servicenode>
+			</servicelayer>
+			<servicelayer index="1">
+				<servicenode>
+					<service name="W2"/>
+					<constraints>
+					</constraints>
+					<predecessors>
+						<instance name="W1" layerindex="0"/>
+					</predecessors>
+				</servicenode>
+			</servicelayer>
+		</csplan>
+		<csatomicservices>
+			<service name="W1">
+				<inputs>
+					<instance name="char : input11"/>
+				</inputs>
+				<outputs>
+					<instance name="char : output11"/>
+				</outputs>
+				<constraints>
+				</constraints>
+				<effects>
+					<instance name="char : output11"/>
+				</effects>
+			</service>
+			<service name="W2">
+				<inputs>
+					<instance name="char : output11"/>
+				</inputs>
+				<outputs>
+					<instance name="char : output21"/>
+				</outputs>
+				<constraints>
+				</constraints>
+				<effects>
+					<instance name="char : output21"/>
+				</effects>
+			</service>
+		</csatomicservices>
+	</compositeservice>
+</compositeservices>

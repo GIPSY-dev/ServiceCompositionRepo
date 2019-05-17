@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<compositeservices>
+	<compositeservice>
+		<csname value="CombCompSvc"/>
+		<csinputs>
+			<instance name="int : input11"/>
+			<instance name="float : input21"/>
+		</csinputs>
+		<csoutputs>
+			<instance name="string : output31"/>
+			<instance name="string : output61"/>
+			<instance name="float : output71"/>
+			<instance name="int : output51"/>
+		</csoutputs>
+		<cseffects>
+			<instance name="string : output11"/>
+			<instance name="char : output21"/>
+			<instance name="string : output31"/>
+			<instance name="char : output32"/>
+			<instance name="int : output33"/>
+			<instance name="boolean : output41"/>
+			<instance name="int : output51"/>
+			<instance name="string : output61"/>
+			<instance name="float : output71"/>
+		</cseffects>
+		<csconstraints>
+		</csconstraints>
+		<csplan>
+			<servicelayer index="0">
+				<servicenode>
+					<service name="W1"/>
+					<constraints>
+					</constraints>
+					<predecessors>
+					</predecessors>
+				</servicenode>
+				<servicenode>
+					<service name="W2"/>
+					<constraints>
+					</constraints>
+					<predecessors>
+					</predecessors>
+				</servicenode>
+			</servicelayer>
+			<servicelayer index="1">
+				<servicenode>
+					<service name="W3"/>
+					<constraints>
+					</constraints>
+					<predecessors>
+						<instance name="W1" layerindex="0"/>
+						<instance name="W2" layerindex="0"/>
+					</predecessors>
+				</servicenode>
+			</servicelayer>
+			<servicelayer index="2">
+				<servicenode>
+					<service name="W4"/>
+					<constraints>
+					</constraints>
+					<predecessors>
+						<instance name="W3" layerindex="1"/>
+					</predecessors>
+				</servicenode>
+				<servicenode>
+					<service name="W5"/>
+					<constraints>
+					</constraints>
+					<predecessors>
+						<instance name="W3" layerindex="1"/>
+					</predecessors>
+				</servicenode>
+			</servicelayer>
+			<servicelayer index="3">
+				<servicenode>
+					<service name="W6"/>
+					<constraints>
+					</constraints>
+					<predecessors>
+						<instance name="W4" layerindex="2"/>
+					</predecessors>
+				</servicenode>
+				<servicenode>
+					<service name="W7"/>
+					<constraints>
+					</constraints>
+					<predecessors>
+						<instance name="W5" layerindex="2"/>
+					</predecessors>
+				</servicenode>
+			</servicelayer>
+		</csplan>
+		<csatomicservices>
+			<service name="W1">
+				<inputs>
+					<instance name="int : input11"/>
+				</inputs>
+				<outputs>
+					<instance name="string : output11"/>
+				</outputs>
+				<constraints>
+				</constraints>
+				<effects>
+					<instance name="string : output11"/>
+				</effects>
+			</service>
+			<service name="W2">
+				<inputs>
+					<instance name="float : input21"/>
+				</inputs>
+				<outputs>
+					<instance name="char : output21"/>
+				</outputs>
+				<constraints>
+				</constraints>
+				<effects>
+					<instance name="char : output21"/>
+				</effects>
+			</service>
+			<service name="W3">
+				<inputs>
+					<instance name="string : output11"/>
+					<instance name="char : output21"/>
+				</inputs>
+				<outputs>
+					<instance name="string : output31"/>
+					<instance name="char : output32"/>
+					<instance name="int : output33"/>
+				</outputs>
+				<constraints>
+				</constraints>
+				<effects>
+					<instance name="string : output31"/>
+					<instance name="char : output32"/>
+					<instance name="int : output33"/>
+				</effects>
+			</service>
+			<service name="W4">
+				<inputs>
+					<instance name="char : output32"/>
+				</inputs>
+				<outputs>
+					<instance name="boolean : output41"/>
+				</outputs>
+				<constraints>
+				</constraints>
+				<effects>
+					<instance name="boolean : output41"/>
+				</effects>
+			</service>
+			<service name="W5">
+				<inputs>
+					<instance name="int : output33"/>
+				</inputs>
+				<outputs>
+					<instance name="int : output51"/>
+				</outputs>
+				<constraints>
+				</constraints>
+				<effects>
+					<instance name="int : output51"/>
+				</effects>
+			</service>
+			<service name="W6">
+				<inputs>
+					<instance name="boolean : output41"/>
+				</inputs>
+				<outputs>
+					<instance name="string : output61"/>
+				</outputs>
+				<constraints>
+				</constraints>
+				<effects>
+					<instance name="string : output61"/>
+				</effects>
+			</service>
+			<service name="W7">
+				<inputs>
+					<instance name="int : output51"/>
+				</inputs>
+				<outputs>
+					<instance name="float : output71"/>
+				</outputs>
+				<constraints>
+				</constraints>
+				<effects>
+					<instance name="float : output71"/>
+				</effects>
+			</service>
+		</csatomicservices>
+	</compositeservice>
+</compositeservices>

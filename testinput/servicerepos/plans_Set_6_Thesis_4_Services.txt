@@ -1,0 +1,5 @@
+Plan 1:
+Layer 0: {} [string : CreditCardBrand EQUALS Visa, string : ShippingAddress EQUALS Canada] W1 {W5, W7}
+Layer 1: {W1} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W5 {W6}
+Layer 2: {W5} [] W6 {W7}
+Layer 3: {W1, W6} [int : ProductWeight LESS_THAN_OR_EQUAL_TO 50] W7 {}
